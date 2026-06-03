@@ -1,0 +1,961 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" >
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Blog Author">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="第 10 讲：元数据安全与隐私保护搜索 (Metadata Security &amp; Privacy-Preserving Search) 在之前的课程中，我们主要关注内容安全 (Content Security)（即加密数据本身）。然而，仅仅加密数据是不够的，因为元数据 (Metadata)（如所有者信息、时间戳、访问权限、密文长度）和访问模式 (Access Patterns)（即哪些具体">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第 10 讲：元数据安全与隐私保护搜索 (Metadata Security &amp; Privacy-Preserving Search)">
+<meta property="og:url" content="https://lofiskyline.github.io/2026/05/15/DMSS/Note/SSMLecture10/index.html">
+<meta property="og:site_name" content="My Blog">
+<meta property="og:description" content="第 10 讲：元数据安全与隐私保护搜索 (Metadata Security &amp; Privacy-Preserving Search) 在之前的课程中，我们主要关注内容安全 (Content Security)（即加密数据本身）。然而，仅仅加密数据是不够的，因为元数据 (Metadata)（如所有者信息、时间戳、访问权限、密文长度）和访问模式 (Access Patterns)（即哪些具体">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-05-15T08:22:23.000Z">
+<meta property="article:modified_time" content="2026-06-03T14:46:33.381Z">
+<meta property="article:author" content="Blog Author">
+<meta property="article:tag" content="学业笔记">
+<meta property="article:tag" content="DMSS">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>第 10 讲：元数据安全与隐私保护搜索 (Metadata Security &amp; Privacy-Preserving Search) - My Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"lofiskyline.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Joe&#39;s World</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.5)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="第 10 讲：元数据安全与隐私保护搜索 (Metadata Security &amp; Privacy-Preserving Search)"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-05-15 16:22" pubdate>
+          2026年5月15日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          41 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">第 10 讲：元数据安全与隐私保护搜索 (Metadata Security &amp; Privacy-Preserving Search)</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="第-10-讲：元数据安全与隐私保护搜索-(metadata-security-amp;-privacy-preserving-search)">第 10 讲：元数据安全与隐私保护搜索 (Metadata Security &amp; Privacy-Preserving Search)</h1>
+<p>在之前的课程中，我们主要关注<strong>内容安全 (Content Security)</strong>（即加密数据本身）。然而，仅仅加密数据是不够的，因为<strong>元数据 (Metadata)</strong>（如所有者信息、时间戳、访问权限、密文长度）和<strong>访问模式 (Access Patterns)</strong>（即哪些具体的块被检索）可能会向好奇的云服务商或攻击者泄露大量信息。</p>
+<h2 id="1-可搜索加密-Searchable-Encryption-SE">1. 可搜索加密 (Searchable Encryption, SE)</h2>
+<p>可搜索加密 (SE) 允许客户端将加密数据存储在服务器上，并在服务器不了解文档内容或搜索关键字的情况下执行关键字搜索。</p>
+<h3 id="1-1-索引设计-Index-Design">1.1 索引设计 (Index Design)</h3>
+<p>为了在服务器端实现高效搜索，我们不会直接搜索加密文档。相反，我们使用<strong>可搜索索引 (Searchable Index)</strong>。主要有两种结构：</p>
+<ol>
+<li><strong>正向索引 (Forward Index):</strong> 将文档 ID (Document ID) 映射到关键字列表。搜索时需要扫描所有文档条目，效率较低（复杂度为 $O(\text{Documents} \times \text{Keywords})$）。</li>
+<li><strong>反向索引 (Inverted Index):</strong> 将关键字 (Keyword) 映射到文档 ID 列表。这种方式速度快得多（复杂度为 $O(1)$ 或 $O(\text{Keywords})$），是大多数 SE 方案的首选。</li>
+</ol>
+<p><strong>对称密钥 SE 机制 (Symmetric Key SE Mechanism):</strong><br>
+在对称密钥 SE 方案中，客户端在本地构建索引。对于反向索引，每个关键字 $W$ 都会转换为一个“陷门” (<strong>Trapdoor</strong>, 即搜索令牌)。与 $W$ 关联的文档 ID 使用从关键字本身派生的密钥进行加密。</p>
+<pre><code class=" mermaid">graph TD
+    subgraph &quot;客户端预计算 (Client-Side Pre-computation)&quot;
+        K1[关键字: &#x27;Top-Secret&#x27;] --&gt; H1[陷门 Trapdoor: T = HMAC_K1_W]
+        D1[文档 Doc1] --&gt; E_D1[加密内容 Enc_K2_Doc1]
+        D2[文档 Doc2] --&gt; E_D2[加密内容 Enc_K2_Doc2]
+    end
+    
+    subgraph &quot;加密索引结构 (Encrypted Index Structure)&quot;
+        T --&gt; Entry1[加密 ID: Enc_T_Doc1ID]
+        T --&gt; Entry2[加密 ID: Enc_T_Doc2ID]
+        T --&gt; Padding[填充项 Dummy Entries]
+    end
+
+    style Entry1 fill:#f9f,stroke:#333
+    style Entry2 fill:#f9f,stroke:#333
+</code></pre>
+<blockquote>
+<p>“服务器拥有这一切… 服务器只看到某个关键字的密文。然后服务器继续尝试解密所有内容… 凡是解密成功的（因为密钥匹配），就会返回；解密失败的则不返回。” (转录文本 wk10-1)</p>
+</blockquote>
+<h3 id="1-2-填充过程-Padding-Process">1.2 填充过程 (Padding Process)</h3>
+<p>填充对于隐藏<strong>搜索结果大小 (Search Result Size)</strong> 至关重要。如果关键字 “CIA” 返回 2 个文档，而 “NIXON” 返回 50 个，服务器就能了解哪些关键字更常见，从而可能导致统计分析攻击。</p>
+<ul>
+<li><strong>过程 (Process):</strong> 客户端为索引中的每个关键字条目定义一个最大文档 ID 数量。如果某个关键字出现的文档较少，客户端会向列表中添加<strong>虚假条目 (Dummy Entries)</strong>（加密的随机噪声）。</li>
+<li><strong>结果 (Result):</strong> 无论搜索哪个关键字，返回给客户端的加密块数量都是相同的，从而掩盖了关键字的真实出现频率。</li>
+</ul>
+<h3 id="1-3-局限性与风险-Limitations-and-Risks">1.3 局限性与风险 (Limitations and Risks)</h3>
+<p>尽管 SE 效率很高，但它在安全权衡上存在显著缺陷：</p>
+<ol>
+<li><strong>确定性陷门 (Deterministic Trapdoors):</strong> 大多数基础 SE 方案是确定性的。两次搜索 “Top-Secret” 会产生相同的陷门。服务器可以据此了解<strong>搜索模式 (Search Pattern)</strong>（即相同术语何时被搜索、搜索了多少次）。</li>
+<li><strong>访问模式泄露 (Access Pattern Leakage):</strong> 这是最关键的风险。SE 虽然保护了索引搜索过程，但一旦服务器返回了文档 ID，客户端通常会去下载实际的加密文档。
+<ul>
+<li><strong>“免责声明”风险:</strong> “即使搜索查询的响应是以隐私保护的方式完成的，服务器仍然可以通过简单地观察客户端接下来的操作（例如监控客户端将要访问/下载的电子邮件）来了解查询结果。” (课件第 57 页)。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="2-不可知内存访问-Oblivious-RAM-ORAM">2. 不可知内存访问 (Oblivious RAM, ORAM)</h2>
+<p>ORAM 是一种更强大（也更昂贵）的原语，旨在彻底隐藏<strong>访问模式 (Access Patterns)</strong>。它确保服务器无法分辨客户端是在读取还是写入，无法得知哪个块被访问，甚至无法得知是否在重复访问同一个块。</p>
+<h3 id="2-1-树形结构存储-Tree-Based-Structure">2.1 树形结构存储 (Tree-Based Structure)</h3>
+<p>现代 ORAM（如 <strong>PathORAM</strong>）将服务器端存储组织为一棵由<strong>桶 (Buckets)</strong> 组成的<strong>二叉树</strong>。</p>
+<ul>
+<li><strong>桶 (Buckets):</strong> 树中的每个节点都是一个“桶”，包含固定数量 ($Z$) 的数据块。</li>
+<li><strong>逻辑与物理 (Logical vs. Physical):</strong> 虽然逻辑上是一棵树，但在服务器磁盘上它是以<strong>扁平数据结构 (Flat Data Structure, 如数组)</strong> 存储的，以防通过物理内存地址泄露树的层次结构。</li>
+<li><strong>路径映射 (Path Mapping):</strong> 每个数据块被随机映射到树的一个特定<strong>叶节点 (Leaf Node)</strong>。该块可以存在于从根节点到该叶节点路径上的任何位置。</li>
+</ul>
+<pre><code class=" mermaid">graph TD
+    Root((桶 1: 根节点)) --&gt; L1((桶 2))
+    Root --&gt; R1((桶 3))
+    L1 --&gt; L2((桶 4: 路径 A))
+    L1 --&gt; R2((桶 5: 路径 B))
+    R1 --&gt; L3((桶 6: 路径 C))
+    R1 --&gt; R3((桶 7: 路径 D))
+
+    subgraph &quot;路径 B 示例 (Path B Example)&quot;
+    Root --- L1 --- R2
+    end
+</code></pre>
+<h3 id="2-3-运行机制与-PathORAM-算法-Mechanism">2.3 运行机制与 PathORAM 算法 (Mechanism)</h3>
+<p>读取或写入块 (ID 为 $a$) 的过程如下：</p>
+<ol>
+<li><strong>查找 (Lookup):</strong> 客户端查询本地的<strong>位置表 (Position Map)</strong>，找到块 $a$ 当前映射到的叶节点 $L$。</li>
+<li><strong>重映射 (Remap):</strong> 客户端立即为块 $a$ 分配一个新的随机叶节点 $L’$。</li>
+<li><strong>读取路径 (Read Path):</strong> 客户端下载从根节点到叶节点 $L$ 的<em>整条路径</em>，存入本地的 <strong>Stash</strong>（一个小型本地缓存结构）。</li>
+<li><strong>处理 (Process):</strong> 客户端在 Stash 中解密块，找到块 $a$，如果是写入操作则更新其内容。</li>
+<li><strong>回写 (Write Back):</strong> 客户端重新加密所有块，并将它们写回<em>同一条路径</em>（根节点到 $L$）。关键点在于，它会将 Stash 中的块尽可能深地推向它们被分配的新叶节点。</li>
+</ol>
+<pre><code class=" mermaid">sequenceDiagram
+    participant Client as 客户端
+    participant Map as 位置表 (Position Map)
+    participant Server as ORAM 树 (服务器)
+    
+    Client-&gt;&gt;Map: 查询块 ID (a)
+    Map--&gt;&gt;Client: 当前路径: 路径 L
+    Note over Client: 重映射: ID(a) -&gt; 新路径 L&#x27;
+    Client-&gt;&gt;Server: 请求路径数据 (根节点 -&gt; L)
+    Server--&gt;&gt;Client: 返回整条路径 (Z * 层数 个块)
+    Note over Client: 解密路径并存入 Stash
+    Note over Client: 更新或读取块 (a)
+    Note over Client: 使用 Stash 中的块重新加密
+    Client-&gt;&gt;Server: 回写路径数据 (根节点 -&gt; L)
+</code></pre>
+<blockquote>
+<p>“每一次读或写操作，实际上都包含了读和写两个动作… 这种访问操作具有巨大的开销，目的是为了掩盖到底哪个数据被访问了。” (转录文本 wk10-1)。</p>
+</blockquote>
+<h3 id="2-4-短板与性能开销-Shortcomings-Performance-Overhead">2.4 短板与性能开销 (Shortcomings &amp; Performance Overhead)</h3>
+<ul>
+<li><strong>客户端存储:</strong> 客户端必须维护<strong>位置表 (Position Map)</strong>（可能很大，但可以通过递归 ORAM 处理）和 <strong>Stash</strong>。</li>
+<li><strong>单用户限制:</strong> PathORAM 传统上仅限单用户；通过代理实现多用户访问会引入定时攻击风险。</li>
+<li><strong>带宽开销 (Bandwidth Overhead) - 经典例题:</strong></li>
+</ul>
+<blockquote>
+<p><strong>例题：PathORAM 带宽开销计算 (Slide 77-80)</strong></p>
+<p><strong>1. 题目已知条件 (The Setup)</strong><br>
+假设我们在云端有一个 128GB 的数据库，使用的 PathORAM 参数如下：</p>
+<ul>
+<li><strong>$S$ (Block size / 数据块大小):</strong> 64KB</li>
+<li><strong>$Z$ (Blocks per bucket / 每个桶的容量):</strong> 5 个 blocks</li>
+<li><strong>$L$ (Levels / 二叉树的层数):</strong> 20 层</li>
+<li><strong>用户目标:</strong> 想要从云端读取一个名为 <code>SecretDocument.txt</code> 的文档，它的大小是 1MB。</li>
+</ul>
+<p><strong>2. 逐步计算过程 (Step-by-Step Calculation)</strong></p>
+<ul>
+<li><strong>第一步：计算文档被切成了多少个 Block ($N$)</strong><br>
+在 ORAM 中，数据不能作为一个整体传输，必须切成固定大小的块。<br>
+已知 $1MB = 1024KB$。<br>
+文档包含的块数 $N = 1024KB / 64KB = 16$ 个 Blocks。</li>
+<li><strong>第二步：理解“读取一个 Block”的真实代价</strong><br>
+在 PathORAM 的机制里，你不能只下载你想要的那个 Block。为了掩人耳目，每次访问 1 个 Block，你必须把<strong>整条路径 (Path)</strong> 上的所有内容全部下载下来（并且稍后还要全部写回去）！
+<ul>
+<li>一条路径有多少层？ $L = 20$ 层。</li>
+<li>每层（每个 Bucket）有几个块？ $Z = 5$ 个。</li>
+<li>每个块多大？ $S = 64KB$。</li>
+<li>下载一条路径的数据量 = $L \times Z \times S = 20 \times 5 \times 64KB = 6400KB$ (即 6.25MB)。</li>
+</ul>
+</li>
+<li><strong>第三步：计算总带宽消耗 (Total Bandwidth)</strong><br>
+你总共需要读取目标文档的 $N=16$ 个 Blocks。每次读取都要下载/上传一条完整的路径。<br>
+<strong>总带宽 = $N \times S \times Z \times L$</strong><br>
+代入数字：$16 \times 64KB \times 5 \times 20 = 102,400KB$<br>
+换算成 MB：$102,400KB / 1024 = 100MB$。</li>
+</ul>
+<p><strong>3. 核心结论 (The Takeaway)</strong><br>
+为了下载一个仅仅 1MB 的真实文档，在 PathORAM 的机制下，你的网络实际传输了 100MB 的数据！这相当于产生了 <strong>100 倍的带宽开销 (100x Overhead)</strong>。这个极端的例子完美解释了为什么 ORAM 至今难以在普通商业场景中大规模普及。</p>
+</blockquote>
+<hr>
+<h2 id="3-对比展示：ORAM-vs-可搜索加密-SE">3. 对比展示：ORAM vs. 可搜索加密 (SE)</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">特性 (Feature)</th>
+<th style="text-align:left">可搜索加密 (SE)</th>
+<th style="text-align:left">不可知内存访问 (ORAM)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>主要目标 (Goal)</strong></td>
+<td style="text-align:left">在预计算索引中进行安全关键字搜索。</td>
+<td style="text-align:left">隐藏所有访问模式（读/写/频率）。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>安全级别 (Security)</strong></td>
+<td style="text-align:left">保护搜索词和结果；但会泄露访问模式。</td>
+<td style="text-align:left">全面保护访问模式和数据内容。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>效率 (Efficiency)</strong></td>
+<td style="text-align:left">高（毫秒级查询）。</td>
+<td style="text-align:left">低（巨大的带宽和延迟开销）。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>典型用途 (Use Case)</strong></td>
+<td style="text-align:left">邮件/数据库搜索 (如 OXT, 2Lev 方案)。</td>
+<td style="text-align:left">高安全需求的医疗/基因数据，隐私信息检索 (PIR)。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>元数据保护</strong></td>
+<td style="text-align:left">保护关键字相关的元数据。</td>
+<td style="text-align:left">保护连续访问之间的<em>关联性</em>。</td>
+</tr>
+</tbody>
+</table>
+<p><strong>总结 (Summary):</strong><br>
+<strong>可搜索加密 (SE)</strong> 就像是一个带锁的索引。你给它一个加密的令牌，它还你匹配的结果。它非常快，但存在“后续行为泄露”风险：服务器虽然不知道你搜了什么，但看你下载了哪个加密包，就能猜出搜索结果。</p>
+<p><strong>不可知内存访问 (ORAM)</strong> 则更像是一个不断洗牌的魔术。每次你想看一个球，魔术师都会把整排杯子（整条路径）都拿走，在后台把球的位置换掉，然后再把整排杯子放回去。服务器完全不知道你在看哪个，甚至不知道你在看还是在换，但代价是极高的带宽消耗（通常是原文件大小的百倍）。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/" class="category-chain-item">学业笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/DMSS/" class="category-chain-item">DMSS</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/" class="print-no-link">#学业笔记</a>
+      
+        <a href="/tags/DMSS/" class="print-no-link">#DMSS</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>第 10 讲：元数据安全与隐私保护搜索 (Metadata Security &amp; Privacy-Preserving Search)</div>
+      <div>https://lofiskyline.github.io/2026/05/15/DMSS/Note/SSMLecture10/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Blog Author</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年5月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/05/15/DMSS/Note/SSMLecture8/" title="Local Data Security: Full Disk Encryption (FDE)">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Local Data Security: Full Disk Encryption (FDE)</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/05/13/DDS/Note/DDS-08-Clocks/" title="Topic 08: Clocks">
+                        <span class="hidden-mobile">Topic 08: Clocks</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

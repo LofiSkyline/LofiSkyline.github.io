@@ -1,0 +1,944 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" >
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Blog Author">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="第八周：AI 系统的需求工程 (Requirements Engineering for AI) 需求工程是软件生命周期的核心阶段。在 AI 时代，需求工程不仅关乎功能实现，更涉及模型性能、数据质量、公平性（Fairness）以及信任度（Trust）。 1. 为什么 AI 需求工程更复杂？ (Complexity of AI RE) 传统的软件需求工程主要关注功能描述。而在 AI 系统中，需求工程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第八周：AI 系统的需求工程 (Requirements Engineering for AI)">
+<meta property="og:url" content="https://lofiskyline.github.io/2026/05/22/ISE/Note/week8/index.html">
+<meta property="og:site_name" content="My Blog">
+<meta property="og:description" content="第八周：AI 系统的需求工程 (Requirements Engineering for AI) 需求工程是软件生命周期的核心阶段。在 AI 时代，需求工程不仅关乎功能实现，更涉及模型性能、数据质量、公平性（Fairness）以及信任度（Trust）。 1. 为什么 AI 需求工程更复杂？ (Complexity of AI RE) 传统的软件需求工程主要关注功能描述。而在 AI 系统中，需求工程">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-05-22T04:01:13.000Z">
+<meta property="article:modified_time" content="2026-06-03T14:46:33.383Z">
+<meta property="article:author" content="Blog Author">
+<meta property="article:tag" content="学业笔记">
+<meta property="article:tag" content="ISE">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>第八周：AI 系统的需求工程 (Requirements Engineering for AI) - My Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"lofiskyline.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Joe&#39;s World</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.5)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="第八周：AI 系统的需求工程 (Requirements Engineering for AI)"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-05-22 12:01" pubdate>
+          2026年5月22日 中午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          28 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">第八周：AI 系统的需求工程 (Requirements Engineering for AI)</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="第八周：ai-系统的需求工程-(requirements-engineering-for-ai)">第八周：AI 系统的需求工程 (Requirements Engineering for AI)</h1>
+<p>需求工程是软件生命周期的核心阶段。在 AI 时代，需求工程不仅关乎功能实现，更涉及模型性能、数据质量、公平性（Fairness）以及信任度（Trust）。</p>
+<h2 id="1-为什么-AI-需求工程更复杂？-Complexity-of-AI-RE">1. 为什么 AI 需求工程更复杂？ (Complexity of AI RE)</h2>
+<p>传统的软件需求工程主要关注功能描述。而在 AI 系统中，需求工程师必须平衡：</p>
+<ul>
+<li><strong>机器学习组件 (ML Component)</strong>：模型本身是不确定的（Probabilistic），而非逻辑确定的。</li>
+<li><strong>数据驱动特性 (Data-driven)</strong>：系统行为由训练数据决定，数据质量直接影响需求满足度。</li>
+<li><strong>跨领域属性</strong>：除了准确性 (Accuracy)，还必须考虑公平性、可解释性 (Explainability)、透明度 (Transparency) 和安全性 (Safety)。</li>
+</ul>
+<h3 id="传统需求工程的通用困境">传统需求工程的通用困境</h3>
+<ul>
+<li><strong>“Yes…but” 问题</strong>：客户在真正看到或使用原型（Prototype）之前往往不知道自己想要什么。</li>
+<li><strong>盲目编码冲动 (Urge to start coding)</strong>：研发团队常忽视需求分析直接写代码，导致产品偏离目标。</li>
+<li><strong>修复成本曲线 (Cost Curve)</strong>：在需求阶段修复错误的成本如果是 $1\times$，到了生产发布（Production/Post-release）阶段再修改，成本将飙升至 <strong>30倍 (30x)</strong>。</li>
+</ul>
+<hr>
+<h2 id="2-成功度量的四个层级-Four-Layers-of-Success-Measures">2. 成功度量的四个层级 (Four Layers of Success Measures)</h2>
+<p>评估一个 AI 系统是否成功，不能只看模型准确率，必须从四个维度进行度量：</p>
+<ol>
+<li><strong>组织/商业目标 (Organizational Goals)</strong> 详细讲解 <strong>Organizational Goals</strong> （如企业的 Revenue、Profit、降低商业风险，或者非营利组织的社会公正与 CO2 减排等 ）。</li>
+<li><strong>系统/功能目标 (System/Feature Goals)</strong> 详细讲解 <strong>System/Feature Goals</strong> （系统应该产出的具体输出 Concrete outputs，如检测放射影像中的癌症、自动转录音频或提供个性化音乐推荐 ）。</li>
+<li><strong>用户成果 (User Outcomes)</strong></li>
+<li><strong>模型属性 (Model Properties)</strong></li>
+</ol>
+<hr>
+<h2 id="3-功能需求与质量需求-Functional-vs-Non-functional">3. 功能需求与质量需求 (Functional vs. Non-functional)</h2>
+<ul>
+<li><strong>功能需求 (Functional Requirements)</strong>：描述系统<strong>应该做什么 (What it does)</strong>。</li>
+<li><strong>非功能/质量需求 (Non-functional/Quality Requirements)</strong>：描述系统<strong>如何运行 (How it performs)</strong>。</li>
+</ul>
+<hr>
+<h2 id="4-目标导向的需求工程-Goal-Oriented-RE-GORE">4. 目标导向的需求工程 (Goal-Oriented RE, GORE)</h2>
+<p>GORE 的核心思想是将高层的、抽象的<strong>目标 (Goals)</strong> 不断分解、精化（Refinement），直到转化为可实现、可测试的低层<strong>需求 (Requirements)</strong>。</p>
+<hr>
+<h2 id="5-世界与机器：REQ-SPEC-ASM-框架">5. 世界与机器：REQ, SPEC, ASM 框架</h2>
+<p>这是本周最重要的理论框架，用于界定软件与现实世界的边界。<br>
+$$ASM \wedge SPEC \models REQ$$</p>
+<hr>
+<h2 id="6-AI-质量需求的七大集群-Clustering-of-AI-NFRs">6. AI 质量需求的七大集群 (Clustering of AI NFRs)</h2>
+<p>根据学术文献，AI 的非功能性需求（NFRs）可分为以下 7 个核心集群，在考试进行案例分析时（如医疗机器人），可直接从这些维度切入：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">集群 (Cluster)</th>
+<th style="text-align:left">核心内容</th>
+<th style="text-align:left">包含的关键指标 (Keywords)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>C1: 可靠性 (Reliability)</strong></td>
+<td style="text-align:left">模型准不准、稳不稳定</td>
+<td style="text-align:left">Accuracy, Correctness, Fault Tolerance</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>C2: 透明度 (Transparency)</strong></td>
+<td style="text-align:left">黑盒模型能不能让人看懂</td>
+<td style="text-align:left">Explainability, Transparency</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>C3: 社会属性 (Social)</strong></td>
+<td style="text-align:left">AI 是否有偏见、是否合乎道德</td>
+<td style="text-align:left">Bias, Ethics, Fairness</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>C4: 性能 (Performance)</strong></td>
+<td style="text-align:left">跑得快不快、能不能顶住高并发</td>
+<td style="text-align:left">Performance, Scalability，The ability of the system to run concurrently</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>C5 &amp; C7: 生命周期/维护</strong></td>
+<td style="text-align:left">模型好不好迁移、重新训练、测试</td>
+<td style="text-align:left">Adaptability, Retrainability, Testability, Maintainability</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>C6: 安全防御 (Security)</strong></td>
+<td style="text-align:left">会不会被黑、是否危害人身安全</td>
+<td style="text-align:left">Privacy, Safety, Security</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="7-专项-NFR-深度解析-Deep-Dive-into-AI-NFRs">7. 专项 NFR 深度解析 (Deep Dive into AI NFRs)</h2>
+<p>针对数据和模型层面的 NFR，需要深入理解其背后的工程意义：</p>
+<h3 id="7-1-数据层面-Data-specific-NFRs">7.1 数据层面 (Data-specific NFRs)</h3>
+<ul>
+<li><strong>数据质量 (Data Quality) 与 数据时效性 (Data Recency)</strong>：训练数据必须保持更新。如果使用过时的（stale）数据，会导致模型在生产环境中发生<strong>概念漂移 (Concept Drift)</strong>。</li>
+<li><strong>公平性 (Fairness)</strong>：必须审查数据源是否存在 <strong>Population bias（样本偏差）</strong> 或 <strong>Historical bias（历史固有偏见）</strong>，防止模型固化社会歧视。</li>
+</ul>
+<h3 id="7-2-模型与系统层面-Model-System-NFRs">7.2 模型与系统层面 (Model/System NFRs)</h3>
+<ul>
+<li><strong>稳健性 (Robustness)</strong>：指模型面对未见过的扰动或<strong>对抗样本 (Adversarial attacks)</strong> 时的抵御能力。</li>
+<li><strong>可解释性 (Explainability/Transparency)</strong>：系统给出的决策，人类是否能够理解其背后的<strong>因果关系</strong>（对医疗、法律 AI 尤其重要，医生需要知道“为什么”系统给出该诊断）。</li>
+</ul>
+<hr>
+<h2 id="8-核心概念辨析：高频易混淆的-NFR-Conceptual-Differentiation">8. 核心概念辨析：高频易混淆的 NFR (Conceptual Differentiation)</h2>
+<h3 id="A-可解释性-Explainability-vs-可理解性-Interpretability">A. 可解释性 (Explainability) vs. 可理解性 (Interpretability)</h3>
+<ul>
+<li><strong>Explainability</strong>：强调用<strong>人类可理解的语言</strong>解释 ML 内部原理。</li>
+<li><strong>Interpretability</strong>：强调从模型中提取<strong>数学/特征上</strong>的关联逻辑。</li>
+</ul>
+<h3 id="B-安全性-Safety-vs-网络安全-Security">B. 安全性 (Safety) vs. 网络安全 (Security)</h3>
+<ul>
+<li><strong>Safety</strong>：防止<strong>故障或意外</strong>对人类造成伤害（防 Bug）。</li>
+<li><strong>Security</strong>：对抗<strong>恶意第三方</strong>的攻击和破坏（防坏人）。</li>
+</ul>
+<h3 id="C-可重复性-Repeatability-vs-可再现性-Reproducibility">C. 可重复性 (Repeatability) vs. 可再现性 (Reproducibility)</h3>
+<ul>
+<li><strong>Repeatability</strong>：<strong>完全相同</strong>条件、人、机器下的测量一致性。</li>
+<li><strong>Reproducibility</strong>：<strong>不同</strong>的人、环境或数据集下运行的一致性。</li>
+</ul>
+<hr>
+<h2 id="9-什么是概念漂移？-What-is-Concept-Drift">9. 什么是概念漂移？ (What is Concept Drift?)</h2>
+<p><strong>概念漂移 (Concept Drift)</strong> 是指模型预测的目标变量的<strong>统计属性 (Statistical properties)</strong> 随时间发生不可预见的改变。</p>
+<ul>
+<li><strong>核心矛盾</strong>：模型学习的是“过去”的规律，但“未来”的规律变了。</li>
+<li><strong>后果</strong>：即便模型本身没有 Bug，其预测准确率也会随着时间推移而断崖式下降。</li>
+<li><strong>例子</strong>：一个预测流行时装的 AI。如果它只用 90 年代的数据训练，到了 2026 年它的预测就会完全失效，因为“时装流行”这个概念（Concept）已经随着审美变迁发生了漂移。</li>
+</ul>
+<hr>
+<h2 id="10-AI-Pipeline-阶段防护策略-Defense-Strategy">10. AI Pipeline 阶段防护策略 (Defense Strategy)</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Pipeline 阶段</th>
+<th style="text-align:left">核心防护 NFR</th>
+<th style="text-align:left">核心设计原则（大白话）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Training Data (训练数据)</strong></td>
+<td style="text-align:left">Fairness, Completeness, Integrity</td>
+<td style="text-align:left"><strong>检查数据源头</strong>，防止偏见与数据投毒。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>ML Algorithm (算法)</strong></td>
+<td style="text-align:left">Explainability, Transparency, Testability</td>
+<td style="text-align:left"><strong>控制“黑盒”程度</strong>，确保训练过程可测。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>ML Model (模型)</strong></td>
+<td style="text-align:left">Accuracy, Domain Adaptation, Fault Tolerance</td>
+<td style="text-align:left"><strong>提高静态抗打击能力</strong>，防范对抗攻击。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Results (结果输出)</strong></td>
+<td style="text-align:left">Repeatability, real-time Fairness</td>
+<td style="text-align:left"><strong>实时监控与纠偏</strong>，确保预测输出的公正。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Whole System (整个系统)</strong></td>
+<td style="text-align:left">Safety, Security, Privacy, Feedback Loop</td>
+<td style="text-align:left"><strong>用传统代码包裹模型</strong>，筑起安全的钢铁防线。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="11-反馈回路-Feedback-Loops">11. 反馈回路 (Feedback Loops)</h2>
+<p>AI 系统存在复杂的反馈回路（环境、用户、系统）。需求工程必须明确定义这些反馈回路的边界和约束，以防止模型随时间产生偏移。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/" class="category-chain-item">学业笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/ISE/" class="category-chain-item">ISE</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/" class="print-no-link">#学业笔记</a>
+      
+        <a href="/tags/ISE/" class="print-no-link">#ISE</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>第八周：AI 系统的需求工程 (Requirements Engineering for AI)</div>
+      <div>https://lofiskyline.github.io/2026/05/22/ISE/Note/week8/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Blog Author</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年5月22日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/05/22/ISE/ISEweek1/" title="ISEweek1">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">ISEweek1</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/05/22/ISE/Note/week7/" title="Evaluation in Intelligent Software Engineering (智能软件工程中的评估)">
+                        <span class="hidden-mobile">Evaluation in Intelligent Software Engineering (智能软件工程中的评估)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

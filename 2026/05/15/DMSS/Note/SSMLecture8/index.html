@@ -1,0 +1,1050 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" >
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Blog Author">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Local Data Security: Full Disk Encryption (FDE) 1. Introduction to Data Security Types 数据安全主要分为 Data at rest（静态数据，存储在硬盘、数据库或备份中）和 Data in use（在使用中的数据，正在被 CPU 或 RAM 处理）。全盘加密（Full Disk Encryption, FDE）的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Local Data Security: Full Disk Encryption (FDE)">
+<meta property="og:url" content="https://lofiskyline.github.io/2026/05/15/DMSS/Note/SSMLecture8/index.html">
+<meta property="og:site_name" content="My Blog">
+<meta property="og:description" content="Local Data Security: Full Disk Encryption (FDE) 1. Introduction to Data Security Types 数据安全主要分为 Data at rest（静态数据，存储在硬盘、数据库或备份中）和 Data in use（在使用中的数据，正在被 CPU 或 RAM 处理）。全盘加密（Full Disk Encryption, FDE）的">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-05-15T09:48:58.000Z">
+<meta property="article:modified_time" content="2026-06-03T14:46:33.381Z">
+<meta property="article:author" content="Blog Author">
+<meta property="article:tag" content="学业笔记">
+<meta property="article:tag" content="DMSS">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Local Data Security: Full Disk Encryption (FDE) - My Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"lofiskyline.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Joe&#39;s World</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.5)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Local Data Security: Full Disk Encryption (FDE)"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-05-15 17:48" pubdate>
+          2026年5月15日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          57 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Local Data Security: Full Disk Encryption (FDE)</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="local-data-security:-full-disk-encryption-(fde)">Local Data Security: Full Disk Encryption (FDE)</h1>
+<h2 id="1-Introduction-to-Data-Security-Types">1. Introduction to Data Security Types</h2>
+<p>数据安全主要分为 <strong>Data at rest</strong>（静态数据，存储在硬盘、数据库或备份中）和 <strong>Data in use</strong>（在使用中的数据，正在被 CPU 或 RAM 处理）。全盘加密（Full Disk Encryption, FDE）的目标是在设备关闭或被盗时保护静态数据，使其对未授权者不可访问。</p>
+<h2 id="2-The-Bootstrap-Dilemma-启动的困境">2. The Bootstrap Dilemma (启动的困境)</h2>
+<p>A core challenge in FDE is the “<strong>CPU’s Dilemma</strong>”: If the entire disk is encrypted, the CPU cannot read the decryption algorithm because it is also locked inside the encrypted partition.</p>
+<ul>
+<li><strong>The Problem</strong>: “Where is my decryption algorithm?” (我的解密算法在哪？)</li>
+<li><strong>The Solution</strong>: The disk is partitioned. A small part called the <strong>Boot/Kernel Partition</strong> (or System Drive) remains unencrypted or resides in a pre-boot environment. This area contains the <strong>Bootloader</strong> and <strong>Kernel</strong>, which “know” the AES algorithm and can interact with hardware to fetch the keys.</li>
+</ul>
+<h2 id="3-Key-Hierarchy-and-Storage-密钥体系与存储">3. Key Hierarchy and Storage (密钥体系与存储)</h2>
+<h3 id="A-Core-Keys-核心密钥">A. Core Keys (核心密钥)</h3>
+<ul>
+<li><strong>DEK (Data Encryption Key / Drive Key)</strong>:
+<ul>
+<li><strong>Role</strong>: The bottom-layer symmetric key that actually encrypts the 4K blocks of data on the drive.</li>
+<li><strong>Location</strong>: Stored on the drive in an <strong>encrypted format</strong> at a <strong>random location</strong>. It “never leaves the device” in its raw form except when loaded into the volatile memory (RAM/Kernel Space) during operation.</li>
+<li><strong>Persistence</strong>: It is <strong>Static</strong> (静态的). Once generated, it remains the same unless the drive is wiped. <em>除非驱动器被恢复出厂设置，加密格式的 DEK 永远存在磁盘上。</em></li>
+</ul>
+</li>
+<li><strong>AK (Authentication Key) / VMK (Volume Master Key)</strong>:
+<ul>
+<li><strong>Role</strong>: Used to “wrap” (encrypt) the DEK. Only by obtaining the AK can the system decrypt the DEK and subsequently the drive.</li>
+<li><strong>Verification</strong>: A <strong>Hash of AK</strong> is stored on the drive to verify if the user-provided credentials are correct.</li>
+</ul>
+</li>
+</ul>
+<h3 id="B-Storage-Strategies-密钥存放权衡">B. Storage Strategies (密钥存放权衡)</h3>
+<ol>
+<li><strong>USB Stick</strong>: Simple but vulnerable to physical theft.</li>
+<li><strong>TPM (Trusted Platform Module)</strong>:
+<ul>
+<li><strong>Sealing</strong>: The TPM “seals” (封印) the AK/VMK inside its hardware memory.</li>
+<li><strong>Integrity Check</strong>: The TPM only releases the key if the <strong>PCR (Platform Configuration Registers)</strong> show that the early boot files (Bootloader/Kernel) are <strong>Unmodified</strong>. This creates a <strong>Root of Trust</strong>.</li>
+</ul>
+</li>
+</ol>
+<h2 id="4-Key-Derivation-Functions-KDF-密钥派生">4. Key Derivation Functions (KDF) - 密钥派生</h2>
+<p>Humans are bad at remembering high-entropy keys. KDFs bridge the gap between a low-entropy password and a high-quality cryptographic key。</p>
+<ul>
+<li><strong>Process</strong>: $Key \leftarrow Hash(Password, Salt) \times Iterations$</li>
+<li><strong>Salt (盐值)</strong>:
+<ul>
+<li>Adds randomness to the input.</li>
+<li><strong>Purpose</strong>: <strong>Prevents pre-computation attacks (Rainbow Tables) and ensures that two users with the same password have different derived keys.</strong></li>
+</ul>
+</li>
+<li><strong>Iterations (Loops)</strong>:
+<ul>
+<li>The hash is run thousands of times to introduce an <strong>artificial delay</strong> (引入人为延迟)。</li>
+<li><strong>Purpose</strong>: Slows down brute-force attacks by making each password guess computationally expensive (e.g., 1 second instead of 1 microsecond).</li>
+</ul>
+</li>
+</ul>
+<h2 id="5-From-Factory-Setup-to-User-Encryption-出厂设置到用户激活">5. From Factory Setup to User Encryption (出厂设置到用户激活)</h2>
+<h3 id="Phase-1-Manufacturer-Signing-厂商签名阶段">Phase 1: Manufacturer Signing (厂商签名阶段)</h3>
+<p>厂商在出厂前，使用其 <strong>Private Key</strong> 对 Bootloader 和 Kernel 进行签名。对应的 <strong>Public Key</strong> 预埋在硬件（TPM/TEE）中。</p>
+<h3 id="Phase-2-Initial-Boot-Baseline-初次启动">Phase 2: Initial Boot &amp; Baseline (初次启动)</h3>
+<ol>
+<li><strong>Integrity Verification</strong>: TPM 使用 Public Key 验证启动代码。如果一致（Unmodified），则建立信任。</li>
+<li><strong>DEK Generation</strong>: 系统随机生成一个 128/256-bit 的 <strong>DEK</strong> (Data Encryption Key)。此时 DEK 处于“裸奔”状态，或由默认密钥保护。</li>
+</ol>
+<h3 id="Phase-3-User-Setup-用户加密阶段">Phase 3: User Setup (用户加密阶段)</h3>
+<ol>
+<li><strong>User Input</strong>: 用户设置密码。</li>
+<li><strong>KDF Application</strong>: 系统通过 KDF 和随机生成的 <strong>Salt</strong> 计算出用户的 <strong>AK (Authentication Key)</strong>。</li>
+<li><strong>Wrapping</strong>: 系统在 RAM 中用 <strong>AK</strong> 加密 <strong>DEK</strong>，生成 <code>enc_drive_key</code>。</li>
+<li><strong>Persistent Storage</strong>: 将 <code>enc_drive_key</code>、<strong>Salt</strong> 和 <strong>Hash of AK</strong> 写入磁盘。此时，DEK 被正式“锁入保险箱”。</li>
+</ol>
+<h2 id="6-Password-Update-Behind-the-Scenes-更换密码的具体步骤">6. Password Update: Behind the Scenes (更换密码的具体步骤)</h2>
+<p>Changing your password <strong>does not</strong> require re-encrypting the whole drive. The system performs a “key re-wrapping” process:</p>
+<ol>
+<li><strong>Unlock</strong>: User enters the <strong>old password</strong>. The system derives the <strong>Old AK</strong>, decrypts the <code>enc_drive_key</code> in RAM to get the <strong>Raw DEK</strong>.</li>
+<li><strong>New Key Derivation</strong>: User enters the <strong>new password</strong>. The system generates a <strong>New Salt</strong> and derives a <strong>New AK</strong> via KDF.</li>
+<li><strong>Re-wrap</strong>: The system uses the <strong>New AK</strong> to encrypt the same <strong>Raw DEK</strong>.
+<ul>
+<li>$enc_drive_key_{(new)} = Encrypt(New_AK, DEK)$</li>
+</ul>
+</li>
+<li><strong>Overwrite</strong>: The new <code>enc_drive_key</code>, new Salt, and new Hash of AK are written to the disk, overwriting the old ones.</li>
+</ol>
+<ul>
+<li><strong>Conclusion</strong>: The <strong>DEK is static</strong>. Only the “outer layer” (AK) that protects it changes.</li>
+</ul>
+<h2 id="7-FDE-Disk-Structure-Layout">7. FDE Disk Structure &amp; Layout</h2>
+<h3 id="A-General-FDE-Structure-LUKS-dm-crypt-style">A. General FDE Structure (LUKS/dm-crypt style)</h3>
+<ul>
+<li><strong>MBR (Master Boot Record)</strong>: Sector 0. Contains partition tables and basic boot code.</li>
+<li><strong>HEADER (Cleartext)</strong>: The “Instruction manual” for decryption. It includes:
+<ul>
+<li>Encryption Type (e.g., LUKS)</li>
+<li>Algorithm (e.g., AES-XTS)</li>
+<li>IV (Initialization Vector)</li>
+<li>Hardware requirements (e.g., TPM)</li>
+</ul>
+</li>
+<li><strong>Encrypted Logical Volume</strong>: The actual data blocks (4K blocks).</li>
+</ul>
+<h3 id="B-BitLocker-Specific-Structure">B. BitLocker Specific Structure</h3>
+<p>BitLocker uses a dual-drive split for a more robust “Transparent” experience:</p>
+<ol>
+<li><strong>System Drive (Unencrypted)</strong>:
+<ul>
+<li>Contains: <strong>Bootloader</strong>, <strong>Kernel</strong>, and the <strong>Decryption Algorithms</strong>.</li>
+<li>Role: Bootstraps the system and performs the “Measurement” of hardware.</li>
+</ul>
+</li>
+<li><strong>OS Drive (Encrypted)</strong>:
+<ul>
+<li>Contains: <strong>System files</strong>, <strong>User data</strong>, and <strong>Cache/SWAP</strong>.</li>
+<li>Role: Stays encrypted at rest.</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li><strong>Key Storage</strong>: The key is “Sealed” in the TPM. If the System Drive is tampered with (e.g., bootloader replaced), the TPM detects the change in PCRs and refuses to release the key.</li>
+</ul>
+<hr>
+<h1 id="file-based-encryption-(fbe)">File-based Encryption (FBE)</h1>
+<p>基于文件的加密（FBE）允许对不同的文件或目录使用不同的密钥，提供细粒度（Granularity）控制。</p>
+<h2 id="1-iOS-Protection-Classes-Apple-方案">1. iOS Protection Classes (Apple 方案)</h2>
+<p>iOS 的 FBE 建立在 <strong>SEP (Secure Enclave Processor)</strong> 硬件隔离之上，定义了四种保护类（Protection Classes）。</p>
+<h3 id="A-详细分类介绍">A. 详细分类介绍</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">类 (Class)</th>
+<th style="text-align:left">含义与生成方式</th>
+<th style="text-align:left">用途与存放位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Class D</strong></td>
+<td style="text-align:left"><strong>硬件根密钥 (No Protection)</strong>。由 SEP 持有的唯一设备密钥 ($UID$)。</td>
+<td style="text-align:left"><strong>存放于 SEP</strong>。作为所有类密钥的底层支柱，参与所有类密钥的派生，确保数据与物理硬件绑定。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Class C</strong></td>
+<td style="text-align:left"><strong>默认保护 (Default Protection)</strong>。在第一次解锁（First Unlock）后派生。</td>
+<td style="text-align:left"><strong>存放于 RAM</strong>（解锁后）。用于保护系统文件和基础 App 数据。在设备解锁一次后，即便再次锁屏，该密钥也驻留在 RAM 中。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Class A</strong></td>
+<td style="text-align:left"><strong>完全保护 (Complete Protection)</strong>。由 $Passcode + Class D$ 通过 KDF 派生。</td>
+<td style="text-align:left"><strong>锁屏 10 秒后从 RAM 抹除</strong>。用于保护核心隐私。每次访问都必须确保设备处于解锁状态。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Class B</strong></td>
+<td style="text-align:left"><strong>非对称保护 (Protected Unless Open)</strong>。包含一对公私钥。</td>
+<td style="text-align:left"><strong>公钥存 RAM，私钥锁屏即消失</strong>。允许在锁屏状态下接收/写入新数据（用公钥加密），但只有解锁后才能读取（释放私钥）。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="B-iOS-工作流程案例：访问一张-Class-A-的照片">B. iOS 工作流程案例：访问一张 Class A 的照片</h3>
+<ol>
+<li><strong>解锁手机</strong>: 用户输入密码，SEP 结合内部 $UID$ (Class D) 现场计算出 <strong>Class A Key</strong> 并送入 <strong>RAM</strong>。</li>
+<li><strong>解析元数据</strong>: 系统使用已在 RAM 中的 <strong>Class C Key</strong> 解开文件系统的 Header，读取照片的 <strong>Metadata</strong>。</li>
+<li><strong>获取封装密钥</strong>: 在 Metadata 中找到该照片独有的 <strong>Wrapped File Key</strong>（被 Class A 包裹的 File Key）。</li>
+<li><strong>拆封过程</strong>: 系统调用 RAM 中的 <strong>Class A Key</strong> 对 <strong>Wrapped File Key</strong> 进行解密，还原出明文的 <strong>AES File Key</strong>。</li>
+<li><strong>读取内容</strong>: 内核使用该 <strong>AES File Key</strong> 实时解密磁盘上的照片数据块。</li>
+</ol>
+<h2 id="2-Android-FBE-Structure-Android-7-0-方案">2. Android FBE Structure (Android 7.0+ 方案)</h2>
+<p>Android 采用双分区架构，依赖 <strong>TEE (Trusted Execution Environment)</strong> 进行密钥管理。</p>
+<h3 id="A-CE-与-DE-分区">A. CE 与 DE 分区</h3>
+<ul>
+<li><strong>DE (Device Encrypted) Storage</strong>: 开机即用。存储闹钟、电话等，确保手机重启后即便不输入密码也能提供基础功能。</li>
+<li><strong>CE (Credential Encrypted) Storage</strong>: 隐私存储。只有用户输入密码并成功验证后，对应的密钥才会被释放。</li>
+</ul>
+<h3 id="B-Android-密钥体系-Key-Hierarchy">B. Android 密钥体系 (Key Hierarchy)</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">密钥名称</th>
+<th style="text-align:left">生成方式</th>
+<th style="text-align:left">用途</th>
+<th style="text-align:left">存放位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Hardware Root Key</strong></td>
+<td style="text-align:left">厂商预埋在硬件中。</td>
+<td style="text-align:left">信任链的最底层。</td>
+<td style="text-align:left"><strong>TEE (不可导出)</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Stretched Credential</strong></td>
+<td style="text-align:left">$Password + Salt \xrightarrow{KDF} …$</td>
+<td style="text-align:left">作为中间凭据。</td>
+<td style="text-align:left"><strong>RAM (临时存在)</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>KEK (Key Encryption Key)</strong></td>
+<td style="text-align:left">在 TEE 内结合 <strong>Stretched Credential</strong> 和 <strong>Root Key</strong> 算出。</td>
+<td style="text-align:left"><strong>拆快递的“剪刀”</strong>。专门用来解开磁盘上的 Master Key 包裹。</td>
+<td style="text-align:left"><strong>TEE (运算生成)</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Wrapped Master Key</strong></td>
+<td style="text-align:left">安装/设置密码时生成的加密 Blob。</td>
+<td style="text-align:left">Master Key 的持久化加密形式。</td>
+<td style="text-align:left"><strong>Disk (磁盘持久化)</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Master Key (CE/DE)</strong></td>
+<td style="text-align:left">系统用 KEK 在 TEE 内解开 Wrapped Master Key 得到。</td>
+<td style="text-align:left"><strong>领域总管</strong>。负责派生所有具体文件的 AES 密钥。</td>
+<td style="text-align:left"><strong>Kernel Keyring (RAM)</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>File Key (AES Key)</strong></td>
+<td style="text-align:left">$KDF(Master Key, Inode Info)$</td>
+<td style="text-align:left"><strong>苦力</strong>。真正负责 4K 数据块加解密的对称密钥。</td>
+<td style="text-align:left"><strong>Kernel RAM (动态生成)</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="C-Android-工作流程案例：访问一个-CE-分区的文件">C. Android 工作流程案例：访问一个 CE 分区的文件</h3>
+<ol>
+<li><strong>用户认证</strong>: 用户输入 PIN/密码。系统通过 <strong>KDF</strong> 将密码拉伸为 <strong>Stretched Credential</strong>。</li>
+<li><strong>生成 KEK</strong>: <strong>Stretched Credential</strong> 被送入 <strong>TEE</strong>，结合硬件不可导出的 <strong>Root Key</strong>，计算出该用户本次会话的 <strong>KEK</strong>。</li>
+<li><strong>解密 Master Key</strong>: 系统从磁盘加载 <strong>Wrapped Master Key</strong> (Blob)，送入 TEE。TEE 使用 <strong>KEK</strong> 对其进行解密，得到明文的 <strong>CE Master Key</strong>。</li>
+<li><strong>注入内核</strong>: 明文 <strong>Master Key</strong> 被安全地从 TEE 传递到 <strong>Kernel Keyring</strong>（内核密钥环）中。</li>
+<li><strong>派生 File Key</strong>: 当用户尝试打开一个特定的隐私文件时，内核提取该文件的 <strong>Inode</strong>（索引节点）信息，结合 <strong>Master Key</strong> 通过算法派生出该文件专属的 <strong>AES File Key</strong>。</li>
+<li><strong>实时加解密</strong>: 内核的 <strong>Crypto API</strong> 使用该 <strong>File Key</strong> 对磁盘上的数据块进行解密，并将明文数据送入应用层。</li>
+</ol>
+<h2 id="3-iOS-vs-Android-FBE-对比">3. iOS vs. Android FBE 对比</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">维度</th>
+<th style="text-align:left">iOS (SEP 模型)</th>
+<th style="text-align:left">Android (dm-crypt/Keyring 模型)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>硬件集成</strong></td>
+<td style="text-align:left"><strong>强集成</strong>。SEP 位于数据流水线上，密钥物理隔离在 SEP 内，甚至不经过 CPU/内核。</td>
+<td style="text-align:left"><strong>弱集成</strong>。依赖 TEE 管理 KEK，但具体加解密操作通常在 CPU/内核空间由软件完成。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>优雅性 (Class B)</strong></td>
+<td style="text-align:left">极高。非对称加密巧妙解决了锁屏下载/后台写入的问题。</td>
+<td style="text-align:left">相对复杂。通过多 Master Key 结构实现，但没有原生对应 Class B 的优雅逻辑。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>安全性</strong></td>
+<td style="text-align:left">极强。硬件级隔离确保即便内核被 Root，攻击者也难以提取处于 Class A 状态的密钥。</td>
+<td style="text-align:left">强。但由于加解密在内核空间，Root 后的内核可能面临内存注入或 API 挂钩的风险。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>灵活性</strong></td>
+<td style="text-align:left">固定四种策略，系统级统一强制执行。</td>
+<td style="text-align:left">非常灵活。支持无限分层，允许厂商根据硬件定制 TEE 模块，通用性极佳。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><strong>Summary for Revision:</strong></p>
+<ul>
+<li><strong>FBE 核心痛点</strong>: 元数据（Metadata）泄露（文件名、大小等可见）。</li>
+<li><strong>iOS 核心优势</strong>: <strong>SEP 硬件流水线</strong>隔离与 <strong>Class B 非对称写入</strong>。</li>
+<li><strong>Android 核心优势</strong>: <strong>CE/DE 分区隔离</strong>与灵活的 <strong>Keyring 管理</strong>。</li>
+<li><strong>共同点</strong>: 都是通过 <strong>Key Wrapping (密钥包裹)</strong> 和 <strong>KDF 动态派生</strong> 避免一破全破。</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/" class="category-chain-item">学业笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/DMSS/" class="category-chain-item">DMSS</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/" class="print-no-link">#学业笔记</a>
+      
+        <a href="/tags/DMSS/" class="print-no-link">#DMSS</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Local Data Security: Full Disk Encryption (FDE)</div>
+      <div>https://lofiskyline.github.io/2026/05/15/DMSS/Note/SSMLecture8/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Blog Author</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年5月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/05/16/DMSS/Note/SSMLecture2/" title="Core Foundation of CIA Data Protection and Risk Assessment">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Core Foundation of CIA Data Protection and Risk Assessment</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/05/15/DMSS/Note/SSMLecture10/" title="第 10 讲：元数据安全与隐私保护搜索 (Metadata Security &amp; Privacy-Preserving Search)">
+                        <span class="hidden-mobile">第 10 讲：元数据安全与隐私保护搜索 (Metadata Security &amp; Privacy-Preserving Search)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

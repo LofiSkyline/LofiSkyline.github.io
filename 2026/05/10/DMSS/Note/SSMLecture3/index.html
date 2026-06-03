@@ -1,0 +1,912 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" >
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Blog Author">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Lecture 3: Asset Registers &amp; Cloud Assets (资产登记册与云资产) 1. Recap: Scope and Definitions (回顾：范围与定义) The Information Security Management System (ISMS) depends on a clear structure (信息安全管理体系依赖于清晰的架构):">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Lecture 3: Asset Registers &amp; Cloud Assets (资产登记册与云资产)">
+<meta property="og:url" content="https://lofiskyline.github.io/2026/05/10/DMSS/Note/SSMLecture3/index.html">
+<meta property="og:site_name" content="My Blog">
+<meta property="og:description" content="Lecture 3: Asset Registers &amp; Cloud Assets (资产登记册与云资产) 1. Recap: Scope and Definitions (回顾：范围与定义) The Information Security Management System (ISMS) depends on a clear structure (信息安全管理体系依赖于清晰的架构):">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-05-10T08:25:45.000Z">
+<meta property="article:modified_time" content="2026-06-03T14:46:33.381Z">
+<meta property="article:author" content="Blog Author">
+<meta property="article:tag" content="学业笔记">
+<meta property="article:tag" content="DMSS">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Lecture 3: Asset Registers &amp; Cloud Assets (资产登记册与云资产) - My Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"lofiskyline.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Joe&#39;s World</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.5)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Lecture 3: Asset Registers &amp; Cloud Assets (资产登记册与云资产)"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-05-10 16:25" pubdate>
+          2026年5月10日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          46 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Lecture 3: Asset Registers &amp; Cloud Assets (资产登记册与云资产)</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="lecture-3:-asset-registers-amp;-cloud-assets-(资产登记册与云资产)">Lecture 3: Asset Registers &amp; Cloud Assets (资产登记册与云资产)</h1>
+<h2 id="1-Recap-Scope-and-Definitions-回顾：范围与定义">1. Recap: Scope and Definitions (回顾：范围与定义)</h2>
+<p>The Information Security Management System (ISMS) depends on a clear structure (信息安全管理体系依赖于清晰的架构):</p>
+<ul>
+<li><strong>Policies (策略)</strong>: Define objectives and outcomes (定义目标和预期结果).</li>
+<li><strong>Procedures (程序)</strong>: Define methods and measures (定义具体方法和措施).</li>
+<li><strong>Audit (审计)</strong>: Checks everything is being obeyed (检查各项规定是否被遵守).</li>
+<li><strong>Asset Registers (资产登记册)</strong>: Determine the <strong>scope</strong> (决定了安全管理体系的适用范围).</li>
+</ul>
+<blockquote>
+<p>[!IMPORTANT]<br>
+An Asset Register should include <strong>everything that can affect the security of information</strong>. If it’s not in the register, it’s outside the scope of the ISMS.<br>
+<em>(资产登记册应包含<strong>所有可能影响信息安全的事物</strong>。任何未登记在册的资产，都不在 ISMS 的保护和管理范围之内。)</em></p>
+</blockquote>
+<hr>
+<h2 id="2-The-Multi-Layered-Asset-Model-多层级资产模型">2. The Multi-Layered Asset Model (多层级资产模型)</h2>
+<p>Assets are not just datasets; they are vertical stacks of dependencies. (资产不仅仅是数据，它们是自上而下相互依赖的堆栈。)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Layer (层级)</th>
+<th style="text-align:left">Example in Slides (课件示例)</th>
+<th style="text-align:left">中文解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Data set (数据集)</strong></td>
+<td style="text-align:left">“The HR information”</td>
+<td style="text-align:left">核心业务数据（如人力资源信息）</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Application (应用程序)</strong></td>
+<td style="text-align:left">“The Oracle instance”</td>
+<td style="text-align:left">处理数据的软件（如 Oracle 数据库实例）</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Platform (平台)</strong></td>
+<td style="text-align:left">“Solaris Server number 6”, “EMC Array”</td>
+<td style="text-align:left">承载软件的操作系统或硬件平台</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Locations (物理位置)</strong></td>
+<td style="text-align:left">“Birmingham data centre”</td>
+<td style="text-align:left">存放硬件的物理空间（如伯明翰数据中心）</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Infrastructure (基础设施)</strong></td>
+<td style="text-align:left">“<strong>AD Server</strong>”, “<strong>UPS</strong>”</td>
+<td style="text-align:left">共享的网络或电力设施（如活动目录服务器、不间断电源）</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>People (人员)</strong></td>
+<td style="text-align:left">“HR Director”, “Cleaner”</td>
+<td style="text-align:left">涉及的各类人员（包括HR总监，甚至清洁工）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The Full Scope (完整范围的界定)</strong>:</p>
+<ul>
+<li>Everything you might want to record a threat against. (任何你可能需要记录其面临威胁的事物。)</li>
+<li>Everything an attacker might want to control / destroy / compromise. (任何攻击者可能想要控制、破坏或妥协的事物。)</li>
+<li>Everything that might stop working. (任何可能发生故障罢工的事物。)</li>
+<li>Everything you might want to apply a control to. (任何你想要施加安全控制措施的事物。)</li>
+</ul>
+<hr>
+<h2 id="3-Asset-Dependencies-Construction-资产依赖与构建方法">3. Asset Dependencies &amp; Construction (资产依赖与构建方法)</h2>
+<h3 id="3-1-Mapping-Dependencies-映射依赖关系">3.1 Mapping Dependencies (映射依赖关系)</h3>
+<p>Systems are highly interconnected. For example, both an HR dataset and a Finance dataset might depend on the same Oracle instance, which runs on a Solaris server in the Data Centre. Meanwhile, a Web Server might run on Windows -&gt; VMware -&gt; Data Centre.<br>
+<em>系统是高度互联的。所有这些最终都依赖于基础设施，如 AD (活动目录)、防火墙 (Firewall)、网络 (Networking) 和电力 (Power)。</em></p>
+<h3 id="3-2-Construction-Approach-“Meet-in-the-Middle”-构建路径：中间汇合法">3.2 Construction Approach: “Meet in the Middle” (构建路径：中间汇合法)</h3>
+<p>Building the register is an iterative process (构建登记册是一个迭代的过程).</p>
+<ol>
+<li><strong>First Step (Top-Down / 自顶向下)</strong>: Focus on <strong>systems and databases</strong> (Payroll, HR, source control). Then expand <strong>downwards</strong> to the hardware supporting them. (从业务系统如工资单、HR系统开始，向下梳理它们运行在什么硬件上。)</li>
+<li><strong>Second Step (Bottom-Up / 自底向上)</strong>: Focus on <strong>“what you can see”</strong>—the physical boxes (“tin”), buildings, people, and cabling. Then expand <strong>upwards</strong> to see what systems they host. (从看得见的物理设备、建筑、线缆开始，向上追溯它们承载了什么系统。)</li>
+<li><strong>Result</strong>: Maybe meet in the middle. (最佳结果是双向并行，在中间层汇合，确保没有遗漏。)</li>
+</ol>
+<h3 id="3-3-Reality-Intrudes-Iteration-现实的挑战与迭代">3.3 Reality Intrudes &amp; Iteration (现实的挑战与迭代)</h3>
+<ul>
+<li><strong>Legacy Issues (遗留问题)</strong>: You will find lots of things you didn’t know existed—legacy systems and legacy infrastructure. (你会发现很多你根本不知道存在的旧系统和老旧基础设施。)</li>
+<li><strong>Entropy (熵增/混乱度)</strong>: “Mature” computer installations are subject to the 2nd law of thermodynamics (they naturally become more disordered over time). (“成熟”的计算机系统受热力学第二定律支配，即随着时间推移，系统会自然变得越来越混乱和无序。)</li>
+<li><strong>Simplification (精简)</strong>: ISO 27001 is an opportunity to simplify. <strong>“Removal is better than controls.”</strong> (建立 ISO 27001 体系是一个精简系统的机会。<strong>直接移除无用的老旧资产，比为它们增加安全控制措施更有效</strong>。)</li>
+<li><strong>Iterate (持续迭代)</strong>: You won’t get it right the first time. It’s OK to iterate and improve. (你不可能一次性做对，持续迭代和改进是正常的。)</li>
+</ul>
+<hr>
+<h2 id="4-📝-Exercise-Sketching-Dependencies-课堂练习：绘制依赖图">4. 📝 Exercise: Sketching Dependencies (课堂练习：绘制依赖图)</h2>
+<blockquote>
+<p><strong>Think about a business that has an HR system, a finance system, a public webserver and some engineering systems (source control). Sketch a graph like the one we’ve just looked at.</strong><br>
+<em>(思考一家拥有 HR 系统、财务系统、公共 Web 服务器以及一些工程系统（如源代码控制）的企业。试着画出它们之间的依赖关系图。)</em></p>
+</blockquote>
+<p><strong>Why is this exercise important? (为什么这很重要？)</strong></p>
+<ul>
+<li><strong>Complex Mesh (复杂的网状结构)</strong>: Real businesses have highly complex dependency meshes. Every year that goes by makes mapping it harder. (真实企业的依赖关系错综复杂，时间拖得越久越难梳理，所以必须尽早将其纳入安全管理体系。)</li>
+<li><strong>The Weakest Link (短板效应)</strong>: New, secure systems locked in a data centre might rely on old, unsupported legacy hardware sitting under someone’s desk. If that legacy hardware fails, the whole system fails. (看似安全的现代系统，可能底层依赖着某人办公桌下一台无人维护的旧电脑。这就是系统的致命弱点。)</li>
+</ul>
+<hr>
+<h2 id="5-Security-vs-Capital-Asset-Registers-安全资产清单-vs-财务固定资产清单">5. Security vs. Capital Asset Registers (安全资产清单 vs 财务固定资产清单)</h2>
+<p>Why isn’t this just the capital asset register, plus a bit? (为什么不能直接用财务部的固定资产清单稍微改改就当安全资产清单？)</p>
+<ul>
+<li><strong>Focus (关注点不同)</strong>: Security registers start from <strong>systems and functions</strong>; Capital registers focus on licenses, bricks, and physical “tin”. (安全更关注系统功能，财务只关心买了几个授权、几台机器。)</li>
+<li><strong>Financial Thresholds (财务门槛)</strong>: IT equipment is increasingly leased or very cheap (e.g., a £50 Raspberry Pi). Therefore, it is <strong>not capitalised</strong> but still poses a massive security risk. (很多 IT 设备是租来的，或者极其便宜，根本达不到财务记账的标准，但它们同样存在安全风险。)</li>
+<li><strong>Functionality (功能盲区)</strong>: Financial registers usually don’t talk about what the equipment actually <em>does</em>. (财务清单不关心这台服务器是用来发工资的还是用来做测试的。)</li>
+<li><strong>Scrapping (报废滞后)</strong>: Companies are bad at scrapping; financial registers often contain lots of equipment you don’t have or use anymore. (企业在设备报废销账上通常做得很差，财务清单里往往有一堆早就不用或丢了的“幽灵设备”。)</li>
+</ul>
+<hr>
+<h2 id="6-Cloud-Assets-Shadow-IT-云资产与影子-IT">6. Cloud Assets &amp; Shadow IT (云资产与影子 IT)</h2>
+<h3 id="6-1-What-is-a-Cloud-Asset-什么是云资产？">6.1 What is a Cloud Asset? (什么是云资产？)</h3>
+<p>If you are running a service on an AWS instance, what do you put into your ISO 27001 register?<br>
+<em>(如果你在 AWS 上运行服务，你的资产登记册里该写什么？)</em></p>
+<ul>
+<li>The asset is the <strong>Information</strong> and the <strong>Contract</strong> you have with Amazon. The audit is of the <strong>fitness for purpose of that contract</strong>.</li>
+<li><em>(在云端，你失去了对物理硬件的控制。你的资产变成了“信息本身”以及“你与云服务商签订的合同”。审计的重点也变成了“审查这份合同是否满足了你的安全需求”。)</em></li>
+</ul>
+<h3 id="6-2-The-“Risk-Managed”-Approach-风险管理-的委婉说法">6.2 The “Risk Managed” Approach (&quot;风险管理&quot;的委婉说法)</h3>
+<p>Formal accreditations of cloud services are rare. Businesses using SaaS (like Salesforce) will adopt a <strong>“Risk managed”</strong> approach.<br>
+<em>(云服务的正式审计认证很少见，企业使用 SaaS 服务时通常自称采用“风险管理”方法。)</em></p>
+<ul>
+<li><strong>Euphemism (委婉语)</strong>: This is often a euphemism for relying on a <strong>contract, reputation, and good luck</strong>. (这通常是依赖“合同保障、大厂声誉和好运气”的委婉说法，因为小客户根本没有权限去审计 AWS 的数据中心。)</li>
+<li><strong>On-Prem Cloud (本地云)</strong>: Because of this trust issue, large integrators and governments often prefer “On-Prem” cloud (bringing cloud-like services into their own physical data centers). (因为缺乏信任，大企业和政府更倾向于采用“本地云”，即在自己可控的机房里搭建类似云的服务。)</li>
+</ul>
+<h3 id="6-3-Maintaining-the-Register-Shadow-IT-清单维护与影子-IT">6.3 Maintaining the Register &amp; Shadow IT (清单维护与影子 IT)</h3>
+<p>Once written, it’s NOT easy to maintain. (资产清单一旦写好，维护起来极其困难。)</p>
+<ul>
+<li>New systems and new dependencies <strong>don’t require financial approval</strong>, or at least don’t appear as capital assets. (员工购买新的云服务订阅或便宜硬件通常不需要高层财务审批。)</li>
+<li>This requires <strong>active co-operation</strong> from the business to avoid “Shadow IT” (员工私自使用的 IT 资源). (这需要业务部门的积极配合，否则防不胜防的“影子 IT”会带来巨大的未知风险。)</li>
+</ul>
+<hr>
+<p><strong>Next Step</strong>: Risks and threats (Next Lecture). (下一步将进入风险与威胁的评估环节。)</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/" class="category-chain-item">学业笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/DMSS/" class="category-chain-item">DMSS</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/" class="print-no-link">#学业笔记</a>
+      
+        <a href="/tags/DMSS/" class="print-no-link">#DMSS</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Lecture 3: Asset Registers &amp; Cloud Assets (资产登记册与云资产)</div>
+      <div>https://lofiskyline.github.io/2026/05/10/DMSS/Note/SSMLecture3/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Blog Author</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年5月10日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/05/10/DMSS/Note/SSMLecture4/" title="Lecture 4: Risks, Threats &amp; Threat Actors (风险、威胁与威胁主体)">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Lecture 4: Risks, Threats &amp; Threat Actors (风险、威胁与威胁主体)</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/05/08/DDS/Note/DDS-07-Byzantine-Generals-Problem/" title="DDS-07: Byzantine Generals Problem &amp; Advanced Consensus">
+                        <span class="hidden-mobile">DDS-07: Byzantine Generals Problem &amp; Advanced Consensus</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

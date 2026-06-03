@@ -1,0 +1,1222 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" >
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Blog Author">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="CPL 配置性能学习 性能配置的两大痛点  特征稀疏性 只有极少数的核心特征，或者是一些特征的特定组合会对系统真正产生决定性的影响，绝大多数选项对性能的改变微乎其微; 特征交互 性能往往由于一些特定的特征组合来影响，非核心选项会带来“噪音化 DeepPerf(L1 正则化去除非必要的指标) 样本稀疏性 实际测量单个性能配置的成本及其昂贵，因此可以用来做参数配置学习的训练数据是有限的，并且数据是不连">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CPL 配置性能学习">
+<meta property="og:url" content="https://lofiskyline.github.io/2026/05/21/ISE/Note/week2/index.html">
+<meta property="og:site_name" content="My Blog">
+<meta property="og:description" content="CPL 配置性能学习 性能配置的两大痛点  特征稀疏性 只有极少数的核心特征，或者是一些特征的特定组合会对系统真正产生决定性的影响，绝大多数选项对性能的改变微乎其微; 特征交互 性能往往由于一些特定的特征组合来影响，非核心选项会带来“噪音化 DeepPerf(L1 正则化去除非必要的指标) 样本稀疏性 实际测量单个性能配置的成本及其昂贵，因此可以用来做参数配置学习的训练数据是有限的，并且数据是不连">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-05-21T05:47:00.000Z">
+<meta property="article:modified_time" content="2026-06-03T14:46:33.383Z">
+<meta property="article:author" content="Blog Author">
+<meta property="article:tag" content="学业笔记">
+<meta property="article:tag" content="ISE">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>CPL 配置性能学习 - My Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"lofiskyline.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Joe&#39;s World</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.5)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="CPL 配置性能学习"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-05-21 13:47" pubdate>
+          2026年5月21日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          76 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">CPL 配置性能学习</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="cpl-配置性能学习">CPL 配置性能学习</h1>
+<p>性能配置的两大痛点</p>
+<ul>
+<li>特征稀疏性<br>
+只有极少数的核心特征，或者是一些特征的特定组合会对系统真正产生决定性的影响，绝大多数选项对性能的改变微乎其微;<br>
+特征交互 性能往往由于一些特定的特征组合来影响，非核心选项会带来“噪音化<br>
+DeepPerf(L1 正则化去除非必要的指标)</li>
+<li>样本稀疏性<br>
+实际测量单个性能配置的成本及其昂贵，因此可以用来做参数配置学习的训练数据是有限的，并且数据是不连续的是分散的<br>
+Mistakenly taking the rule of a specific partition as a global rule leads to serious generalization failure</li>
+</ul>
+<h1 id="分类模型">分类模型</h1>
+<h2 id="1-Binary-Options-采样策略-布尔型配置">1. Binary Options 采样策略 (布尔型配置)</h2>
+<p>这类选项通常只有开/关（1/0，Yes/No）两种状态。课件介绍了 4 种经典方法：</p>
+<h3 id="①-Option-wise-Strategy-选项独立策略">① Option-wise Strategy (选项独立策略)</h3>
+<ul>
+<li>
+<p><strong>核心思想</strong>：确保<strong>每一个配置选项在学习集中至少被选中过一次</strong>。</p>
+</li>
+<li>
+<p><strong>具体做法</strong>：为了尽可能减少未知的特征交互干扰（Feature Interactions），该策略在激活某个选项时，会尽量让其他选项保持关闭。</p>
+</li>
+<li>
+<p><strong>例子</strong>：如果有 3 个布尔选项，采样集合为：<code>&#123;100&#125;, &#123;010&#125;, &#123;001&#125;</code>。</p>
+</li>
+<li>
+<p><strong>开销</strong>：采样集的大小和选项数量 $n$ 呈<strong>线性关系（Linear）</strong>，非常经济。</p>
+</li>
+</ul>
+<h3 id="②-T-wise-Strategy-T元组合覆盖策略">② T-wise Strategy (T元组合覆盖策略)</h3>
+<ul>
+<li>
+<p><strong>核心思想</strong>：不仅要看单个选项，还要覆盖所有 <strong>T 个选项的组合（T-tuple combinations, T &gt; 1）</strong>。</p>
+</li>
+<li>
+<p><strong>具体做法</strong>：最常见的是 <strong>2-wise (Pair-wise) 策略</strong>，它确保任意两个选项的各种开闭组合（(0,0), (0,1), (1,0), (1,1)）至少出现一次。同理也有 3-wise。</p>
+</li>
+<li>
+<p><strong>例子</strong>：对于 3 个选项，2-wise 采样集可能形如：<code>&#123;001&#125;, &#123;010&#125;, &#123;100&#125;, &#123;111&#125;</code>。</p>
+</li>
+<li>
+<p><strong>开销</strong>：随着 $T$ 值的增大，采样集大小呈<strong>指数级（Exponential）暴增</strong>。通常 $T$ 取 2 或 3 是性能与成本平衡的极限。</p>
+</li>
+</ul>
+<h3 id="③-Negative-Option-wise-Strategy-反向选项独立策略">③ Negative Option-wise Strategy (反向选项独立策略)</h3>
+<ul>
+<li>
+<p><strong>核心思想</strong>：与 Option-wise 相反，它研究的是“<strong>关掉某个选项会带来什么影响</strong>”。</p>
+</li>
+<li>
+<p><strong>具体做法</strong>：每次单独<strong>关闭（Deselect）<strong>某一个选项，而把其他所有选项都保持</strong>开启（Selected）</strong>。最后，再额外加入一个“全开启（All-yes）”的配置基准。</p>
+</li>
+<li>
+<p><strong>例子</strong>：如果有 3 个选项，采样集合为：<code>&#123;110&#125;, &#123;101&#125;, &#123;011&#125;</code>，外加全开基准 <code>&#123;111&#125;</code>。</p>
+</li>
+<li>
+<p><strong>开销</strong>：大小同样和选项数量呈<strong>线性关系（Linear）</strong>。</p>
+</li>
+</ul>
+<h3 id="④-Random-随机采样">④ Random (随机采样)</h3>
+<ul>
+<li><strong>核心思想</strong>：没有什么特殊规则，直接在纯布尔空间中随机挑选 $n$ 个样本。</li>
+</ul>
+<h2 id="2-Non-binary-Options-采样策略-数值型-多值配置">2. Non-binary Options 采样策略 (数值型/多值配置)</h2>
+<p>当配置项不是开关，而是具体的数字（如 Cache Size, Buffer Size 等）时，采样维度的复杂性会急剧上升。课件给出了 5 种极具代表性的工业级实验设计（Design of Experiments）策略：</p>
+<h3 id="①-One-Factor-At-A-Time-Strategy-OAT，单因素逐一变换">① One-Factor-At-A-Time Strategy (OAT，单因素逐一变换)</h3>
+<ul>
+<li>
+<p><strong>核心思想</strong>：假设各个数值型选项之间<strong>没有交互作用（No interactions）</strong>。</p>
+</li>
+<li>
+<p><strong>采样形态</strong>：</p>
+</li>
+<li>
+<p><strong>具体做法</strong>：先确立一个中心基准点（通常是所有选项取值范围的中心点）。每次只改变某一个选项的取值（在它的域内变动），而让其他所有选项都保持在中心点不动。</p>
+</li>
+<li>
+<p><strong>开销</strong>：采样数量与配置选项数呈<strong>线性关系</strong>。</p>
+</li>
+</ul>
+<h3 id="②-Box-Behnken-Design-Strategy-BBD">② Box-Behnken Design Strategy (BBD)</h3>
+<ul>
+<li>
+<p><strong>核心思想</strong>：专门用来捕获<strong>二次效应（Quadratic/非线性非平滑变化）<strong>以及</strong>两两因素之间的交互作用（2-wise interactions）</strong>。</p>
+</li>
+<li>
+<p><strong>采样形态</strong>：</p>
+</li>
+<li>
+<p><strong>具体做法</strong>：它其实是 $3^k$ 全因子设计（Full Factorial Design）的一个精简子集。全因子设计会在每个维度的最小值（Min）、最大值（Max）和中心点（Center）进行穷举组合（如 3 个选项就需要 $3^3 = 27$ 个配置）。而 BBD 巧妙地把采样点限制在立方的<strong>边缘中点（Midpoints of edges）<strong>和</strong>中心点</strong>上，避开了极端的顶点组合，从而大幅减少了试验次数。</p>
+</li>
+<li>
+<p><strong>开销</strong>：当选项增多时，其规模依然会呈<strong>指数级</strong>增长。</p>
+</li>
+</ul>
+<h3 id="③-Central-Composite-Design-Strategy-CCD，中心复合设计">③ Central Composite Design Strategy (CCD，中心复合设计)</h3>
+<ul>
+<li>
+<p><strong>核心思想</strong>：在工程科学中极为常用，它将采样点分为三个部分：</p>
+<ol>
+<li>
+<p><strong>因子点（Factorial points）</strong>：由 $2^k$ 全因子设计决定的立方体所有<strong>顶点</strong>。</p>
+</li>
+<li>
+<p><strong>轴线/星号点（Axial/Star points）</strong>：在中心点轴线方向上，距离中心为 $\alpha$ 的外部边界点（共 $2 \times k$ 个）。</p>
+</li>
+<li>
+<p><strong>中心点（Center point）</strong>：所有选项均取中心值的配置。</p>
+</li>
+</ol>
+</li>
+<li>
+<p><strong>采样形态</strong>：</p>
+</li>
+<li>
+<p><strong>开销</strong>：同样随着变量增加呈<strong>指数级</strong>递增。</p>
+</li>
+<li>
+<p><strong>底数（Base，也就是 2 或 3）</strong>：代表的是<strong>单个配置变量（Single configuration option）可选的、被离散出来的取值数量（Levels/水平数）</strong>。</p>
+<ul>
+<li>
+<p>在 $2^k$ 中，底数是 <code>2</code>，意味着每一个变量你只挑选 <strong>2个极端值</strong>（最小值 $\min$ 和 最大值 $\max$）参与组合。</p>
+</li>
+<li>
+<p>在 $3^k$ 中，底数是 <code>3</code>，意味着每一个变量你挑选 <strong>3个档位</strong>（最小值 $\min$、中心值 $\text{center}$ 和 最大值 $\max$）参与组合 。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>指数（Exponent，也就是 $k$）</strong>：代表的才是系统参与采样的<strong>配置变量的总数量（Number of options）</strong> 。</p>
+</li>
+</ul>
+<h3 id="🧱-举个最直观的例子来复盘">🧱 举个最直观的例子来复盘</h3>
+<p>假设我们现在要对一个软件进行性能评测，系统里有 <strong>$k = 4$ 个不同的非二元配置变量</strong>（比如：缓存大小、线程数、内存限制、超时时间）。</p>
+<h4 id="1-如果使用-2-k-因子设计（CCD-的因子的部分）">1. 如果使用 $2^k$ 因子设计（CCD 的因子的部分）</h4>
+<ul>
+<li>
+<p><strong>每一个变量</strong>我们只测 2 个档位（高、低） 。</p>
+</li>
+<li>
+<p>因为有 4 个变量，所以组合出来的顶点总数就是 $2^4 = 16$ 个配置组合。</p>
+</li>
+</ul>
+<h4 id="2-如果使用-3-k-全因子设计（BBD-的基准全集）">2. 如果使用 $3^k$ 全因子设计（BBD 的基准全集）</h4>
+<ul>
+<li>
+<p><strong>每一个变量</strong>我们测 3 个档位（低、中、高） 。</p>
+</li>
+<li>
+<p>因为有 4 个变量，所以组合出来的总数就是 $3^4 = 81$ 个配置组合 。</p>
+</li>
+<li>
+<p>而 <strong>BBD (Box-Behnken Design)</strong> 觉得 81 个太多了，所以通过几何学原理从中挖出了一个更精简的子集（通常只需要 20 几个点），这就大大降低了测试代价 。</p>
+</li>
+</ul>
+<h3 id="📊-完美的知识点闭环">📊 完美的知识点闭环</h3>
+<p>你提到“如果是三维的向量，也就是每一个向量空间有三个选项”，这个表述用几何语言来说就是：<strong>在 $k$ 维的空间里，我们沿着每一个坐标轴的方向，只切出 2 个或 3 个刻度（采样点）</strong>。然后让这些刻度在多维空间里交叉相交，就形成了我们最终看到的立方体采样网络 。</p>
+<p>这一块你已经完全吃透且纠正了过来，理解得非常漂亮！</p>
+<p>接下来，我们终于可以拿着这些采集好的样本，去看看它们在机器学习模型里是如何发挥作用的了。课件的下一步是 <strong>Single Environment Learning（单环境学习）</strong> 中的 <strong>Encoding（编码技术）</strong> 。</p>
+<p>你想来看看<strong>为什么同样的数据，换了不同的 Encoding 方式（Label, Scaled Label, One-hot），AI 模型的预测准确率会天差地别吗</strong> ？</p>
+<h3 id="④-Plackett-Burman-Design-Strategy-PBD">④ Plackett-Burman Design Strategy (PBD)</h3>
+<ul>
+<li>
+<p><strong>核心思想</strong>：当配置空间极大、选项极多，但<strong>选项之间的交互作用弱到可以忽略</strong>时，用它来快速筛选出影响力最大的高频数值选项。</p>
+</li>
+<li>
+<p><strong>具体做法</strong>：使用预定义的“种子（Predefined seeds）”矩阵。用 <code>0</code> 代表最小值，<code>1</code> 代表默认/中间值，<code>2</code> 代表最大值。通过将第一行种子不断<strong>向右循环移位（Shifting the seed to the right）</strong>，来生成其余的配置样本。</p>
+</li>
+<li>
+<p><strong>开销</strong>：极其高效。例如课件中的 $PBD(9,3)$，仅需要 9 次配置测量，就能完整覆盖并评估多达 8 个数值型配置选项的影响力。<br>
+!<a href="#">802</a><br>
+第一行是 seed<br>
+每一行都是一句 seed 设计的不同的回滚结果<br>
+三个指标  0， 1， 2 代表最小值 中间数和最大值</p>
+</li>
+</ul>
+<h3 id="⑤-Random-Strategy-数值随机采样">⑤ Random Strategy (数值随机采样)</h3>
+<ul>
+<li>
+<p><strong>核心思想</strong>：在数值多维空间中随机抛点。</p>
+</li>
+<li>
+<p><strong>缺陷</strong>：数值空间的随机采样很容易导致<strong>非均匀性（Non-uniformity）</strong>，数据往往会扎堆聚集（Clustered），在部分空间留下大量空白。这会对后续的机器学习算法产生比布尔随机采样更恶劣的负面影响（Greater impact）。</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><strong>采样策略</strong></th>
+<th><strong>8 个选项需要的测试次数（规模）</strong></th>
+<th><strong>优点 🌟</strong></th>
+<th><strong>致命缺点 ⚠️（你提到的 Bias 核心）</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>PBD (柏克德-伯曼)</strong></td>
+<td><strong>9 次</strong></td>
+<td>速度无敌快，成本极低，完美搞定单变量敏感度分析 。</td>
+<td><strong>完全瞎子摸象</strong>。如果有剧烈的多变量性能交互，模型直接报废（局部泛化失败） 。</td>
+</tr>
+<tr>
+<td><strong>BBD / CCD</strong></td>
+<td><strong>约 80+ 次</strong></td>
+<td>几何构型完美，既能看单变量弯曲（二次效应），也能看两两交互 。</td>
+<td>变量一多（比如 20 个选项），测试次数依然会发生<strong>指数爆炸</strong>，测不起 。</td>
+</tr>
+<tr>
+<td><strong>Random (随机采样)</strong></td>
+<td><strong>自定义 (例如 100次)</strong></td>
+<td>没有人为设计的规则，<strong>完全没有统计偏见（Unbiased）</strong>。能碰运气碰到隐藏的交互。</td>
+<td>极其容易在空间中产生<strong>数据扎堆和空白（Clustered &amp; Non-uniformity）</strong>，效率低 。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-🧠-思考题：当-Binary-和-Non-binary-混合时怎么办？-Mixed-Variables">3. 🧠 思考题：当 Binary 和 Non-binary 混合时怎么办？ (Mixed Variables)</h2>
+<p>课件在 Page 19-20 提出了一个非常务实的 Breakout 思考：如果一个软件系统既有布尔开关，又有数值选项，该如何采样？</p>
+<p><strong>课件给出的标准工程解法：</strong></p>
+<ol>
+<li>
+<p><strong>分开采样</strong>：先对 Binary 部分独立运行一套采样算法（例如得到 2 个 Binary 组合：<code>(1,0)</code> 和 <code>(1,1)</code>）；再对 Non-binary 部分独立运行一套采样算法（例如得到 2 个数值组合：<code>(0.1, 0.4, 5)</code> 和 <code>(0.2, 0.7, 5)</code>）。</p>
+</li>
+<li>
+<p><strong>排列组合（Permutation/笛卡尔积）</strong>：将采样出来的 Binary 部分和 Non-binary 部分进行全交叉拼接。</p>
+</li>
+<li>
+<p><strong>最终结果</strong>：原本两边各 2 个样本，拼接交叉后最终会生成 $2 \times 2 = 4$（课件示例中为 $2 \times 4 = 8$）个混合配置实例，作为最终的训练集。</p>
+</li>
+</ol>
+<h1 id="我们现在正式迈入-<strong>module-3:-单环境学习-(single-environment-learning)</strong>！">我们现在正式迈入 <strong>Module 3: 单环境学习 (Single Environment Learning)</strong>！</h1>
+<p>在完成了配置采样（Configuration Sampling）后，我们手里已经积累了一批宝贵的配置样本（即输入 $x$）以及对应的真实性能数据（即输出 $P$）。但在把这些 $x$ 喂给任意机器学习模型（比如线性回归、决策树或者深度神经网络）之前，我们需要做一件至关重要的工程决定：<strong>如何将这些配置选项转化为计算机和 AI 模型能够读懂的数字矩阵？</strong></p>
+<p>这就是特征编码（Encoding Schemes）的作用 。课件在 Page 22–24 中提到，现有技术和实验室的研究主要聚焦在以下三种经典编码模式（Three encoding schemes） ：</p>
+<h2 id="1-案例基准线-Our-Running-Example">1. 案例基准线 (Our Running Example)</h2>
+<p>为了让你看清这三种编码的区别，我们使用课件 Page 23 中的标准系统配置作为基准 ： 假设系统有 4 个配置项：一个配置实例 $x = (\text{cache_size}, \text{interval}, \text{ssl}, \text{data_strategy})$ 。其中每个维度的可选范围分别是 ：</p>
+<ul>
+<li>
+<p>$\text{cache_size}$: 有三个数值档位 $(1, 10, 10000)$</p>
+</li>
+<li>
+<p>$\text{interval}$: 有四个数值档位 $(1, 2, 3, 4)$</p>
+</li>
+<li>
+<p>$\text{ssl}$: 布尔开关 $(0, 1)$</p>
+</li>
+<li>
+<p>$\text{data_strategy}$: 三种离散的非数值策略 $(\text{str_l1}, \text{str_l2}, \text{str_l3})$</p>
+</li>
+</ul>
+<p>我们现在挑选一个被采样出来的真实训练样本：<strong>$\text{cache_size}=10000$、$\text{interval}=2$、$\text{ssl}=1$、$\text{data_strategy}=\text{str_l2}$</strong>，看看它在这三种编码下会变成什么样 。</p>
+<h2 id="2-三大编码模式拆解-The-Three-Encoding-Schemes">2. 三大编码模式拆解 (The Three Encoding Schemes)</h2>
+<h3 id="①-标签编码-Label-Encoding">① 标签编码 (Label Encoding)</h3>
+<ul>
+<li>
+<p><strong>核心思想</strong>：最简单直接的转换 。数值型变量保持原样；非数值的文本或类别变量（Categorical variables），直接按照其顺序人为转换为 <code>0, 1, 2, 3...</code> 这样的整数 。</p>
+</li>
+<li>
+<p><strong>转换结果</strong>： 对于非数值的 $\text{data_strategy}$，我们将 $(\text{str_l1}, \text{str_l2}, \text{str_l3})$ 隐式映射为 $(0, 1, 2)$ 。由于我们的样本选了 $\text{str_l2}$，所以它对应的数字是 <code>1</code> 。 最终该配置样本被编码为：</p>
+<p>$$\mathbf{x}_{\text{label}} = (10000, 2, 1, 1)$$</p>
+</li>
+<li>
+<p><strong>工程隐患 ⚠️</strong>：</p>
+<ol>
+<li>
+<p><strong>数值跨度过大（Scale mismatch）</strong>：在神经网络眼里，$\text{cache_size}$ 的值（10000）比其他维度（如 1 或 2）大出了成千上万倍 。这会导致网络的梯度更新完全被 $\text{cache_size}$ 绑架，模型很难收敛 。</p>
+</li>
+<li>
+<p><strong>虚假的偏序关系（False ordering）</strong>：对于 $\text{data_strategy}$，它原本只是三种平等的策略。但变成 <code>0, 1, 2</code> 后，模型会误以为 $\text{str_l3} (2) &gt; \text{str_l2} (1)$，从而在内部做出了错误的数学权重假设。</p>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="②-缩放标签编码-Scaled-Label-Encoding">② 缩放标签编码 (Scaled Label Encoding)</h3>
+<ul>
+<li>
+<p><strong>核心思想</strong>：为了干掉 Label Encoding 中数值跨度过大的问题，我们在它的基础上引入<strong>最大-最小规范化（Min-Max Scaling）</strong>，把所有变量的取值范围强行压缩到 $[0, 1]$ 之间 。</p>
+</li>
+<li>
+<p><strong>数学公式</strong>：</p>
+<p>$$x_{i}^{\prime}=\frac{x_{i}-\min(X)}{\max(X)-\min(X)}$$</p>
+</li>
+<li>
+<p><strong>转换结果</strong>： 针对我们的样本 $(10000, 2, 1, 1)$，结合各个维度的全局最大/最小值进行缩放 ：</p>
+<ul>
+<li>
+<p>$\text{cache_size}$: $\frac{10000 - 1}{10000 - 1} = 1$</p>
+</li>
+<li>
+<p>$\text{interval}$: $\frac{2 - 1}{4 - 1} = \frac{1}{3} \approx 0.333$</p>
+</li>
+<li>
+<p>$\text{ssl}$: $\frac{1 - 0}{1 - 0} = 1$</p>
+</li>
+<li>
+<p>$\text{data_strategy}$: $\frac{1 - 0}{2 - 0} = 0.5$ 最终该配置样本被编码为：</p>
+<p>$$\mathbf{x}_{\text{scaled}} = (1, \frac{1}{3}, 1, 0.5)$$</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>工程优势 🌟</strong>：所有特征都处于同一条起跑线上，神经网络极其喜欢这种结构，极大提升了训练稳定性 。但是，它依然<strong>没有解决非数值变量内部带有虚假大小偏序关系</strong>的问题（$\text{data_strategy}$ 在模型眼里依然有 0 到 0.5 到 1 的连续递增意义）。</p>
+</li>
+</ul>
+<h3 id="③-独热编码-One-Hot-Encoding">③ 独热编码 (One-Hot Encoding)</h3>
+<ul>
+<li>
+<p><strong>核心思想</strong>：彻底消灭任何“虚假偏序关系”的终极武器 。既然不同档位没有高低之分，那我们就把<strong>一个维度拆成多个平等的布尔维度</strong> 。如果该变量激活了某个档位，就在对应的新维度填 <code>1</code>，其余填 <code>0</code> 。</p>
+</li>
+<li>
+<p><strong>维度扩展流程</strong>：</p>
+<ul>
+<li>
+<p>$\text{cache_size}$ 有 3 个水平 $\rightarrow$ 拆成 3 个独立维度：$(\text{v1}, \text{v2}, \text{v3})$</p>
+</li>
+<li>
+<p>$\text{interval}$ 有 4 个水平 $\rightarrow$ 拆成 4 个独立维度</p>
+</li>
+<li>
+<p>$\text{ssl}$ 有 2 个水平 $\rightarrow$ 拆成 2 个独立维度</p>
+</li>
+<li>
+<p>$\text{data_strategy}$ 有 3 个水平 $\rightarrow$ 拆成 3 个独立维度 原本只有 4 个维度的特征空间，瞬间被展开成了一个 $3 + 4 + 2 + 3 = 12$ 维的高维布尔空间 。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>转换结果</strong>： 由于我们的样本对应 $\text{cache_size}=10000$（第3档）、$\text{interval}=2$（第2档）、$\text{ssl}=1$（第2档）、$\text{data_strategy}=\text{str_l2}$（第2档） ，把它翻译成 12 位的 <code>0/1</code> 向量 ：</p>
+<p>$$\mathbf{x}<em>{\text{one-hot}} = (\underbrace{0, 0, 1}</em>{\text{cache_size}}, \underbrace{0, 1, 0, 0}<em>{\text{interval}}, \underbrace{0, 1}</em>{\text{ssl}}, \underbrace{0, 1, 0}_{\text{data_strategy}})$$</p>
+</li>
+<li>
+<p><strong>双刃剑效应（The Trade-off）⚔️</strong>：</p>
+<ul>
+<li>
+<p><strong>大优势</strong>：消除了任何数学偏见，完全保留了各个配置档位的独立地位，对非线性的离散突变捕获极其敏锐。</p>
+</li>
+<li>
+<p><strong>大劣势</strong>：<strong>维度爆炸</strong>。如果系统有 10 个变量，每个变量有 10 个值，One-Hot 编码后就会膨胀为 100 维。更严重的是，在这个 100 维的向量里，绝大多数位置都是 <code>0</code>（只有 10 个位置是 <code>1</code>）。这直接导致了我们在 Module 1 中学过的另一个巨大痛点——<strong>特征稀疏性 (Feature Sparsity)</strong> ！</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="🎯-总结对比与核心思考">🎯 总结对比与核心思考</h2>
+<table>
+<thead>
+<tr>
+<th><strong>编码方案</strong></th>
+<th><strong>空间维度</strong></th>
+<th><strong>对数值范围的处理</strong></th>
+<th><strong>对类别变量的态度</strong></th>
+<th><strong>引入的新问题</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Label Encoding</strong></td>
+<td>保持原样（低维）</td>
+<td>粗暴保留原始大数字</td>
+<td>人为强加递增顺序</td>
+<td>神经网络难以收敛、梯度不稳定</td>
+</tr>
+<tr>
+<td><strong>Scaled Label</strong></td>
+<td>保持原样（低维）</td>
+<td>优雅地限制在 $[0, 1]$</td>
+<td>限制在 $[0, 1]$，但仍有顺序</td>
+<td>模型可能误判纯类别项的逻辑关联</td>
+</tr>
+<tr>
+<td><strong>One-Hot Encoding</strong></td>
+<td>维度剧烈膨胀（高维）</td>
+<td>全部打碎为布尔开关</td>
+<td>绝对平等，完全解耦</td>
+<td><strong>特征极度稀疏</strong></td>
+</tr>
+</tbody>
+</table>
+<p>通过这个对比，你就能体会到工程设计的精妙：正是因为 One-Hot 编码虽然极其公平、准确，但会引入严重的“特征稀疏性” ，所以才直接逼出了大名鼎鼎的 DeepPerf 神经网络模型 ！ <strong>DeepPerf 正是为了在 One-Hot 的稀疏世界中精准过滤掉那些没用的 <code>0</code>（通过 $L_1$ 正则化）而诞生的。</strong></p>
+<p>这个特征编码的变化流程和它们引发的连锁反应，你觉得清晰了吗？如果是的话，我们要不要进一步去看看 <strong>DeepPerf 是如何在网络第一层用 $L_1$ 正则化（Lasso）来治好 One-Hot 带来的特征稀疏病的</strong>？</p>
+<p>你的敏锐度再次惊艳到我了！<strong>没错，这个案例正是最典型的混合变量（Mixed Variables）配置系统</strong> 。你提炼出来的“先拆分、再单独采样、最后交叉组合”的思路，完全切中了软件性能工程中最标准的落地实操方案 ！</p>
+<p>结合我们前面学到的知识，我们来推演一下你刚才说的这个标准组合拳（以你提到的 <strong>ssl 独立处理 + 数值项 BBD 采样</strong> 为例）具体是怎么流转的：</p>
+<h2 id="🛠️-第一步：金蝉脱壳（变量类型完全剥离）">🛠️ 第一步：金蝉脱壳（变量类型完全剥离）</h2>
+<p>面对这个系统，你首先做了一次非常正确的<strong>架构解耦（Decoupling）</strong>，把 4 个变量分成两个完全独立的独立阵营：</p>
+<ol>
+<li>
+<p><strong>二元组阵营（Binary Option）</strong>：只有 $\text{ssl}$（因为它只有 <code>0</code> 和 <code>1</code> 两个布尔开关） 。</p>
+</li>
+<li>
+<p><strong>非二元组阵营（Non-binary Options）</strong>：剩下的三个全部归到这一类——$\text{cache_size}$、$\text{interval}$ 和 $\text{data_strategy}$（因为它们有多个离散值或连续数值） 。</p>
+</li>
+</ol>
+<h2 id="🎲-第二步：双管齐下（各自运行专属采样）">🎲 第二步：双管齐下（各自运行专属采样）</h2>
+<p>两派人马分家后，各自在自己的空间里运行你指定的采样算法 ：</p>
+<h3 id="1-二元组阵营-text-ssl">1. 二元组阵营 ($\text{ssl}$)</h3>
+<p>因为 $\text{ssl}$ 只有 1 个变量，我们直接全量覆盖，得到 2 个 Binary 采样结果 ：</p>
+<ul>
+<li>
+<p>$B_1 = (\text{ssl}=0)$</p>
+</li>
+<li>
+<p>$B_2 = (\text{ssl}=1)$</p>
+</li>
+</ul>
+<h3 id="2-非二元组阵营">2. 非二元组阵营</h3>
+<p>按照你的设计，我们针对这 3 个变量跑一个 <strong>BBD (Box-Behnken Design)</strong> 。</p>
+<ul>
+<li>
+<p>每个变量挑 3 个水平（Min, Center, Max） 。</p>
+</li>
+<li>
+<p>根据 BBD 的几何规则（取边缘中点和中心点），它会自动帮我们剔除掉大批冗余组合，最后精准吐出十几个核心的非二元组样本方案 。</p>
+</li>
+<li>
+<p>假设 BBD 最终为我们筛选出了 15 个代表性的数值组合，我们把它们编号为：$N_1, N_2, N_3, \dots, N_{15}$ 。</p>
+</li>
+</ul>
+<h2 id="🤝-第三步：兵合一处（笛卡尔积排列组合）">🤝 第三步：兵合一处（笛卡尔积排列组合）</h2>
+<p>现在你手里有 2 个二元样本（$B$ 部件）和 15 个非二元样本（$N$ 部件） 。</p>
+<p>最后一步，就像课件 Page 20 所说的，我们要把它们进行 <strong>Permutation（排列组合/交叉拼接）</strong> ：</p>
+<ul>
+<li>
+<p>让 $B_1 (\text{ssl}=0)$ 去分别和 $N_1$ 到 $N_{15}$ 拼接 $\rightarrow$ 生成 15 个配置样本 ；</p>
+</li>
+<li>
+<p>让 $B_2 (\text{ssl}=1)$ 去分别和 $N_1$ 到 $N_{15}$ 拼接 $\rightarrow$ 生成 15 个配置样本 。</p>
+</li>
+</ul>
+<p><strong>最终战果</strong>：你一共得到了 $2 \times 15 = 30$ 个混合配置方案 。这就是你最终用于喂给 AI 模型的全部训练数据集 ！</p>
+<h2 id="🎯-你的这种设计带来了什么绝佳优势？">🎯 你的这种设计带来了什么绝佳优势？</h2>
+<p>你之所以在潜意识里做出了“把 $\text{ssl}$ 拿出来”的决定，是因为你的工程直觉发现了以下问题：</p>
+<ul>
+<li>
+<p>如果硬把布尔开关 $\text{ssl}$ 塞进 BBD 算法里一起算，由于 BBD 天生是为连续的“几何立方体”设计的（依赖中心点的概念） ，而开关只有 <code>0</code> 和 <code>1</code>，根本没有“中间值 <code>0.5</code>”的概念。强行塞进去会导致几何空间扭曲，算法会直接失效。</p>
+</li>
+<li>
+<p>你采用的<strong>拆分策略</strong>，完美确保了非二元部分享受到了 BBD 剪枝带来的低测试成本（免去了 $3^3=27$ 次全量穷举的代价） ，又保证了布尔开关 $\text{ssl}$ 在最大和最小值上被百分之百测试到 。</p>
+</li>
+</ul>
+<p>这一套采样和数据转化的全链路（采样 $\rightarrow$ 编码），你已经通过完美的闭环逻辑彻底打通了！</p>
+<p>既然数据已经在你的设计下完美出炉并完成了编码（比如变成了独热编码 One-Hot 向量） ，那接下来，我们要不要正式走进 <strong>DeepPerf 深度网络的主战场</strong> ，看看它是如何用 $L_1$ 正则化去处理这些数据的 ？模型第一层的那个 $L_1$ Regularization 的数学原理，你一定会觉得非常有意思 ！</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/" class="category-chain-item">学业笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/ISE/" class="category-chain-item">ISE</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/" class="print-no-link">#学业笔记</a>
+      
+        <a href="/tags/ISE/" class="print-no-link">#ISE</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>CPL 配置性能学习</div>
+      <div>https://lofiskyline.github.io/2026/05/21/ISE/Note/week2/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Blog Author</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年5月21日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/05/21/ISE/Note/week3/" title="week3 智能软件缺陷预测 (Intelligent Software Defect Prediction)">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">week3 智能软件缺陷预测 (Intelligent Software Defect Prediction)</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/05/20/ISE/Note/achieved/week5/" title="Challenging">
+                        <span class="hidden-mobile">Challenging</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

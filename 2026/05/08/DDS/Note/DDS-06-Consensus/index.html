@@ -1,0 +1,950 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" >
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Blog Author">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="DDS-06: Consensus (共识问题) Consensus 是分布式计算中最核心、最著名的问题之一。其本质是一个 Decision Problem（决策问题）：系统中一组分布式的进程需要就某个值达成共同的决定，即使它们最初的提案（Initial Opinions）各不相同。 1. 共识问题的形式化定义 (Formal Definition) 共识问题要求所有 Correct Proces">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DDS-06: Consensus (共识问题)">
+<meta property="og:url" content="https://lofiskyline.github.io/2026/05/08/DDS/Note/DDS-06-Consensus/index.html">
+<meta property="og:site_name" content="My Blog">
+<meta property="og:description" content="DDS-06: Consensus (共识问题) Consensus 是分布式计算中最核心、最著名的问题之一。其本质是一个 Decision Problem（决策问题）：系统中一组分布式的进程需要就某个值达成共同的决定，即使它们最初的提案（Initial Opinions）各不相同。 1. 共识问题的形式化定义 (Formal Definition) 共识问题要求所有 Correct Proces">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-05-08T09:18:37.000Z">
+<meta property="article:modified_time" content="2026-06-03T14:46:33.380Z">
+<meta property="article:author" content="Blog Author">
+<meta property="article:tag" content="学业笔记">
+<meta property="article:tag" content="DDS">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>DDS-06: Consensus (共识问题) - My Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"lofiskyline.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Joe&#39;s World</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.5)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="DDS-06: Consensus (共识问题)"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-05-08 17:18" pubdate>
+          2026年5月8日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          28 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">DDS-06: Consensus (共识问题)</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="dds-06:-consensus-(共识问题)">DDS-06: Consensus (共识问题)</h1>
+<p>Consensus 是分布式计算中最核心、最著名的问题之一。其本质是一个 <strong>Decision Problem</strong>（决策问题）：系统中一组分布式的进程需要就某个值达成共同的决定，即使它们最初的提案（Initial Opinions）各不相同。</p>
+<h2 id="1-共识问题的形式化定义-Formal-Definition">1. 共识问题的形式化定义 (Formal Definition)</h2>
+<p>共识问题要求所有 <strong>Correct Processes</strong>（正确运行的进程）最终决定同一个值。</p>
+<h3 id="1-1-基本属性-Core-Properties">1.1 基本属性 (Core Properties)</h3>
+<p>无论在哪种故障模型下，共识算法都必须满足以下三个基本条件：</p>
+<ol>
+<li><strong>Agreement (达成一致)</strong>: No two processes decide on different values. (任意两个进程不得决定不同的值。)</li>
+<li><strong>Validity (有效性)</strong>: 防止产生“平凡解”（Trivial Solutions，如算法永远固定输出 0）。
+<ul>
+<li><em>基本要求</em>: 如果所有进程初始值都为 $v$，则唯一可能的决定值必须是 $v$。</li>
+<li>在不同故障模型下，其强弱程度会有所调整。</li>
+</ul>
+</li>
+<li><strong>Termination (终止性)</strong>: All processes eventually decide. (所有进程最终必须做出决定。)</li>
+</ol>
+<hr>
+<h2 id="2-故障模型定义-Fault-Models">2. 故障模型定义 (Fault Models)</h2>
+<p>在研究共识时，系统的<strong>故障模型（Fault Model）决定了算法的定义和可解性</strong>。</p>
+<h3 id="2-1-Link-Failure-链路故障-Coordinated-Attack-Problem">2.1 Link Failure (链路故障 / Coordinated Attack Problem)</h3>
+<ul>
+<li><strong>Definition</strong>: 消息在传输过程中可能会丢失（Messages can be lost），但进程本身不会出错。</li>
+<li><strong>典型案例</strong>: <strong>Coordinated Attack Problem</strong> (协调攻击问题)。
+<ul>
+<li>两支军队必须同时进攻才能胜利。如果一支进攻而另一支撤退，则会失败。</li>
+<li>通讯兵（Messenger）穿越敌占区可能被捕（消息丢失）。</li>
+</ul>
+</li>
+<li><strong>Impossibility Result</strong>: 在存在 Link Failure 的同步网络中，不存在能够 100% 正确达成共识的算法。
+<ul>
+<li><strong>原因直觉</strong>: 无论确认（Acknowledgment）多少次，发送最后一条消息的进程永远无法确定对方是否收到了该消息。这种不确定性通过“不可区分执行（Indistinguishable Executions）”可以证明会导致违反 Agreement 或 Validity。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-2-Stop-Failure-停止故障-Crash-Failure">2.2 Stop Failure (停止故障 / Crash Failure)</h3>
+<ul>
+<li><strong>Definition</strong>: 进程在运行过程中可能随时停止工作（Stop executing and sending messages forever），一旦停止，它就不会再恢复。</li>
+<li><strong>假设</strong>: 链路是可靠的（Reliable Links），即只要发送者没崩溃，消息一定能送达。</li>
+<li><strong>Consensus in Stop Failure Context</strong>:
+<ul>
+<li><strong>Agreement</strong>: 任意两个进程（包括后来崩溃的）不能决定不同的值。</li>
+<li><strong>Validity</strong>: 如果所有进程初始值都为 $v$，则 $v$ 是唯一可能的决定值。</li>
+<li><strong>Termination</strong>: 所有非故障（Non-faulty/Active）进程最终决定。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="3-Stop-Failure-下的共识算法：FloodSet">3. Stop Failure 下的共识算法：FloodSet</h2>
+<p><strong>FloodSet</strong> 是解决 Stop Failure 模型下共识问题的经典算法族。其核心思想是“信息洪泛”，让每个进程尽可能掌握系统中存在的所有初始值。</p>
+<h3 id="3-1-算法流程-Algorithm-Steps">3.1 算法流程 (Algorithm Steps)</h3>
+<ol>
+<li><strong>Initialization</strong>: 每个进程 $i$ 维护一个集合 $W_i$，初始值为其自身的提案 ${v_i}$。</li>
+<li><strong>Flooding (执行 $f+1$ 轮)</strong>:
+<ul>
+<li>在每一轮中，每个存活的进程将其 $W_i$ 广播给所有进程。</li>
+<li>进程接收来自他人的集合，并将其并入（Union）自己的 $W_i$。</li>
+</ul>
+</li>
+<li><strong>Decision Rule (决策规则)</strong>:
+<ul>
+<li>在第 $f+1$ 轮结束后，进程 $i$ 检查 $W_i$。</li>
+<li><strong>规则</strong>: 如果 $W_i$ 是单元素集合（Singleton Set, $|W_i|=1$），则决定该唯一值；否则，决定一个预设的默认值 $v_0$。</li>
+</ul>
+</li>
+</ol>
+<h3 id="3-2-为什么是-f-1-轮？-Core-Reasoning">3.2 为什么是 $f+1$ 轮？(Core Reasoning)</h3>
+<p>这是该算法最关键的逻辑考点。<strong>如果在系统中最多容忍 $f$ 个进程发生 Stop Failure，那么必须执行 $f+1$ 轮。</strong></p>
+<ul>
+<li><strong>Pigeonhole Principle (抽屉原理)</strong>: 在 $f+1$ 轮通信中，如果总共只有 $f$ 次失效，那么<strong>至少存在一轮（Clean Round）没有任何进程发生新的失效</strong>。</li>
+<li><strong>推理过程</strong>:
+<ul>
+<li>假设第 $r^*$ 轮是 Clean Round。</li>
+<li>在这一轮开始时，所有仍存活的进程集合为 $P_{active}$。</li>
+<li>由于这一轮没有进程崩溃，所有 $P_{active}$ 中的进程都会成功收到彼此的消息并完成 $W$ 的并集更新。</li>
+<li><strong>结论</strong>: 在第 $r^*$ 轮结束时，所有存活进程的 $W$ 集合将变得完全相同。</li>
+<li>在随后的轮次中（从 $r^*+1$ 到 $f+1$），由于 $W$ 已经一致，且没有新值进入系统，所有存活进程将保持这个一致的 $W$ 直到最后。</li>
+</ul>
+</li>
+<li><strong>Case Analysis</strong>:
+<ul>
+<li>如果只执行 $f$ 轮，可能每一轮都有一个进程在发送消息的中途崩溃（只发给了部分人），导致最后活下来的进程手中持有的 $W$ 互不相同，从而违反 Agreement。</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-3-复杂度分析-Complexity-Analysis">3.3 复杂度分析 (Complexity Analysis)</h3>
+<p>假设系统有 $n$ 个进程，最多 $f$ 个故障，初始值用 $b$ bits 表示：</p>
+<ul>
+<li><strong>Round Complexity</strong>: $f+1$ 轮。</li>
+<li><strong>Total Messages</strong>: $O(n^2(f+1))$。每一轮每个进程发给 $n$ 个人。</li>
+<li><strong>Message Size</strong>: 在原始 FloodSet 中，集合 $W$ 最多包含 $n$ 个不同的初始值，因此单条消息大小为 $O(nb)$ bits。</li>
+<li><strong>Communication Complexity (Total bits)</strong>: $O(n^3 b (f+1))$。</li>
+</ul>
+<hr>
+<h2 id="4-优化：Reduced-FloodSet-降低通信量">4. 优化：Reduced FloodSet (降低通信量)</h2>
+<p>通过对决策规则的洞察，我们可以大幅降低通信复杂度。</p>
+<h3 id="4-1-核心洞察-Insight">4.1 核心洞察 (Insight)</h3>
+<p>在决策阶段，进程其实并不关心 $W$ 集合里具体有哪些值，它只关心：</p>
+<ol>
+<li>是否有且仅有一个值？</li>
+<li>还是存在多个值？（只要存在超过 1 个值，就会 Fallback 到默认值 $v_0$）。</li>
+</ol>
+<p>因此，<strong>每个进程一生中只需要广播两次非空消息</strong>：</p>
+<ol>
+<li><strong>First Broadcast</strong>: 第一轮广播自己的初始值。</li>
+<li><strong>Second Broadcast</strong>: 在后续某轮中，一旦第一次发现了一个与自己初始值不同的值，就立即广播这个“冲突信号”。此后再收到任何值都保持沉默。</li>
+</ol>
+<h3 id="4-2-优化后的复杂度">4.2 优化后的复杂度</h3>
+<ul>
+<li><strong>Rounds</strong>: 依然是 $f+1$ 轮。</li>
+<li><strong>Total Messages</strong>: $O(n^2)$。每个进程最多向其他进程发送 2 条消息。</li>
+<li><strong>Message Size</strong>: $O(b)$ bits（只发送单值而非集合）。</li>
+<li><strong>Total Communication Complexity</strong>: $O(n^2 b)$。<strong>成功消除了与 $f$ 的关联。</strong></li>
+</ul>
+<hr>
+<h2 id="5-EIG-Exponential-Information-Gathering">5. EIG (Exponential Information Gathering)</h2>
+<p>EIG 是一种结构化的方法，通过构建 <strong>EIG Tree</strong> 来记录信息的传播路径（即“谁告诉谁某个值”）。</p>
+<ul>
+<li><strong>Pros</strong>: 能够比 FloodSet 提供更丰富的信息结构，对于处理更复杂的故障（如 Byzantine）非常重要。</li>
+<li><strong>Cons</strong>: 结构复杂，树的节点数随轮次指数级增长，在 Stop Failure 下显得“性能过剩”。</li>
+<li><strong>Decision Rule</strong>: 同样在 $f+1$ 轮后，根据树中的信息应用规则（如取最小值或最大值）达成共识。</li>
+</ul>
+<hr>
+<h2 id="6-总结与对比-Pros-and-Cons">6. 总结与对比 (Pros and Cons)</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">特性</th>
+<th style="text-align:left">Link Failure (Coordinated Attack)</th>
+<th style="text-align:left">Stop Failure (FloodSet)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>可解性</strong></td>
+<td style="text-align:left"><strong>Impossible</strong></td>
+<td style="text-align:left"><strong>Possible</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>核心挑战</strong></td>
+<td style="text-align:left">消息丢失带来的无穷递归确认</td>
+<td style="text-align:left">进程崩溃导致的信息不对称</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>解决方案</strong></td>
+<td style="text-align:left">放宽定义（概率性共识）</td>
+<td style="text-align:left">执行 $f+1$ 轮确保至少一个 Clean Round</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>主要优点</strong></td>
+<td style="text-align:left">简单、易于理解其局限性</td>
+<td style="text-align:left">在同步网络下非常健壮且高效</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>主要缺点</strong></td>
+<td style="text-align:left">无法保证 100% 安全</td>
+<td style="text-align:left">轮次开销大，依赖同步网络假设</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><strong>复习提示</strong>:</p>
+<ul>
+<li>牢记 Consensus 的三个定义（Agreement, Validity, Termination）。</li>
+<li>深刻理解 $f+1$ 轮的原因及其背后的 Pigeonhole Principle。</li>
+<li>区分原始 FloodSet 与优化后 FloodSet 在消息数量上的量级差异。</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/" class="category-chain-item">学业笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/DDS/" class="category-chain-item">DDS</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/" class="print-no-link">#学业笔记</a>
+      
+        <a href="/tags/DDS/" class="print-no-link">#DDS</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>DDS-06: Consensus (共识问题)</div>
+      <div>https://lofiskyline.github.io/2026/05/08/DDS/Note/DDS-06-Consensus/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Blog Author</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年5月8日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/05/08/DDS/Note/DDS-07-Byzantine-Generals-Problem/" title="DDS-07: Byzantine Generals Problem &amp; Advanced Consensus">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">DDS-07: Byzantine Generals Problem &amp; Advanced Consensus</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/05/07/DDS/Note/DDS-04-Dependability-Analysis-and-Evaluation/" title="DDS-04: Dependability Analysis and Evaluation (可靠性分析与评估)">
+                        <span class="hidden-mobile">DDS-04: Dependability Analysis and Evaluation (可靠性分析与评估)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,1055 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" >
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Blog Author">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Evaluation in Intelligent Software Engineering (智能软件工程中的评估) 在智能软件工程的实验研究中，评价一个算法的好坏不仅仅是看某个指标的数值。由于算法的随机性和现实问题的多目标性，我们需要一套严谨的框架来科学、公平地对比不同的算法或配置（Algorithms &#x2F; Configurations）。 1. 多目标优化评估 (Multi-objectiv">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Evaluation in Intelligent Software Engineering (智能软件工程中的评估)">
+<meta property="og:url" content="https://lofiskyline.github.io/2026/05/22/ISE/Note/week7/index.html">
+<meta property="og:site_name" content="My Blog">
+<meta property="og:description" content="Evaluation in Intelligent Software Engineering (智能软件工程中的评估) 在智能软件工程的实验研究中，评价一个算法的好坏不仅仅是看某个指标的数值。由于算法的随机性和现实问题的多目标性，我们需要一套严谨的框架来科学、公平地对比不同的算法或配置（Algorithms &#x2F; Configurations）。 1. 多目标优化评估 (Multi-objectiv">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-05-22T04:01:07.000Z">
+<meta property="article:modified_time" content="2026-06-03T14:46:33.383Z">
+<meta property="article:author" content="Blog Author">
+<meta property="article:tag" content="学业笔记">
+<meta property="article:tag" content="ISE">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Evaluation in Intelligent Software Engineering (智能软件工程中的评估) - My Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"lofiskyline.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Joe&#39;s World</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.5)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Evaluation in Intelligent Software Engineering (智能软件工程中的评估)"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-05-22 12:01" pubdate>
+          2026年5月22日 中午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          58 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Evaluation in Intelligent Software Engineering (智能软件工程中的评估)</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="evaluation-in-intelligent-software-engineering-(智能软件工程中的评估)">Evaluation in Intelligent Software Engineering (智能软件工程中的评估)</h1>
+<p>在智能软件工程的实验研究中，评价一个算法的好坏不仅仅是看某个指标的数值。由于算法的随机性和现实问题的多目标性，我们需要一套严谨的框架来科学、公平地对比不同的算法或配置（Algorithms / Configurations）。</p>
+<h2 id="1-多目标优化评估-Multi-objective-Evaluation">1. 多目标优化评估 (Multi-objective Evaluation)</h2>
+<p>许多软件工程任务（如测试用例生成、配置调优）通常涉及多个冲突的目标。例如，在软件测试中，我们希望<strong>最大化覆盖率 (Maximize Coverage)</strong> 的同时 <strong>最小化测试成本 (Minimize Cost)</strong>。</p>
+<h3 id="核心概念">核心概念</h3>
+<ul>
+<li><strong>帕累托前沿 (Pareto Front)</strong>: 在多目标空间中，不存在任何一个目标在不损害其他目标的情况下得到改进的一组最优解集合。</li>
+<li><strong>支配关系 (Domination Relationship)</strong>: 如果方案 A 在所有目标上都不差于方案 B，且在至少一个目标上优于方案 B，则称 A 支配 B。</li>
+<li><strong>帕累托近似 (Pareto Approximation)</strong>: AI 算法的目标是找到尽可能接近真实帕累托前沿的一组非支配解 (Non-dominated solutions)。</li>
+</ul>
+<h3 id="评估指标-Quality-Indicators">评估指标 (Quality Indicators)</h3>
+<p>评估两组解集（Solution Sets）的好坏比单目标情况更复杂，通常从以下维度衡量：</p>
+<ol>
+<li><strong>收敛性 (Convergence/Closeness)</strong>: 衡量解集距离真实帕累托前沿有多近。
+<ul>
+<li><strong>GD (Generational Distance)</strong>: 计算解集中每个点到前沿的平均距离。</li>
+</ul>
+</li>
+<li><strong>多样性 (Diversity/Spread)</strong>: 衡量解集在空间中分布是否广泛。
+<ul>
+<li><strong>Spread</strong>: 衡量端点覆盖和分布均匀度。</li>
+</ul>
+</li>
+<li><strong>综合指标</strong>: 同时衡量收敛性和多样性。
+<ul>
+<li><strong>IGD (Inverted Generational Distance)</strong>: 计算前沿上的点到解集的距离，指标越小越好。</li>
+<li><strong>HV (Hypervolume)</strong>: 计算解集与参考点（最差点）之间围成的超体体积。讲师提到：<em>“Hypervolume is usually very widely used to compare solution set quality from two AI algorithms because it naturally prefers well-balanced solutions.”</em></li>
+</ul>
+</li>
+</ol>
+<h3 id="可视化方法">可视化方法</h3>
+<ul>
+<li><strong>帕累托散点图 (Pareto Plot)</strong>: 直观展示两目标间的权衡。</li>
+<li><strong>平行坐标图 (Parallel Coordinate Plot, PCP)</strong>: 适用于 3 个以上目标。横轴为目标编号，纵轴为归一化后的指标值。通过线条的密集程度和形状来判断解集的质量。</li>
+</ul>
+<hr>
+<h2 id="2-统计学对比与假设检验-Statistical-Comparison-Hypothesis-Testing">2. 统计学对比与假设检验 (Statistical Comparison &amp; Hypothesis Testing)</h2>
+<p>这是实验设计的核心，旨在回答：<strong>观察到的性能差异是由于算法优越性导致的，还是由于随机性导致的？</strong></p>
+<h3 id="2-1-统计检验的数据本质：从高维配置到一维观测的“坍缩”">2.1 统计检验的数据本质：从高维配置到一维观测的“坍缩”</h3>
+<p>在智能软件工程中，对比的范畴是多层次、跨维度的。我们要对比的往往不是单一算法的微调，而是<strong>完全不同的技术路线或数据处理管线 (Pipelines)</strong>。统计检验的本质，就是将高维的配置空间映射、坍缩为一维的结果观测值。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs text">📊 【高维配置空间 / Configuration Space】<br>├── Config A (深度学习管线): [特征工程: AutoEncoder, 聚类: 无, 核心:  Transformer回归]   ──┐ (映射/独立运行 30 次)<br>└── Config B (传统ML管线): [特征工程: PCA, 聚类: K-Means, 核心: 岭回归]               ───┤<br>																			        ▼<br>																	 🎯   【一维结果空间 / Observation Group】<br>																  ├── Group A (Config A 的 30个性能结果/Fitness)<br>																  └── Group B (Config B 的 30个性能结果/Fitness)<br></code></pre></td></tr></table></figure>
+<p><strong>深入理解配置对比的三个关键：</strong></p>
+<ol>
+<li><strong>屏蔽内部复杂性 (Abstraction)</strong>: 不管 Configuration 内部包含了多少组件或超参数，当它们运行后，复杂的结构都会“坍缩”成一个简单的一维数值（如 Accuracy, Latency 或 Coverage）。<strong>非参数统计检验（如 Wilcoxon, Friedman）只关注这组一维观测值的相对排名，根本不需要关心背后复杂的模型参数。</strong></li>
+<li><strong>重新定义公平对比 (Fair Comparison)</strong>: 当我们对比底层原理完全不同的 Config A（跑一轮1小时）和 Config B（跑一轮1秒）时，公平不再仅仅是“迭代次数相同”。这就要求我们限制<strong>评估环境和算力开销</strong>（如：都在限定 CPU 运行 10 分钟内，看谁的最终一维表现更好）。</li>
+<li><strong>多组检验 (N-Groups Test) 的必然性</strong>: 因为不同的降维、聚类和回归方法可以产生几十种排列组合（Configurations），实验极少局限于“两组对比”。这种组合爆炸必然要求我们首先祭出 <strong>Kruskal-Wallis</strong> 或 <strong>Friedman</strong> 进行全局多组检验。</li>
+</ol>
+<h3 id="2-2-核心概念辨析：Configuration-配置-vs-Seed-随机种子">2.2 核心概念辨析：Configuration (配置) vs. Seed (随机种子)</h3>
+<p>初学者常混淆模型的“维度数/簇个数”和“随机种子”。理清两者的数学与实验界限，是正确理解<strong>为何要重复运行 30 次并做假设检验</strong>的绝对前提：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">概念</th>
+<th style="text-align:left">包含的具体内容（示例）</th>
+<th style="text-align:left">它的物理本质</th>
+<th style="text-align:left">它的实验目的</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Configuration (配置)</strong></td>
+<td style="text-align:left">1. 方法选择（如用 PCA 或不降维）<br>2. 超参数具体数值（如降到 5 维，聚类成 3 个簇）</td>
+<td style="text-align:left">系统的<strong>设计蓝图</strong>。是由工程师或算法可以一行行写死的参数组合。</td>
+<td style="text-align:left">我们想通过对比不同的配置，找出<strong>哪种设计方法和参数组合能带来最好的性能指标</strong>。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Seed (随机种子)</strong></td>
+<td style="text-align:left">诸如 <code>12345</code>、<code>42</code> 等无实际物理意义的数字开关。</td>
+<td style="text-align:left"><strong>随机过程的启动钥匙</strong>。决定底层无法控制的随机行为（如 K-Means 初始中心点位置、数据切分策略）。</td>
+<td style="text-align:left">我们<strong>绝对不想优化它</strong>。换不同的种子跑 30 次，是为了<strong>制造不同的“随机运气环境”，来测试这个配置的真实平均实力与稳健性</strong>。</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>🏎️ 行业共识比喻</strong>：</p>
+<ul>
+<li><strong>Configuration (配置)</strong> 就像赛车的发动机排量、轮胎抓地力等级（这是我们可以主动调整和优化的<strong>设计参数</strong>）。</li>
+<li><strong>Seed (种子)</strong> 就像比赛当天的天气状况、风向、赛道上的小石子分布（这是不可控的<strong>随机噪声</strong>）。</li>
+<li><strong>实验逻辑</strong>：我们要寻找一套最好的汽车配置（Configuration）。为了测试这套配置是不是真的好，我们必须让它在下雨天、刮风天、大晴天等 30 种不同的随机天气（Seed 1 到 30）下都跑一遍，最后再用统计假设检验算一个总账！</li>
+</ul>
+</blockquote>
+<hr>
+<h3 id="第一步：为什么均值和标准差不够科学？">第一步：为什么均值和标准差不够科学？</h3>
+<p>在处理上述 30 次随机跑（不同 Seed）得出的数据时，<strong>均值 (Mean/Average)</strong> 和 <strong>标准差 (Standard Deviation)</strong> 具有致命缺陷：</p>
+<ol>
+<li><strong>异常值敏感 (Sensitive to Outliers)</strong>: 讲师强调，极端的运行结果会严重扭曲均值。</li>
+<li><strong>无法反映分布形状</strong>: 均值相同并不代表两个算法性能一致。</li>
+<li><strong>误差棒重叠</strong>: 当两组数据的误差棒（Error Bars）严重重叠时，肉眼无法判定显著性。</li>
+</ol>
+<blockquote>
+<p><strong>💡 解决方案：使用中位数和四分位数 (Medians &amp; Quartiles)</strong></p>
+<ul>
+<li><strong>中位数 (Median)</strong>: 排序后的中间值，对异常值具有<strong>鲁棒性 (Robust)</strong>。</li>
+<li><strong>第 1/3 四分位数 (1st/3rd Quartiles)</strong>: 描述数据 25% 和 75% 的位置，能更真实地反映波动程度。</li>
+</ul>
+</blockquote>
+<h3 id="第二步：构建统计假设-Formulating-Hypotheses">第二步：构建统计假设 (Formulating Hypotheses)</h3>
+<p>在确保<strong>评估开销和环境绝对公平 (Fair Comparison)</strong> 的前提下，建立统计检验游戏规则：</p>
+<ul>
+<li><strong>原假设 $H_0$ (Null Hypothesis)</strong>: 两组算法/配置性能<strong>没有</strong>显著差异。</li>
+<li><strong>备择假设 $H_1$ (Alternative Hypothesis)</strong>: 两组算法/配置性能<strong>有</strong>显著差异。</li>
+</ul>
+<h3 id="第三步：选择正确的统计检验方法-Test-Selection">第三步：选择正确的统计检验方法 (Test Selection)</h3>
+<p>选择方法取决于数据分布和实验设计，可以参考下表：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">数据类型</th>
+<th style="text-align:left">独立样本 (Unpaired)</th>
+<th style="text-align:left">配简样本 (Paired)</th>
+<th style="text-align:left">场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>参数检验 (Parametric)</strong></td>
+<td style="text-align:left">Unpaired t-test</td>
+<td style="text-align:left">Paired t-test</td>
+<td style="text-align:left">符合正态分布</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>非参数检验 (Non-parametric)</strong></td>
+<td style="text-align:left"><strong>Mann-Whitney U / Wilcoxon rank-sum</strong></td>
+<td style="text-align:left"><strong>Wilcoxon signed-rank</strong></td>
+<td style="text-align:left">不符合正态分布</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>多组对比 (N-groups)</strong></td>
+<td style="text-align:left">Kruskal-Wallis</td>
+<td style="text-align:left">Friedman</td>
+<td style="text-align:left">N &gt; 2 组不同配置对比</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>参数检验 vs. 非参数检验</strong>: 参数检验（如 t-test）要求数据符合正态分布（Normality Assumption）。讲师指出：<em>“Non-parametric tests are more popular because in reality majority of the cases do not follow the normal distributions.”</em></li>
+<li><strong>配对 vs. 非配对</strong>: 如果两个不同管线配置在每次运行时均采用完全一样的环境切分、同一组初始随机种群或相同的数据折叠（Identical Initial Conditions），则应使用<strong>配对检验 (Paired Test)</strong>，其统计检定力（Power）更强。<br>
+这张表格（课件第 41-42 页）是整个统计学检验模块的“交通指挥官” 。当你在智能软件工程（ISE）中跑完了好几种 <strong>Configurations</strong> 并在不同的 <strong>Seeds</strong> 下拿到了实验数据（Observations）后，应该选哪个统计检验方法，完全由这张表决定 。</li>
+</ul>
+<p>为了让你彻底吃透它，我们不机械地背表，而是从<strong>三个决策维度（决策树的三个分叉点）<strong>来详细拆解它的</strong>选择取舍（Trade-offs）</strong>。</p>
+<h2 id="🧭-维度一：组数（Columns的分流）——-2-groups-vs-n-groups-n-2">🧭 维度一：组数（Columns的分流）—— 2 groups vs n groups (n&gt;2)</h2>
+<p>首先看表格的列，这取决于你的实验设计里<strong>同时拿出来对比的 Configuration（配置管线）有几个</strong> 。</p>
+<ol>
+<li>2 groups（两组对比）</li>
+</ol>
+<ul>
+<li>
+<p><strong>场景</strong>：你只有两个选手在做 A/B 测试 。例如：<code>Config A</code> (开启降维) vs <code>Config B</code> (不开启降维)。</p>
+</li>
+<li>
+<p><strong>可供选择的检验</strong>：<code>t-test</code> 家族或 <code>Wilcoxon</code> 家族 。</p>
+</li>
+</ul>
+<ol start="2">
+<li>n groups (n&gt;2)（多组对比）</li>
+</ol>
+<ul>
+<li>
+<p><strong>场景</strong>：你在进行多方案选型，有 3 个或以上的选手同时打架 。例如：<code>Config A</code> (线性模型) vs <code>Config B</code> (树模型) vs <code>Config C</code> (深度学习) 。</p>
+</li>
+<li>
+<p><strong>可供选择的检验</strong>：<code>ANOVA</code>、<code>Kruskal-Wallis</code>、<code>Friedman</code> 。</p>
+</li>
+<li>
+<p><strong>🚨 核心取舍（Critical Trade-off）</strong>： 如果手里有 4 组数据，<strong>千万不要两两之间做 6 次两两检验（Pairwise Comparisons）</strong> ！因为课件强调了，连续做多次检验会导致 <strong>第一类错误（Type 1 Error，即假阳性）的概率暴增</strong>（从 5% 飙升到极高） 。因此，面对多组配置，<strong>必须先用右边这一列的全局检验（Global Test）一网打尽</strong> 。</p>
+</li>
+</ul>
+<h2 id="📈-维度二：数据分布（Rows的一级分流）——-Parametric-vs-Non-parametric">📈 维度二：数据分布（Rows的一级分流）—— Parametric vs Non-parametric</h2>
+<p>这是由你拿到的<strong>性能指标数据的分布特征</strong>决定的，也是统计学里最核心的硬性约束 。</p>
+<ol>
+<li>Parametric（参数检验）</li>
+</ol>
+<ul>
+<li>
+<p><strong>前提条件</strong>：数据必须符合<strong>正态分布（Normality Assumption）</strong> 。也就是说，30次运行出来的覆盖率或者延迟，画成直方图必须是一个两边对称、中间高的钟形曲线 。</p>
+</li>
+<li>
+<p><strong>入选方法</strong>：<code>Unpaired t-test</code> 、<code>Paired t-test</code> 、<code>ANOVA</code> 。</p>
+</li>
+<li>
+<p><strong>👍 优势</strong>：<strong>检定力更强（More powerful）</strong> 。如果数据确实符合正态分布，它对配置之间“微小差异”的捕捉能力极其敏锐，能极好地探测出显著差异 。</p>
+</li>
+<li>
+<p><strong>👎 劣势</strong>：<strong>极其脆弱（Highly affected by violations）</strong> 。如果你的随机算法跑出来的数据不符合正态分布（比如 ISE 中常出现的严重偏斜、双峰数据），强行使用参数检验会导致算出来的 P值 完全是错的 。</p>
+</li>
+</ul>
+<ol start="2">
+<li>Non-parametric（非参数检验）</li>
+</ol>
+<ul>
+<li>
+<p><strong>前提条件</strong>：<strong>不需要任何分布假设</strong>（No normality） 。数据长成什么奇形怪状都可以用（比如有严重的异常值、极度偏斜） 。</p>
+</li>
+<li>
+<p><strong>入选方法</strong>：<code>Wilcoxon rank-sum</code> 、<code>Wilcoxon signed-rank</code> 、<code>Kruskal-Wallis</code> 、<code>Friedman</code> 。</p>
+</li>
+<li>
+<p><strong>👍 优势</strong>：<strong>极度安全、受欢迎（More popular）</strong> 。因为智能软件工程中的 stochastic algorithms（随机算法）在不同种子下跑出来的性能结果，<strong>绝大多数都不能保证是完美的正态分布</strong> 。非参数检验通过将真实数据转化为排名（Ranks）进行计算，天然免疫异常值的干扰 。</p>
+</li>
+</ul>
+<h2 id="🔗-维度三：血缘关系（Rows的二级分流）——-Unpaired-vs-Paired">🔗 维度三：血缘关系（Rows的二级分流）—— Unpaired vs Paired</h2>
+<p>这取决于你在写代码进行实验时，<strong>是怎么把随机种子（Seeds）和配置（Configurations）组合运行的</strong> 。</p>
+<ol>
+<li>Unpaired / Independent（独立样本检验）</li>
+</ol>
+<ul>
+<li>
+<p><strong>实验设计</strong>：各个配置的运行“各跑各的，互不干扰” 。 例如：<code>Config A</code> 用了种子 1-30 跑了 30 次；<code>Config B</code> 用了全新的种子 31-60 跑了 30 次 。它们之间在同一跑上没有任何环境共性。</p>
+</li>
+<li>
+<p><strong>选用方法</strong>：<code>Unpaired t-test</code> 、<code>Wilcoxon rank-sum / Mann-Whitney U test</code> 、<code>Kruskal-Wallis</code> 。</p>
+</li>
+</ul>
+<ol start="2">
+<li>Paired / Related（配对/相关样本检验）</li>
+</ol>
+<ul>
+<li>
+<p><strong>实验设计</strong>：控制变量法，各个配置在运行期间<strong>强行锁定相同的外部随机性（环境共享）</strong> 。 例如：第 1 轮实验，把 <code>Seed 42</code> 同时喂给 <code>Config A</code> 和 <code>Config B</code>（让它们在完全相同的初始种群和数据切分下对抗）；第 2 轮实验，再把 <code>Seed 99</code> 同时喂给它们……</p>
+</li>
+<li>
+<p><strong>选用方法</strong>：<code>Paired t-test</code> 、<code>Wilcoxon signed-rank</code> 、<code>Friedman</code> 。</p>
+</li>
+<li>
+<p><strong>🚨 核心取舍（Critical Trade-off）</strong>： 课件第 51 页一针见血地指出：<strong>“Paired tests use more information, being more powerful”</strong> 。因为配对设计锁定了外部环境的随机性（把考场噪音抵消了），它利用了“同一轮中环境相同”这一极高价值的信息，所以其<strong>发现配置差异的能力显著高于独立检验</strong> 。因此，在写实验代码时，<strong>能做成 Paired 设计，就千万不要做成 Unpaired</strong> ！</p>
+</li>
+</ul>
+<h2 id="🛠-总结：在-Intelligent-SE-中最常用的四大黄金组合">🛠 总结：在 Intelligent SE 中最常用的四大黄金组合</h2>
+<p>由于智能软件工程的随机算法结果通常<strong>不符合正态分布</strong>，我们在实战中绝大多数都在使用 <strong>Non-parametric（非参数）</strong> 这一半张表 ：</p>
+<ol>
+<li>
+<p><strong>两套配置对比，各跑各的种子</strong> $\rightarrow$ <strong>Wilcoxon rank-sum test (Mann-Whitney U)</strong> 。</p>
+</li>
+<li>
+<p><strong>两套配置对比，共享同一批种子</strong> $\rightarrow$ <strong>Wilcoxon signed-rank test</strong>（检定力强，最常用） 。</p>
+</li>
+<li>
+<p><strong>多套配置对比，各跑各的种子</strong> $\rightarrow$ <strong>Kruskal-Wallis test</strong>，跑完再接 Dunn 事后检验 。</p>
+</li>
+<li>
+<p><strong>多套配置对比，共享同一批种子</strong> $\rightarrow$ <strong>Friedman test</strong>，跑完再接 Nemenyi 事后检验 。</p>
+</li>
+</ol>
+<p>现在，对着这张图重新审视你的实验，是不是每一个格子对应的统计学取舍都清清楚楚了？接下来，你想去深入推导某一个具体检验（比如两组配对的 Wilcoxon）的输出，还是去探索大纲第一部分的<strong>多目标质量指标</strong>？</p>
+<h3 id="第四步：解读-P-值与多组比较校正">第四步：解读 P 值与多组比较校正</h3>
+<ul>
+<li><strong>P 值 (P-value)</strong>: 如果 $P \le 0.05$（显著性水平 $\alpha$），则<strong>拒绝原假设 $H_0$</strong>，认为差异具有统计显著性。</li>
+<li><strong>第一类错误 (Type 1 Error)</strong>: 俗称“假阳性”，即本无差异却误判为有差异。</li>
+<li><strong>多组比较问题</strong>: 如果我们有数十种 Pipeline 组合（如 Config A, B, C, D…），并不断进行两两对比（Pairwise comparisons），犯第一类错误的概率会激增。
+<ul>
+<li><strong>解决方案 A (校正)</strong>: 使用 <strong>Bonferroni 校正</strong>（显著性阈值除以对比次数）或更灵活的 <strong>Holm-Bonferroni 校正</strong>。</li>
+<li><strong>解决方案 B (推荐：全局检验)</strong>: 如 2.1 节所述，先运行全局检验（如 <strong>Kruskal-Wallis</strong>），若 P 值显著，再进行<strong>事后检验 (Post-hoc Test)</strong>（如 <strong>Dunn 检验</strong>或 <strong>Nemenyi 检验</strong>）来精准锁定最终的胜出配置。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="3-实验总结与报告准则">3. 实验总结与报告准则</h2>
+<p>在撰写研究报告或论文时，应遵循以下逻辑：</p>
+<ol>
+<li><strong>展示描述性统计 (Descriptive Statistics)</strong>: 使用箱线图 (Boxplots) 展示各种配置跑完 30 轮（30 种 Seed）后的中位数和四分位数。</li>
+<li><strong>报告检验结果</strong>: 指出使用的检验方法（如 Kruskal-Wallis 结合 Dunn 事后检验）及其 P 值。</li>
+<li><strong>综合结论</strong>: 只有当 P 值显著时，才结合指标数值（如“配置 A 的中位数显著高于配置 B”）得出“深度学习管线 A 显著优于传统管线 B”的结论。</li>
+</ol>
+<blockquote>
+<p><strong>思考题解析</strong>：<br>
+若要对比 3 种配置（非正态分布），且每个配置是独立运行（Unpaired）：</p>
+<ol>
+<li>首先运行 <strong>Kruskal-Wallis 检验</strong> 确定是否存在全局差异。</li>
+<li>若 P 显著，运行 <strong>Dunn 检验</strong> 进行事后分析，确定哪两组配置之间有显著区别。</li>
+</ol>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/" class="category-chain-item">学业笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/ISE/" class="category-chain-item">ISE</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/" class="print-no-link">#学业笔记</a>
+      
+        <a href="/tags/ISE/" class="print-no-link">#ISE</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Evaluation in Intelligent Software Engineering (智能软件工程中的评估)</div>
+      <div>https://lofiskyline.github.io/2026/05/22/ISE/Note/week7/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Blog Author</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年5月22日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/05/22/ISE/Note/week8/" title="第八周：AI 系统的需求工程 (Requirements Engineering for AI)">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">第八周：AI 系统的需求工程 (Requirements Engineering for AI)</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/05/21/ISE/Note/week9/" title="第九周：AI 系统架构设计 (Architectures for AI)">
+                        <span class="hidden-mobile">第九周：AI 系统架构设计 (Architectures for AI)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

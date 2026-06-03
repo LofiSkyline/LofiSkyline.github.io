@@ -1,0 +1,910 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" >
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Blog Author">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="week3 智能软件缺陷预测 (Intelligent Software Defect Prediction) 一、 软件缺陷概述 (Introduction to Software Defects) 什么是软件缺陷 (What is Software Defect?) 软件缺陷 (Software Defect)，通常也被称为 Bug，被正式定义为计算机软件在设计、开发或运行中的错误、瑕疵或故障">
+<meta property="og:type" content="article">
+<meta property="og:title" content="week3 智能软件缺陷预测 (Intelligent Software Defect Prediction)">
+<meta property="og:url" content="https://lofiskyline.github.io/2026/05/21/ISE/Note/week3/index.html">
+<meta property="og:site_name" content="My Blog">
+<meta property="og:description" content="week3 智能软件缺陷预测 (Intelligent Software Defect Prediction) 一、 软件缺陷概述 (Introduction to Software Defects) 什么是软件缺陷 (What is Software Defect?) 软件缺陷 (Software Defect)，通常也被称为 Bug，被正式定义为计算机软件在设计、开发或运行中的错误、瑕疵或故障">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-05-21T08:53:32.000Z">
+<meta property="article:modified_time" content="2026-06-03T14:46:33.383Z">
+<meta property="article:author" content="Blog Author">
+<meta property="article:tag" content="学业笔记">
+<meta property="article:tag" content="ISE">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>week3 智能软件缺陷预测 (Intelligent Software Defect Prediction) - My Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"lofiskyline.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Joe&#39;s World</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.5)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="week3 智能软件缺陷预测 (Intelligent Software Defect Prediction)"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-05-21 16:53" pubdate>
+          2026年5月21日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          37 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">week3 智能软件缺陷预测 (Intelligent Software Defect Prediction)</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="week3-智能软件缺陷预测-(intelligent-software-defect-prediction)">week3 智能软件缺陷预测 (Intelligent Software Defect Prediction)</h1>
+<h2 id="一、-软件缺陷概述-Introduction-to-Software-Defects">一、 软件缺陷概述 (Introduction to Software Defects)</h2>
+<h3 id="什么是软件缺陷-What-is-Software-Defect">什么是软件缺陷 (What is Software Defect?)</h3>
+<p><strong>软件缺陷 (Software Defect)</strong>，通常也被称为 <strong>Bug</strong>，被正式定义为计算机软件在设计、开发或运行中的<strong>错误、瑕疵或故障 (error, flaw or fault)</strong>。这些缺陷会导致软件产生错误、意外的结果，或者以非预期的方式运行 (causes it to produce an incorrect, unexpected result or to behave in unintended ways)。</p>
+<blockquote>
+<p>“Defect or bug is an error, flaw or fault in design, development or operation of computer software that causes it to produce an incorrect, unexpected result or to behave in unintended ways.” —— Transcript</p>
+</blockquote>
+<h3 id="缺陷的来源-Sources-of-Defects">缺陷的来源 (Sources of Defects)</h3>
+<p>缺陷并非仅仅源于程序员个人的编码失误，其来源非常广泛：</p>
+<ol>
+<li><strong>需求理解与设计规划 (Requirements &amp; Design)</strong>：在项目初期对需求的误解或架构设计的失误。</li>
+<li><strong>程序员之间的交互 (Programmer Interactions)</strong>：软件开发通常是团队协作，开发者之间的沟通不畅或代码合并时的冲突往往会引入缺陷。</li>
+<li><strong>底层兼容性问题 (Compatibility Issues)</strong>：程序本身逻辑可能正确，但与操作系统内核 (Kernel)、第三方库 (Library) 或硬件环境交互时出现的兼容性问题也是缺陷的重要来源。</li>
+</ol>
+<h3 id="为什么需要预测缺陷-Why-Predict">为什么需要预测缺陷 (Why Predict?)</h3>
+<p>在软件工程中，寻找和修复缺陷是最昂贵的任务之一。像 Google 和 Meta 这样的大型公司都设有专门的团队（如 Site Reliability Engineering, SRE）来处理缺陷和系统维护。</p>
+<p>预测缺陷的核心动力在于<strong>成本节约 (Cost Saving)</strong>。缺陷修复的成本随着软件生命周期的推进而呈指数级增长：</p>
+<ul>
+<li><strong>编码阶段 (Coding Step)</strong>：捕获和纠正缺陷的成本约为 <strong>$977/defect</strong>。此时修复只需修改代码并重新编译。</li>
+<li><strong>测试阶段 (Testing Phase)</strong>：随着模块集成，复杂度增加，修复成本上升至约 <strong>$7,000/defect</strong>。</li>
+<li><strong>维护阶段 (Maintenance Phase)</strong>：当软件已经发布并交付给终端用户，成本激增至 <strong>$14,102/defect</strong>。
+<ul>
+<li><strong>原因</strong>：此时的缺陷会直接影响用户体验，可能导致 <strong>SLA (Service Level Agreement) 违约惩罚</strong>、用户流失以及繁重的回归测试 (Regression Testing) 负担。</li>
+</ul>
+</li>
+</ul>
+<p>通过在早期预测潜在的缺陷区域，开发者可以主动进行修复，从而大幅降低维护成本。</p>
+<h3 id="预测面临的挑战-Challenges">预测面临的挑战 (Challenges)</h3>
+<p>尽管使用机器学习（如随机森林、回归树等）进行预测在理论上可行，但在实际应用中面临诸多挑战：</p>
+<ol>
+<li><strong>特征提取困难 (Feature Engineering)</strong>：与配置项预测不同，代码的特征（如代码度量指标）难以通过简单的菜单或手册定义，寻找与缺陷相关的<strong>可靠特征 (reliable predictors)</strong> 本身就是一个研究课题。</li>
+<li><strong>过拟合 (Overfitting)</strong>：模型在特定项目或模块上表现良好，但在跨项目 (Cross-project) 或不同开发者编写的模块上应用时，预测质量往往会急剧下降。</li>
+<li><strong>数据获取与验证 (Data &amp; Validation)</strong>：需要足够的历史缺陷数据来训练模型，且如何进行“即时 (Just-in-time)”验证也是一个难点。</li>
+<li><strong>模型更新频率 (Update Frequency)</strong>：代码持续迭代，如何保持模型的最优状态也是一项技术挑战。</li>
+</ol>
+<h2 id="二、-经典度量指标-Classic-Metrics-for-Defect-Prediction">二、 经典度量指标 (Classic Metrics for Defect Prediction)</h2>
+<p>在 80 年代，缺陷预测的研究主要集中在<strong>指标识别 (Metrics Identification)</strong>。其核心假设是：代码的复杂程度（如路径数量、操作符数量）与引入缺陷的可能性呈正相关。</p>
+<h3 id="1-McCabe-圈复杂度-McCabe-Cyclomatic-Complexity">1. McCabe 圈复杂度 (McCabe Cyclomatic Complexity)</h3>
+<p><strong>圈复杂度 (Cyclomatic Complexity, CC)</strong> 是软件工程中最为经典的度量指标之一。其核心思想在于：代码中的条件判断语句越多，执行路径就越复杂，产生缺陷的概率也随之增加。</p>
+<p>课件中提供了两种互补的计算方法：<strong>图论控制流法</strong>（原理）与<strong>条件计数法</strong>（实践）。</p>
+<h4 id="A-控制流图法-Control-Flow-Graph-CFG">A. 控制流图法 (Control Flow Graph, CFG)</h4>
+<p>这是 McCabe 复杂度的官方定义，衡量控制流图中<strong>线性独立路径 (linearly independent paths)</strong> 的数量。</p>
+<ul>
+<li><strong>节点 (Node)</strong>: 代表一段连续执行的代码（无分支）。</li>
+<li><strong>边 (Edge)</strong>: 代表代码执行的跳转方向。</li>
+</ul>
+<p><strong>计算公式</strong>:<br>
+$$\text{CC} = E - N + 2$$</p>
+<ul>
+<li>$E$：边数 (Number of Edges)</li>
+<li>$N$：节点数 (Number of Nodes)</li>
+</ul>
+<p><strong>案例分析 (课件第 10 页)</strong>:<br>
+在包含一个 <code>if (x == y)</code> 分支的简单函数中：</p>
+<ul>
+<li><strong>Nodes ($N$)</strong>: <code>START</code>, <code>if(x==y)</code>, <code>one()</code>, <code>two()</code>, <code>Three()</code>, <code>END</code>，共 <strong>6</strong> 个。</li>
+<li><strong>Edges ($E$)</strong>: 连接上述节点的箭头，共 <strong>6</strong> 条。</li>
+<li><strong>计算</strong>: $6 - 6 + 2 = 2$。这意味着该代码段有 2 条独立路径。</li>
+</ul>
+<h4 id="B-条件计数法-Condition-Counting">B. 条件计数法 (Condition Counting)</h4>
+<p>这是在代码审查和考试中最常用的简便算法。</p>
+<p><strong>计算公式</strong>:<br>
+$$\text{McCabe CC} = \text{简单条件数量} + 1$$</p>
+<ul>
+<li><strong>简单条件 (Simple Conditions)</strong>: 指不包含 <code>OR</code> (||) 或 <code>AND</code> (&amp;&amp;) 的单个判断语句。例如 <code>if</code>、<code>while</code>、<code>for</code>。</li>
+<li><strong>特定语法计数规则</strong>:
+<ol>
+<li><strong>复合条件 (Compound Conditions)</strong>: 必须拆开计算。如 <code>if (a &gt; b || a &gt; 1)</code> 计数为 <strong>2</strong>。</li>
+<li><strong>Switch-Case 语句</strong>: 只计算 <code>case</code> 的数量，<strong>忽略</strong> <code>default</code>。如果有 3 个 <code>case</code>，计数为 3。</li>
+<li><strong>Try-Catch 异常处理</strong>: 只计算 <code>catch</code> 块的数量。如果有 2 个 <code>catch</code>，计数为 2。</li>
+</ol>
+</li>
+</ul>
+<h4 id="C-核心避坑原则：不要陷得太深！-Do-Not-Go-Too-Deep">C. 核心避坑原则：不要陷得太深！(Do Not Go Too Deep!)</h4>
+<p>课件（第 24 页）特别强调：在计算当前函数的 McCabe 复杂度时，<strong>不要深入外部类或库函数内部 (Do not go into the function of external classes/libraries)</strong>。即便当前函数调用了一个内部逻辑极其复杂的外部方法，在计算时也仅将其视为一条普通的执行语句，无视其内部的复杂度。</p>
+<blockquote>
+<p>“We do not go into the function of external classes/libraries. Only look at the control flow written in the current function.” —— Lecture Hint</p>
+</blockquote>
+<hr>
+<h2 id="三、-项目内预测与-SZZ-算法-Within-Project-Prediction-SZZ-Algorithm">三、 项目内预测与 SZZ 算法 (Within-Project Prediction &amp; SZZ Algorithm)</h2>
+<p>在获得度量指标（特征）后，我们需要训练数据来构建模型。<strong>项目内预测 (Within-Project Prediction)</strong> 是指利用项目自身的历史变更数据进行模型训练。这面临一个核心挑战：如何获取带有标记 (Label) 的训练集？</p>
+<h3 id="1-什么是-SZZ-算法？">1. 什么是 SZZ 算法？</h3>
+<p>在 Git 等版本控制系统中，我们很容易找到 <strong>Bug-fix Commit</strong>（修复缺陷的提交），因为提交日志通常会写 <code>&quot;Fix bug #123&quot;</code>。然而，预测模型需要的是 <strong>Bug-introducing Commit</strong>（引入缺陷的提交），即当初到底是哪次提交把 Bug 带进来的。</p>
+<p><strong>SZZ 算法</strong> 的作用就是：通过 Bug-fix Commit 反向追踪，揪出当初引入缺陷的“元凶”。</p>
+<h4 id="SZZ-算法的执行步骤">SZZ 算法的执行步骤</h4>
+<ol>
+<li><strong>阶段一：寻找修复提交 (Finding Bug-fix Commits)</strong>
+<ul>
+<li>在变更日志 (Change log) 中搜索特定关键字，如 <code>fix</code>, <code>bug</code>, <code>patch</code> 或具体的 Bug ID。</li>
+</ul>
+</li>
+<li><strong>阶段二：定位引入提交 (Locating Bug-introducing Commits)</strong>
+<ul>
+<li><strong>识别差异块 (Hunk)</strong>: 对比修 Bug 前后的代码版本，找出被删除或修改的代码块（假设这些代码就是 Bug 所在）。</li>
+<li><strong>反向追溯 (Backtracking)</strong>: 利用 <code>git blame</code> (或 <code>annotate</code>) 命令，查看这些被删改的代码行是在哪个历史版本中最后一次被修改的。那个版本即为 <strong>Bug-introducing change</strong>。</li>
+</ul>
+</li>
+</ol>
+<h4 id="案例分析：Revision-1-2-3-课件第-34-36-页">案例分析：Revision 1 -&gt; 2 -&gt; 3 (课件第 34-36 页)</h4>
+<ul>
+<li><strong>Revision 1 (作者: Kim)</strong>: 创建了函数 <code>bar()</code>，代码为 <code>if (report == null)</code>（本意应为 <code>!=</code>）。此时第 3 行的最后修改者记录为 <code>Kim (Rev 1)</code>。<strong>这是真正的 Bug 注入点。</strong></li>
+<li><strong>Revision 2 (作者: Ejw)</strong>: 重命名了函数并修改了打印语句，但未触及第 3 行。第 3 行的 Git 记录依然指向 <code>Kim (Rev 1)</code>。</li>
+<li><strong>Revision 3 (作者: Kai)</strong>: 发现了错误并修复为 <code>if (report != null)</code>。</li>
+</ul>
+<p><strong>SZZ 算法推导过程</strong>:</p>
+<ul>
+<li>SZZ 识别出 Revision 3 是修复提交。</li>
+<li>通过计算差异，发现 Revision 3 修改了第 3 行。</li>
+<li>回溯 Revision 3 之前的状态（即 Revision 2），发现第 3 行在当时的最后修改版本是 Revision 1。</li>
+<li><strong>结论</strong>: SZZ 将 Revision 1 标记为 <strong>Buggy</strong>，将 Revision 2 标记为 <strong>Clean</strong>。</li>
+</ul>
+<h3 id="2-特征提取与-SVM-分类">2. 特征提取与 SVM 分类</h3>
+<p>一旦有了 Label（Buggy vs Clean），我们就可以提取代码特征（如 McCabe 复杂度、LOC 等），并使用 <strong>支持向量机 (Support Vector Machine, SVM)</strong> 进行训练。</p>
+<p><strong>SVM 核心原理</strong>:</p>
+<ul>
+<li>在特征空间中寻找一个<strong>超平面 (Hyperplane)</strong>，将两类样本（Buggy 和 Clean）尽可能清晰地分开。</li>
+<li>目标是寻找<strong>最大边缘 (Maximum Margin)</strong>，即让分类界面距离最近的样本点（支持向量）最远。</li>
+<li>提取特征的方法通常借鉴 NLP 技术，如 <strong>TF-IDF</strong> 或 <strong>词袋模型 (Bag of Words)</strong>，将代码片段转化为数值向量。</li>
+</ul>
+<h3 id="总结：SZZ-算法计算流程">总结：SZZ 算法计算流程</h3>
+<ol>
+<li><strong>确定起点</strong>：在历史记录中通过关键字匹配锁定“修复提交 (Bug-fix)”。</li>
+<li><strong>提取特征块</strong>：对比修复提交与其前序提交，定位出发生变更的具体代码行 (Hunk)。</li>
+<li><strong>时空溯源</strong>：对这些变更行执行 <code>git blame/annotate</code>，寻找每一行在修复前最后一次被修改的版本号。</li>
+<li><strong>标记样本</strong>：将被溯源到的版本标记为“有缺陷 (Buggy)”，未被溯源到的历史提交标记为“无缺陷 (Clean)”，从而生成带标签的数据集供模型学习。</li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/" class="category-chain-item">学业笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/ISE/" class="category-chain-item">ISE</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/" class="print-no-link">#学业笔记</a>
+      
+        <a href="/tags/ISE/" class="print-no-link">#ISE</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>week3 智能软件缺陷预测 (Intelligent Software Defect Prediction)</div>
+      <div>https://lofiskyline.github.io/2026/05/21/ISE/Note/week3/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Blog Author</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年5月21日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/05/21/ISE/Note/week4/" title="第四周：自动软件测试与基于搜索的软件测试 (AST &amp; SBST)">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">第四周：自动软件测试与基于搜索的软件测试 (AST &amp; SBST)</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/05/21/ISE/Note/week2/" title="CPL 配置性能学习">
+                        <span class="hidden-mobile">CPL 配置性能学习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

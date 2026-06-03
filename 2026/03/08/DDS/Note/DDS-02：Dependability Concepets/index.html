@@ -1,0 +1,963 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" >
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Blog Author">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="DDS-02: Dependability Concepts  Definition: A system is said to be dependable if it is trustworthy enough for reliance to be justifiably placed on the services it delivers. Dependability means the sys">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DDS-02: Dependability Concepts">
+<meta property="og:url" content="https://lofiskyline.github.io/2026/03/08/DDS/Note/DDS-02%EF%BC%9ADependability%20Concepets/index.html">
+<meta property="og:site_name" content="My Blog">
+<meta property="og:description" content="DDS-02: Dependability Concepts  Definition: A system is said to be dependable if it is trustworthy enough for reliance to be justifiably placed on the services it delivers. Dependability means the sys">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-03-08T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-06-03T14:46:33.380Z">
+<meta property="article:author" content="Blog Author">
+<meta property="article:tag" content="学业笔记">
+<meta property="article:tag" content="DDS">
+<meta property="article:tag" content="dependability">
+<meta property="article:tag" content="concepts">
+<meta property="article:tag" content="system-model">
+<meta property="article:tag" content="attributes">
+<meta property="article:tag" content="means">
+<meta property="article:tag" content="causality">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>DDS-02: Dependability Concepts - My Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"lofiskyline.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Joe&#39;s World</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.5)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="DDS-02: Dependability Concepts"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-03-09 00:00" pubdate>
+          2026年3月9日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          32 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">DDS-02: Dependability Concepts</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="dds-02:-dependability-concepts">DDS-02: Dependability Concepts</h1>
+<blockquote>
+<p><strong>Definition</strong>: A system is said to be <strong>dependable</strong> if it is trustworthy enough for <strong>reliance</strong> to be <strong>justifiably</strong> placed on the services it delivers.<br>
+<strong>Dependability</strong> means the system is <strong>worthy of your trust</strong> when it provides services.</p>
+</blockquote>
+<h2 id="1-Fundamental-Models-基础模型">1. Fundamental Models (基础模型)</h2>
+<p>为了分析系统的可信性，我们必须建立以下模型：</p>
+<h3 id="1-1-System-Model-系统模型">1.1 System Model (系统模型)</h3>
+<p>系统模型定义了我们在哪个抽象层级观察系统：</p>
+<ul>
+<li><strong>Elements</strong>: 系统由硬件 (<strong>Hardware</strong>)、软件 (<strong>Software</strong>) 甚至人 (<strong>Human</strong>) 组成。</li>
+<li><strong>Interaction</strong>: 通过定义的接口 (<strong>Interface</strong>) 进行通信。</li>
+<li><strong>Recursive Nature</strong>: 子系统本身也可以被视为一个 Element（递归性）。</li>
+<li><strong>Service</strong>: 用户感知的行为。必须满足 <strong>Correct</strong> (正确) 和 <strong>Timely</strong> (及时)。</li>
+</ul>
+<p>!<a href="#">02-1.png</a></p>
+<h3 id="1-2-Fault-Model-故障模型">1.2 Fault Model (故障模型)</h3>
+<p>定义了潜在的问题：我们假设什么东西会出错？（如：<strong>Bit flip</strong> 比特翻转、<strong>Process crash</strong> 进程崩溃）。</p>
+<h3 id="1-3-Specification-规格说明">1.3 Specification (规格说明)</h3>
+<p>系统行为的“神谕” (<strong>Oracle</strong>)。没有 Specification，就无法定义什么是 <strong>Failure</strong> (失效)。</p>
+<hr>
+<h2 id="2-The-Dependability-Tree-分类树">2. The Dependability Tree (分类树)</h2>
+<p>可信性由三个分支组成：</p>
+<ol>
+<li><strong>Impairments (损伤)</strong>: 敌人（Fault, Error, Failure）。</li>
+<li><strong>Means (手段)</strong>: 武器（Prevention, Removal, Forecasting, Fault Tolerance）。</li>
+<li><strong>Attributes (属性)</strong>: 衡量标准（Reliability, Availability, Safety, etc.）。</li>
+</ol>
+<p>!<a href="#">02-2.png</a></p>
+<hr>
+<h2 id="3-Impairments-The-Fundamental-Chain-损伤与因果链">3. Impairments: The Fundamental Chain (损伤与因果链)</h2>
+<p>系统思维的核心在于：<strong>底层的“失效 (Failure)”就是上层的“故障 (Fault)”。</strong></p>
+<h3 id="3-1-The-Recursive-Nature-of-Causality-因果递归">3.1 The Recursive Nature of Causality (因果递归)</h3>
+<p>整个系统类似于俄罗斯套娃，每一层都有自己的 <code>Fault -&gt; Error -&gt; Failure</code> 循环：</p>
+<ul>
+<li><strong>Layer N (Lower Level, e.g., Hardware):</strong>
+<ul>
+<li><strong>Fault</strong>: 宇宙射线击中内存，导致一个比特翻转 (<strong>Bit flip</strong>)。</li>
+<li><strong>Error</strong>: 内存中的数据状态变成了错误的数值（内部状态损坏）。</li>
+<li><strong>Failure</strong>: 硬件单元输出了错误的计算结果（输出边界失效）。</li>
+</ul>
+</li>
+<li><strong>Layer N+1 (Higher Level, e.g., Software):</strong>
+<ul>
+<li><strong>Fault</strong>: <strong>接棒时刻！</strong> 底层的 Failure 成为该层的 <strong>Fault</strong>（错误输入或坏环境）。</li>
+<li><strong>Error</strong>: 函数内部变量被赋值为错误的值（坏内部状态）。</li>
+<li><strong>Failure</strong>: 函数返回了错误的值给主程序（该层失效）。</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-2-Relativity-相对性">3.2 Relativity (相对性)</h3>
+<p>“故障”还是“失效”，取决于你站在哪一层 (<strong>Abstraction Level</strong>) 看问题：</p>
+<ul>
+<li><strong>芯片设计师</strong>眼中：这是我的 ALU <strong>Failure (失效)</strong> 了。</li>
+<li><strong>软件工程师</strong>眼中：这是我的程序遇到了一个 <strong>Hardware Fault (硬件故障)</strong>。</li>
+</ul>
+<h3 id="3-3-Summary-of-the-Chain">3.3 Summary of the Chain</h3>
+<p><strong>Failure at one level $\to$ Fault at a higher level $\to$ Error in internal state $\to$ (if not tolerated) $\to$ Failure at the higher level.</strong></p>
+<p>!<a href="#">02-3.png</a></p>
+<hr>
+<h2 id="4-Dependability-Means-可靠性手段">4. Dependability Means (可靠性手段)</h2>
+<p>如果说“损伤”是敌人，那么“手段”就是我们手中的武器。</p>
+<h3 id="4-1-Fault-Prevention-故障预防">4.1 Fault Prevention (故障预防)</h3>
+<p>旨在<strong>阻止</strong>故障的发生、引入和传播。</p>
+<blockquote>
+<p><strong>Intention</strong>: To hinder and obstruct the occurrence, introduction and spread of faults.</p>
+</blockquote>
+<ul>
+<li><strong>Techniques</strong>: 模块化设计 (<strong>Modular design</strong>)、<strong>Scrum</strong>、敏捷开发 (<strong>Agile</strong>)、瀑布流模型 (<strong>Waterfall</strong>) 等流程控制。</li>
+</ul>
+<h3 id="4-2-Fault-Removal-故障移除">4.2 Fault Removal (故障移除)</h3>
+<p>旨在系统中<strong>减少</strong>已存在的故障数量。</p>
+<ol>
+<li><strong>Validation (验证)</strong>: Whether a system adheres to a set of defined properties. (系统是否符合定义属性？)</li>
+<li><strong>Diagnosis (诊断)</strong>: Identify faults preventing these properties from being fulfilled. (识别导致问题的具体故障。)</li>
+<li><strong>Correction (修正)</strong>: Modify the system to eliminate the fault. (修改系统消除故障。)</li>
+</ol>
+<ul>
+<li><strong>Techniques</strong>: <strong>Debugging</strong>、代码审查 (<strong>Code Reviews</strong>)、软件测试 (<strong>Software Testing</strong>)。</li>
+</ul>
+<h3 id="4-3-Fault-Forecasting-故障预测">4.3 Fault Forecasting (故障预测)</h3>
+<p>一种评估手段 (<strong>Assessment strategy</strong>)，旨在<strong>估计</strong>系统中故障的数量和后果。</p>
+<blockquote>
+<p><strong>Estimate potential failures and consequences in the system.</strong></p>
+</blockquote>
+<ul>
+<li><strong>Techniques</strong>: 故障注入分析 (<strong>Fault Injection Analysis</strong>)。通过模拟故障来评估系统的覆盖率 (<strong>Coverage</strong>)。</li>
+</ul>
+<h3 id="4-4-Fault-Tolerance-故障容错">4.4 Fault Tolerance (故障容错)</h3>
+<p><strong>First among equals (同级中的首要)</strong>。承认系统不可能 100% 无故障。</p>
+<ul>
+<li><strong>Mechanism</strong>:
+<ol>
+<li><strong>Detection</strong>: 识别错误状态（<strong>Detectors</strong>）。</li>
+<li><strong>Recovery</strong>: 恢复状态（<strong>Correctors</strong>），恢复到正确或安全状态。</li>
+</ol>
+</li>
+<li><strong>Associated Techniques</strong>: <strong>N-Version Programming (NVP)</strong>、<strong>Recovery Blocks</strong>、<strong>Checkpointing</strong>。</li>
+</ul>
+<p>!<a href="#">02-4.png</a></p>
+<hr>
+<h2 id="5-Dependability-Attributes-可靠性属性">5. Dependability Attributes (可靠性属性)</h2>
+<p>属性是衡量一个系统是否“值得信赖”的具体度量标准。</p>
+<h3 id="5-1-Reliability-可靠性-R-t">5.1 Reliability (可靠性) - $R(t)$</h3>
+<p>定义：<strong>系统在指定的时间周期内提供正确服务的概率。</strong></p>
+<ul>
+<li><strong>Mathematical Definition</strong>:<br>
+$$R(t) = P(\text{Service correct in } [t_0, t] \mid \text{Service correct at } t_0)$$</li>
+<li><strong>Unreliability (不可靠性)</strong>: $Q(t) = 1 - R(t)$。</li>
+</ul>
+<h3 id="5-2-Availability-可用性-A-t">5.2 Availability (可用性) - $A(t)$</h3>
+<p>定义：<strong>系统在给定时刻能够正确提供指定服务的概率。</strong></p>
+<ul>
+<li><strong>Steady-state Availability (稳态可用性)</strong>:<br>
+$$A_{steady} = \frac{MTTF}{MTTF + MTTR}$$</li>
+<li><strong>MTTF (Mean Time To Failure)</strong>: 平均失效前时间。 ($1/\lambda$)</li>
+<li><strong>MTTR (Mean Time To Repair)</strong>: 平均修复时间。 ($1/\mu$)</li>
+</ul>
+<p><strong>“The Nines” (商业指标)</strong>:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Availability (%)</th>
+<th style="text-align:left">Downtime per Year (approx.)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>99.9%</strong> (3 Nines)</td>
+<td style="text-align:left">8.76 hours</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>99.999%</strong> (5 Nines)</td>
+<td style="text-align:left">5.26 minutes</td>
+</tr>
+</tbody>
+</table>
+<h3 id="5-3-Maintainability-可维护性-M-t">5.3 Maintainability (可维护性) - $M(t)$</h3>
+<p>定义：<strong>失效的系统在时间 $t$ 或更短时间内被修复的概率。</strong></p>
+<ul>
+<li><strong>Function</strong>: $M(t) = 1 - e^{-\mu t}$ (假设修复率 $\mu$ 恒定)。</li>
+</ul>
+<h3 id="5-4-Safety-安全性">5.4 Safety (安全性)</h3>
+<p>安全性反映了<strong>系统在不损坏或危及周围环境的情况下运行的程度</strong>。</p>
+<ul>
+<li><strong>Safe States</strong>: 系统通常具备“安全状态”（如铁路信号灯全红）。虽然服务中断，但环境安全。</li>
+</ul>
+<h3 id="5-5-Security-保障-安保">5.5 Security (保障/安保)</h3>
+<p>在可靠性分类法中，<strong>Security</strong> 是一个综合概念，由 <strong>CIA 三元组</strong> 构成：</p>
+<ol>
+<li><strong>Confidentiality (机密性)</strong>: 防止信息向未经授权的实体泄露。</li>
+<li><strong>Integrity (完整性)</strong>: 确保系统不存在不当的变更（防止未经授权的修改）。</li>
+<li><strong>Availability (可用性)</strong>: 确保授权用户可以访问服务。</li>
+</ol>
+<hr>
+<h2 id="6-Summary-for-Revision-复习重点">6. Summary for Revision (复习重点)</h2>
+<ul>
+<li><strong>Recursive Chain</strong>: Fault -&gt; Error -&gt; Failure -&gt; Fault (next level).</li>
+<li><strong>Means Hierarchy</strong>: Prevention (stop before), Removal (clean existing), Forecasting (estimate), Tolerance (live with).</li>
+<li><strong>MTTF/MTTR/MTBF</strong>: Know how to calculate Availability.</li>
+<li><strong>Reliability vs. Availability</strong>: Continuity vs. Instantaneous state.</li>
+</ul>
+<h2 id="References">References</h2>
+<ul>
+<li><code>Course/Ob-DDS/slides_subtitles/slides/02 Dependability Concepts.pdf</code></li>
+<li><a href="/2026/03/13/DDS/Note/DDS-01-Introduction/">DDS-01-Introduction</a></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/" class="category-chain-item">学业笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/DDS/" class="category-chain-item">DDS</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/" class="print-no-link">#学业笔记</a>
+      
+        <a href="/tags/DDS/" class="print-no-link">#DDS</a>
+      
+        <a href="/tags/dependability/" class="print-no-link">#dependability</a>
+      
+        <a href="/tags/concepts/" class="print-no-link">#concepts</a>
+      
+        <a href="/tags/system-model/" class="print-no-link">#system-model</a>
+      
+        <a href="/tags/attributes/" class="print-no-link">#attributes</a>
+      
+        <a href="/tags/means/" class="print-no-link">#means</a>
+      
+        <a href="/tags/causality/" class="print-no-link">#causality</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>DDS-02: Dependability Concepts</div>
+      <div>https://lofiskyline.github.io/2026/03/08/DDS/Note/DDS-02：Dependability Concepets/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Blog Author</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年3月9日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/03/13/DDS/Note/DDS-05-Leader-Election/" title="DDS-05: Leader Election">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">DDS-05: Leader Election</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

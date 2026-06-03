@@ -1,0 +1,974 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" >
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Blog Author">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Lecture 5: Risk Treatment &amp; Risk Appetite (风险处置与风险偏好) 1. Risk Assessment vs. Risk Treatment (评估与处置的区别)  Risk Assessment (风险评估): The process of evaluating the set of risks (undesirable things), the">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Lecture 5: Risk Treatment &amp; Risk Appetite (风险处置与风险偏好)">
+<meta property="og:url" content="https://lofiskyline.github.io/2026/05/10/DMSS/Note/SSMLecture5/index.html">
+<meta property="og:site_name" content="My Blog">
+<meta property="og:description" content="Lecture 5: Risk Treatment &amp; Risk Appetite (风险处置与风险偏好) 1. Risk Assessment vs. Risk Treatment (评估与处置的区别)  Risk Assessment (风险评估): The process of evaluating the set of risks (undesirable things), the">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-05-10T09:39:33.000Z">
+<meta property="article:modified_time" content="2026-06-03T14:46:33.381Z">
+<meta property="article:author" content="Blog Author">
+<meta property="article:tag" content="学业笔记">
+<meta property="article:tag" content="DMSS">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Lecture 5: Risk Treatment &amp; Risk Appetite (风险处置与风险偏好) - My Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"lofiskyline.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Joe&#39;s World</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.5)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Lecture 5: Risk Treatment &amp; Risk Appetite (风险处置与风险偏好)"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-05-10 17:39" pubdate>
+          2026年5月10日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          53 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Lecture 5: Risk Treatment &amp; Risk Appetite (风险处置与风险偏好)</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="lecture-5:-risk-treatment-amp;-risk-appetite-(风险处置与风险偏好)">Lecture 5: Risk Treatment &amp; Risk Appetite (风险处置与风险偏好)</h1>
+<h2 id="1-Risk-Assessment-vs-Risk-Treatment-评估与处置的区别">1. Risk Assessment vs. Risk Treatment (评估与处置的区别)</h2>
+<ul>
+<li><strong>Risk Assessment (风险评估)</strong>: The process of evaluating the set of risks (undesirable things), their <strong>likelihood</strong>, and their <strong>impact</strong>.
+<ul>
+<li><em>中文解析</em>：这是“诊断”阶段。我们要找出系统中可能发生的坏事（比如服务器被黑），并评估它发生的概率有多大（Likelihood），以及一旦发生会造成多大损失（Impact）。</li>
+</ul>
+</li>
+<li><strong>Risk Treatment Plan (RTP / 风险处置计划)</strong>: The process of choosing and applying a set of <strong>controls</strong> to address these risks.
+<ul>
+<li><em>中文解析</em>：这是“开处方”阶段。基于诊断结果，我们决定采取哪些控制措施（Controls）来应对这些风险。制定 RTP 的过程实际上就是做出业务决策的过程。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="2-Four-Strategies-of-Risk-Treatment-风险处置的四种策略">2. Four Strategies of Risk Treatment (风险处置的四种策略)</h2>
+<p>在面对风险时，安全专家可以采取以下四种动作：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Strategy (策略)</th>
+<th style="text-align:left">Description &amp; Key Definitions (描述与定义)</th>
+<th style="text-align:left">中文补充与案例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Reduce (降低)</strong></td>
+<td style="text-align:left">Controls that reduce the <strong>likelihood</strong> (probability) of a risk. e.g., Firewalls, encryption, staff vetting.</td>
+<td style="text-align:left"><strong>事前预防</strong>：降低风险发生的可能性。比如给大楼装防盗门（防火墙），或者对员工做背景调查。你尽力让坏事不发生。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Mitigate (减轻)</strong></td>
+<td style="text-align:left">Controls that reduce the <strong>impact</strong> (consequences) if a risk occurs. e.g., Backups, anonymisation.</td>
+<td style="text-align:left"><strong>事后补救</strong>：承认坏事肯定会发生，所以你要降低它发生后的损害。比如定期做数据备份（Backups）。黑客把数据删了？没关系，我恢复备份，这样损失（Impact）就变小了。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Transfer (转移)</strong></td>
+<td style="text-align:left">Making the consequences someone else’s responsibility. e.g., <strong>Insurance</strong>, outsourcing (PayPal).</td>
+<td style="text-align:left"><strong>甩锅/分担</strong>：让第三方来承担经济后果。比如买网络安全保险；或者你嫌自己处理信用卡数据太危险，直接外包给 PayPal（你付手续费，他们承担合规风险）。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Accept (接受)</strong></td>
+<td style="text-align:left">Choosing to live with the risk. An <strong>active strategy</strong>, not an admission of failure.</td>
+<td style="text-align:left"><strong>理性躺平</strong>：当防范风险的成本远远高于风险本身造成的损失时，企业会选择直接接受。注意，这是一项经过计算的<strong>主动战略 (Active Strategy)</strong>，而不是无可奈何的失败。</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>[!QUOTE]<br>
+“Mitigating risk is saying: yeah, bad stuff is going to happen. Let’s try to make it less bad.” (Transcript wk4/5)<br>
+<em>(减轻风险的意思是：是的，糟糕的事情总会发生。我们只能试着让它没那么糟。)</em></p>
+</blockquote>
+<hr>
+<h2 id="3-The-ALARP-Principle-ALARP-原则：合理可行的底线">3. The ALARP Principle (ALARP 原则：合理可行的底线)</h2>
+<p><strong>ALARP</strong>: <strong>As Low As Reasonably Practicable</strong> (在合理可行的范围内尽可能低)。</p>
+<ul>
+<li><strong>Zero Risk is Unachievable (零风险是不存在的)</strong>: You cannot ignore cost. Concepts come from health and safety (e.g., putting a “price on a life”).
+<ul>
+<li><em>中文解析</em>：追求“绝对的零风险”会让你破产。我们不可能为了防止员工在办公室摔倒，就把整个办公室铺上海绵。</li>
+</ul>
+</li>
+<li><strong>Rationality (理性的平衡)</strong>: Removing all risks is both expensive and difficult (e.g., North Sea drilling platforms).
+<ul>
+<li><em>中文解析</em>：消除风险既昂贵又困难。决策的核心在于寻找平衡点：<strong>增加的安全控制成本</strong>，必须小于它<strong>能降低的风险价值</strong>。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="4-The-Real-Cost-of-Controls-安全控制的真实成本">4. The Real Cost of Controls (安全控制的真实成本)</h2>
+<p>买个防火墙仅仅是硬件的钱吗？远不止如此。</p>
+<h3 id="4-1-Direct-Costs-直接成本：明面上的账">4.1 Direct Costs (直接成本：明面上的账)</h3>
+<ul>
+<li><strong>Capital (固定资产)</strong>: Buying equipment. (买服务器、防火墙的钱)。</li>
+<li><strong>Revenue (运营支出)</strong>: Maintaining and operating equipment. (每年的软件授权费、电费、运维人员工资)。</li>
+<li><strong>Training (培训费)</strong>: Staff education. (教员工怎么用新安全系统的钱)。</li>
+</ul>
+<h3 id="4-2-Harder-to-Assess-Costs-难以评估的隐性成本">4.2 Harder to Assess Costs (难以评估的隐性成本)</h3>
+<ul>
+<li><strong>Opportunity Cost (机会成本)</strong>: “What else could I do with the money?”
+<ul>
+<li><em>中文解析</em>：这笔钱如果不花在买防火墙上，是不是能拿去多招两个销售？或者做市场推广？这叫机会成本。</li>
+</ul>
+</li>
+<li><strong>Side-Effects (副作用)</strong>: Unintended consequences on the business. (安全措施对业务正常运转造成的意外阻碍)。</li>
+</ul>
+<h4 id="Direct-vs-Indirect-Side-Effects-直接与间接副作用">Direct vs. Indirect Side Effects (直接与间接副作用)</h4>
+<ol>
+<li><strong>Direct (直接副作用)</strong>: Consequences of the control itself, regardless of user response.
+<ul>
+<li><em>中文解析</em>：比如公司实行了超严的邮件加密策略，导致出差的员工在高铁上打不开文件，错失了客户订单。这是策略本身导致的直接损失。</li>
+</ul>
+</li>
+<li><strong>Indirect (间接副作用)</strong>: Consequences caused by <strong>Users Working Around</strong> (员工绕过) the control.
+<ul>
+<li><strong>Crucial Point</strong>: “The workaround may be worse than the original risk.”</li>
+<li><em>中文解析</em>：这是安全领域最可怕的事情。如果安全策略太反人类，员工就会想办法<strong>绕过 (Workarounds)</strong> 它。而他们绕过机制时带来的风险，往往比原始漏洞更致命。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="5-Case-Study-The-CxO’s-Mail-经典案例分析：高管的邮件">5. Case Study: The CxO’s Mail (经典案例分析：高管的邮件)</h2>
+<p><strong>The Scenario</strong>: A company imposes strict email encryption and VPN requirements. (公司强制所有人在外办公必须连 VPN 并用加密邮件)。</p>
+<ul>
+<li><strong>Problem</strong>: The CxO finds the VPN “a bit of a faff” (麻烦) and can’t check mail on his iPad while watching TV. (高管觉得连 VPN 太繁琐，影响了他在家看电视时顺便用 iPad 回邮件)。</li>
+<li><strong>Workaround</strong>: He asks his secretary to forward emails to his <strong>personal Gmail</strong>. (高管让秘书把他所有的工作邮件自动转发到个人的 Gmail 邮箱)。</li>
+<li><strong>Result</strong>: The data is now outside corporate governance, accessible to Google for data mining, and potentially illegal under regulations like GDPR or Sarbox. <strong>The security measure created a shadow IT risk.</strong></li>
+</ul>
+<hr>
+<h2 id="6-Risk-Appetite-Residual-Risk-风险偏好与残余风险">6. Risk Appetite &amp; Residual Risk (风险偏好与残余风险)</h2>
+<p>这是安全从业者最需要掌握的两个核心商业逻辑。</p>
+<h3 id="6-1-Definitions-定义">6.1 Definitions (定义)</h3>
+<ul>
+<li><strong>Risk Appetite (风险偏好/风险胃口)</strong>: The level of risk an enterprise is willing to accept in pursuit of its objectives.
+<ul>
+<li><em>中文解析</em>：企业为了赚钱，愿意承担多大的风险？安全人员不应在真空中制定策略，必须对齐组织的商业目标。</li>
+</ul>
+</li>
+<li><strong>Residual Risk (残余风险)</strong>: The remaining likelihood and impact after controls are applied.
+<ul>
+<li><em>中文解析</em>：在你实施了所有安全策略后，<strong>系统里仍然剩下的那部分风险</strong>。</li>
+</ul>
+</li>
+</ul>
+<h3 id="6-2-Who-sets-appetite-谁说了算？">6.2 Who sets appetite? (谁说了算？)</h3>
+<ul>
+<li><strong>High-Level Decision (高层决策)</strong>: Risk appetite must be set by the <strong>Board</strong> or <strong>Senior Management</strong>, not the IT department.</li>
+<li><strong>The “Protection Racket” Trap (避免“收保护费”游戏)</strong>: Security staff should avoid scaring management (e.g., “Buy this or we go bankrupt”) to get budget. This is known as a “protection racket.” Instead, provide options and quantify impacts.
+<ul>
+<li><em>中文解析</em>：别通过恐吓老板来获取预算。安全人员的任务是给老板提供清晰的商业选项：“老板，不修这个洞可能被罚500万，修它要花100万，您定。”</li>
+</ul>
+</li>
+</ul>
+<h3 id="6-3-Residual-Risk-Statement-残余风险声明">6.3 Residual Risk Statement (残余风险声明)</h3>
+<p>This is a formal document that lists risks not covered by controls.</p>
+<ul>
+<li><strong>Accountability (责任对齐)</strong>: It forces the business side to either accept the risk or provide resources.</li>
+<li><strong>Avoid Cover-ups (避免隐瞒)</strong>: The worst case for a CSO is not a security incident, but an incident senior management were <strong>never warned about</strong>.
+<ul>
+<li><em>中文解析</em>：这是你的“免责声明”，也是诚实的体现。明确告诉管理层哪些风险是我们没有处理的，将决策权和责任交还给业务方。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="7-🎲-Exercise-The-Psychology-of-Risk-练习：风险心理学与期望值">7. 🎲 Exercise: The Psychology of Risk (练习：风险心理学与期望值)</h2>
+<p><strong>The Coin Toss Game (Slide 19 抛硬币游戏)</strong>:</p>
+<ul>
+<li><strong>The Setup</strong>: I give you €1. You flip a coin $n$ times. If it comes up heads <em>every single time</em>, you must pay me €$2^n$. Otherwise, you keep the €1 and I get nothing.</li>
+<li><strong>The Math (期望值计算)</strong>:
+<ul>
+<li>The probability of getting $n$ heads in a row is $(\frac{1}{2})^n$.</li>
+<li>The payout if that happens is $2^n$.</li>
+<li><strong>Expected Value (EV / 期望值)</strong> = Probability $\times$ Payout = $(\frac{1}{2})^n \times 2^n = 1$.</li>
+</ul>
+</li>
+<li><strong>The Lesson (核心教训)</strong>:
+<ul>
+<li>Mathematically, the Expected Value is <strong>always €1</strong>, whether $n=1$ or $n=20$. It is a “fair bet”.</li>
+<li>However, if $n=20$, the chance of losing is roughly 1 in a million, but the <strong>worst-case situation</strong> is losing over €1,000,000.</li>
+<li><strong>Risk Appetite</strong>: The expected value formula (<code>Likelihood x Impact</code>) breaks down for individuals and single businesses. You might accept a high-probability/low-impact risk (losing €2), but you will refuse a low-probability/catastrophic-impact risk (losing €1M) because the worst-case scenario exceeds your ability to survive.</li>
+<li><em>中文解析</em>：这是对 Risk 公式 (Likelihood x Impact) 最有力的反驳！当 n=20 时，虽然期望值还是1块钱，但最坏的情况是你突然欠了100万欧元，直接破产。<strong>企业的风险偏好不是建立在统计学的平均值上的，而是建立在“最坏情况的生存能力 (Survivability)”上的。</strong></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="8-Failure-is-an-Option-失败也是一种选项">8. Failure is an Option (失败也是一种选项)</h2>
+<p>In business security, unlike space flight, <strong>failure is often an acceptable cost</strong>.</p>
+<h3 id="8-1-Jeopardy-Management-风险-博弈管理">8.1 Jeopardy Management (风险/博弈管理)</h3>
+<p>Smarter businesses decide when it’s cheaper to fail than to guarantee 100% success.</p>
+<ul>
+<li><strong>Example</strong>: A pizza shop promising “15 mins or free.” They’d rather give away the occasional free pizza than hire excess riders to cover peak demand.</li>
+<li><em>中文解析</em>：公司有时宁愿承担偶尔赔偿的成本，也不愿投入无限资源。这叫理性的商业博弈。</li>
+</ul>
+<h3 id="8-2-Regulatory-Reality-监管的现实">8.2 Regulatory Reality (监管的现实)</h3>
+<p>Don’t be scared by theories of “4% of global turnover” fines.</p>
+<ul>
+<li><strong>Reasonable Precautions</strong>: Having an approved ISO 27001 Certification, a consistent Asset Register, and a valid RTP usually satisfies regulators (like the ICO) that you took “reasonable steps,” even if a breach occurs.</li>
+<li><strong>Goal</strong>: Be <strong>Careful (谨慎)</strong>, not Perfect (完美).</li>
+</ul>
+<hr>
+<h2 id="9-Conclusions-Perverse-Incentives-结论：反向激励的危害">9. Conclusions: Perverse Incentives (结论：反向激励的危害)</h2>
+<ul>
+<li><strong>Total Cost is not just money</strong>: Never underestimate the ingenuity of users in foiling your intentions. (别低估了员工为了方便而破坏安全规则的聪明才智。)</li>
+<li><strong>Perverse Incentives (反向激励)</strong>: Sometimes staff are driven by targets to do things bad for the enterprise.</li>
+<li><strong>Golden Rule (黄金法则)</strong>: Measuring security staff <strong>only on security</strong> is a bad idea! Security must improve the overall operation, not just reduce theoretical risks.
+<ul>
+<li><em>中文解析</em>：如果安全主管的唯一考核指标是“公司不能被黑”，他最好的做法就是拔掉公司的网线。安全部门必须为业务运营服务，而不是以安全之名扼杀业务。</li>
+</ul>
+</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/" class="category-chain-item">学业笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/DMSS/" class="category-chain-item">DMSS</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/" class="print-no-link">#学业笔记</a>
+      
+        <a href="/tags/DMSS/" class="print-no-link">#DMSS</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Lecture 5: Risk Treatment &amp; Risk Appetite (风险处置与风险偏好)</div>
+      <div>https://lofiskyline.github.io/2026/05/10/DMSS/Note/SSMLecture5/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Blog Author</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年5月10日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/05/10/DMSS/Note/SSMLecture6/" title="Lecture 6: Defence in Depth &amp; Attack Trees (纵深防御与攻击树)">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Lecture 6: Defence in Depth &amp; Attack Trees (纵深防御与攻击树)</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/05/10/DMSS/Note/SSMLecture4/" title="Lecture 4: Risks, Threats &amp; Threat Actors (风险、威胁与威胁主体)">
+                        <span class="hidden-mobile">Lecture 4: Risks, Threats &amp; Threat Actors (风险、威胁与威胁主体)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

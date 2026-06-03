@@ -1,0 +1,835 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" >
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Blog Author">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="设备安全的“隐形护盾”：揭秘引导启动背后的信任链条 1. 引言：当你的设备按下电源键时，它真的安全吗？ 在移动互联网时代，按下电源键启动手机是一个近乎无意识的日常动作。当屏幕亮起、品牌 Logo 闪过，多数用户认为只要进入系统后有杀毒软件“看门”就是安全的。 然而，从安全专家的视角看，启动过程其实是一场精密且危险的博弈。如果恶意软件在操作系统加载之前就已经潜伏在底层，那么上层的安全软件就像是盖在流">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设备安全的“隐形护盾”：揭秘引导启动背后的信任链条">
+<meta property="og:url" content="https://lofiskyline.github.io/2026/05/10/DMSS/achieved/DMSS-Lec7/index.html">
+<meta property="og:site_name" content="My Blog">
+<meta property="og:description" content="设备安全的“隐形护盾”：揭秘引导启动背后的信任链条 1. 引言：当你的设备按下电源键时，它真的安全吗？ 在移动互联网时代，按下电源键启动手机是一个近乎无意识的日常动作。当屏幕亮起、品牌 Logo 闪过，多数用户认为只要进入系统后有杀毒软件“看门”就是安全的。 然而，从安全专家的视角看，启动过程其实是一场精密且危险的博弈。如果恶意软件在操作系统加载之前就已经潜伏在底层，那么上层的安全软件就像是盖在流">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-05-10T10:56:58.000Z">
+<meta property="article:modified_time" content="2026-06-03T14:46:33.382Z">
+<meta property="article:author" content="Blog Author">
+<meta property="article:tag" content="学业笔记">
+<meta property="article:tag" content="DMSS">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>设备安全的“隐形护盾”：揭秘引导启动背后的信任链条 - My Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"lofiskyline.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Joe&#39;s World</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.5)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="设备安全的“隐形护盾”：揭秘引导启动背后的信任链条"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-05-10 18:56" pubdate>
+          2026年5月10日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          21 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">设备安全的“隐形护盾”：揭秘引导启动背后的信任链条</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="设备安全的“隐形护盾”：揭秘引导启动背后的信任链条">设备安全的“隐形护盾”：揭秘引导启动背后的信任链条</h1>
+<h3 id="1-引言：当你的设备按下电源键时，它真的安全吗？">1. 引言：当你的设备按下电源键时，它真的安全吗？</h3>
+<p>在移动互联网时代，按下电源键启动手机是一个近乎无意识的日常动作。当屏幕亮起、品牌 Logo 闪过，多数用户认为只要进入系统后有杀毒软件“看门”就是安全的。</p>
+<p>然而，从安全专家的视角看，启动过程其实是一场精密且危险的博弈。如果恶意软件在操作系统加载之前就已经潜伏在底层，那么上层的安全软件就像是盖在流沙上的城堡。这种挑战引出了移动安全领域的一个核心课题：如何在性能受限、电池电量珍贵的硬件上，构建起一套不可逾越的“信任链条”？</p>
+<h3 id="2-Rootkit：潜伏在系统深处的“终极猎手”">2. Rootkit：潜伏在系统深处的“终极猎手”</h3>
+<p>在所有的安全威胁中，Rootkit 是最阴险的一类。它们的目标不是简单的应用层破坏，而是获取系统的“最高控制权”。</p>
+<p>根据安全工程的严格定义：</p>
+<p><strong>Rootkit</strong>：旨在允许访问计算机或其软件中原本不被允许的区域的代码。</p>
+<p>Rootkit 之所以致命，主要源于两个特性：</p>
+<ul>
+<li><strong>权限登顶</strong>：它们通常以最高特权级别（Highest Privileges）运行，能够接管内核。</li>
+<li><strong>深度隐匿</strong>：由于它们运行在杀毒工具（Anti-malware tools）的底层，可以轻易伪造系统调用，从而躲避检测和删除。</li>
+</ul>
+<p>恶意程序往往以普通“有用应用”为掩护，诱导用户安装，进而成为安装后门或 Rootkit 的跳板。如果攻击者在内核启动前就篡改了系统，他们将获得持久的访问权限，而用户对此一无所知。</p>
+<h3 id="3-信任链的起点：硬件信任根的“接力”">3. 信任链的起点：硬件信任根的“接力”</h3>
+<p>要对抗 Rootkit，系统必须确立一个“绝对可信”的起点，即信任根（Root of Trust, RoT）。</p>
+<p>引导加载程序（Bootloader）被视为设备状态的“监护人”（Guardian）。它的职责是在初始化可信执行环境（TEE）的同时，将硬件信任根与后续流程绑定。根据存储介质的不同，信任根分为两类：</p>
+<ul>
+<li><strong>硬件信任根（Hardware RoT）</strong>：这是安全的基石。它是在芯片制造阶段（Chip Fabrication）直接固化在硬件里的，物理上不可更改。</li>
+<li><strong>非硬件信任根</strong>：存储在 NAND 等非易失性存储中，虽然持久，但理论上存在被篡改的可能性。</li>
+</ul>
+<p><strong>信任的“接力”：</strong> 安全启动的奥秘在于“链条”二字。当硬件 RoT 验证了 Bootloader 的合法性后，Bootloader 接着验证内核；随后，这种验证权会移交给软件层。这种环环相扣的验证，确保了信任从硬件一直延伸到用户空间。</p>
+<h3 id="4-鱼与熊掌兼得：Dm-verity-与-4K-分块的艺术">4. 鱼与熊掌兼得：Dm-verity 与 4K 分块的艺术</h3>
+<p>在移动安全中存在一个“性能悖论”：如果系统在启动时对整个系统分区进行哈希校验，由于读取数据量巨大，将耗费极长的时间并迅速榨干电池电量。</p>
+<p>Android 引入的 <strong>dm-verity</strong> 完美平衡了完整性与效率。它不再采用粗暴的全盘校验，而是使用了加密哈希树——<strong>Merkle Tree</strong>：</p>
+<ol>
+<li><strong>分块验证</strong>：系统将存储空间划分为固定大小的块（通常为 <strong>4096 字节，即 4K</strong>）。</li>
+<li><strong>并行哈希</strong>：当内核从存储介质读取某个数据块到内存时，哈希操作会实时、并行地发生。</li>
+<li><strong>层级溯源</strong>：Merkle Tree 就像一个严密的图书馆目录。底层的“叶子节点”代表 4K 数据块。如果某块数据被改动，其哈希值改变会立刻导致上层分支乃至“根哈希”（Root Hash）失效。</li>
+</ol>
+<p>通过这种“按需验证”的机制，设备只需在读取数据的瞬间确认为真，既保证了实时安全性，又避免了无谓的电量损耗。</p>
+<h3 id="5-可用安全性：Android-启动流向中的决策权">5. 可用安全性：Android 启动流向中的决策权</h3>
+<p>在 Android 的启动流程（Boot Flow）中，系统贯彻了“失败安全性”（Fail Secure）原则。但为了兼顾用户体验（Usable Security），它通过不同颜色的警告将选择权部分交还给用户：</p>
+<ul>
+<li><strong>橙色警告 (Orange)</strong>：当设备处于解锁状态（Root 常用状态）时显示。系统会等待用户交互或超时，用户确认后可继续引导。</li>
+<li><strong>黄色警告 (Yellow)</strong>：当嵌入式密钥（Embedded Key）有效，但并非官方的 <strong>OEM 密钥</strong>时触发。这通常意味着用户刷入了自定义的经过签名的固件。系统会展示指纹信息并等待用户批准。</li>
+<li><strong>红色错误 (Red)</strong>：这是最严重的底层故障——启动分区无法通过 Embedded Key 的完整性验证。此时，系统严格遵循“失败即停止”原则，显示错误后直接<strong>关闭电源（Power off）</strong>，防止损坏扩大。</li>
+</ul>
+<p>这里还涉及到一个进阶概念：<strong>度量启动（Measured Boot）</strong>。与“受信任启动”直接拒绝未经验证的代码不同，度量启动会记录（Log）每一阶段的哈希值并存储在安全硬件中，用于后续的远程证明（Remote Attestation）。</p>
+<h3 id="6-两个世界：TEE-与-TPM-提供的隐形隔离">6. 两个世界：TEE 与 TPM 提供的隐形隔离</h3>
+<p>即便启动过程安全，系统运行时的敏感操作（如指纹识别、支付密钥）仍需额外保护。这就是**可信执行环境（TEE）**的用武之地。</p>
+<p>TEE（如 ARM TrustZone 或 Intel SGX）将处理器划分为两个平行的世界：</p>
+<ul>
+<li><strong>安全世界（Secure World）</strong>：这里拥有独立的内存和资源，存储加密密钥、生物识别数据。它支撑着 ApplePay、TouchID 等高价值服务。</li>
+<li><strong>普通世界（Normal World）</strong>：运行我们常用的操作系统和 App。即便普通世界被黑客彻底攻破，攻击者也无法跨越硬件屏障窃取安全世界里的密钥。</li>
+</ul>
+<p>配合 <strong>TPM（可信平台模块）</strong> 这一专用加密处理器，设备可以执行“远程证明”。这意味着设备能向服务器证明自己的“健康状态”：如果引导过程的记录与预期不符，企业服务器可以拒绝该设备访问敏感数据。</p>
+<h3 id="7-结语：深度防御是一场持续的修行">7. 结语：深度防御是一场持续的修行</h3>
+<p>设备安全从不是靠单一技术实现的，它是认证、访问控制和“深度防御”（Defense in Depth）的综合产物。从最初的<strong>启动过程加密验证</strong>，到<strong>用户空间的沙箱隔离</strong>，再到<strong>分发渠道（应用商店）的审核机制</strong>，三重屏障共同守护着数据安全。</p>
+<p>然而，底层硬件的信任也非完美。正如我们在体系架构中所看到的，如果 OEM 密钥发生泄露，目前硬件层面往往无法进行更新。</p>
+<p>这留下了一个引人深思的问题：如果作为信任基石的硬件密钥不再安全，我们该如何重建对数字世界的信任？在极致的便捷与极致的安全之间，平衡点又该在哪里？了解这些隐形护盾，是我们作为数字公民保持警惕、保护自我的第一步。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/" class="category-chain-item">学业笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/DMSS/" class="category-chain-item">DMSS</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/" class="print-no-link">#学业笔记</a>
+      
+        <a href="/tags/DMSS/" class="print-no-link">#DMSS</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>设备安全的“隐形护盾”：揭秘引导启动背后的信任链条</div>
+      <div>https://lofiskyline.github.io/2026/05/10/DMSS/achieved/DMSS-Lec7/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Blog Author</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年5月10日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/05/10/DMSS/achieved/DMSS-Lec4-Risk-Treatment/" title="风险处置与控制措施 (Risk Treatment &amp; Controls)">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">风险处置与控制措施 (Risk Treatment &amp; Controls)</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/05/10/DMSS/achieved/DMSS-Lec9-Cloud-Data-Security/" title="云数据安全 (Cloud Data Security)">
+                        <span class="hidden-mobile">云数据安全 (Cloud Data Security)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

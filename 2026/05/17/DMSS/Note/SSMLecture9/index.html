@@ -1,0 +1,969 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" >
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Blog Author">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="SSMLecture 9: Cloud Data Security 1. 云的分类与动机 (Cloud Classification &amp; Motivation) 云的分类 (Types of Cloud)  Public cloud (公有云): Anyone can share the cloud resource with you. 资源对公众开放，由第三方提供商拥有和管理。 Priv">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SSMLecture 9: Cloud Data Security">
+<meta property="og:url" content="https://lofiskyline.github.io/2026/05/17/DMSS/Note/SSMLecture9/index.html">
+<meta property="og:site_name" content="My Blog">
+<meta property="og:description" content="SSMLecture 9: Cloud Data Security 1. 云的分类与动机 (Cloud Classification &amp; Motivation) 云的分类 (Types of Cloud)  Public cloud (公有云): Anyone can share the cloud resource with you. 资源对公众开放，由第三方提供商拥有和管理。 Priv">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-05-17T14:59:24.000Z">
+<meta property="article:modified_time" content="2026-06-03T14:46:33.381Z">
+<meta property="article:author" content="Blog Author">
+<meta property="article:tag" content="学业笔记">
+<meta property="article:tag" content="DMSS">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>SSMLecture 9: Cloud Data Security - My Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"lofiskyline.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Joe&#39;s World</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.5)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="SSMLecture 9: Cloud Data Security"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-05-17 22:59" pubdate>
+          2026年5月17日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          39 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">SSMLecture 9: Cloud Data Security</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="ssmlecture-9:-cloud-data-security">SSMLecture 9: Cloud Data Security</h1>
+<h2 id="1-云的分类与动机-Cloud-Classification-Motivation">1. 云的分类与动机 (Cloud Classification &amp; Motivation)</h2>
+<h3 id="云的分类-Types-of-Cloud">云的分类 (Types of Cloud)</h3>
+<ul>
+<li><strong>Public cloud (公有云)</strong>: Anyone can share the cloud resource with you. 资源对公众开放，由第三方提供商拥有和管理。</li>
+<li><strong>Private cloud (私有云)</strong>: The cloud is owned/maintained by your own organization. 专为单一组织内部使用。</li>
+<li><strong>Community cloud (社区云)</strong>: A group gets together to jointly own/manage a cloud infrastructure. 由多个有共同利益（如安全需求、政策）的组织共同拥有和管理。</li>
+<li><strong>Hybrid cloud (混合云)</strong>: Some mix of public/private. 例如：使用私有云处理核心数据，公有云进行海量存储。</li>
+</ul>
+<h3 id="使用动机-Motivation">使用动机 (Motivation)</h3>
+<p>云服务的核心吸引力在于：<strong>Simplicity (简单性)</strong>、<strong>Cost (低成本)</strong>、<strong>Security (安全性)</strong>、<strong>Resilience (弹性)</strong>、<strong>Flexibility (灵活性)</strong> 以及 <strong>Pace of Innovation (创新速度)</strong>。</p>
+<hr>
+<h2 id="2-云安全的主要问题-Main-Cloud-Security-Issues">2. 云安全的主要问题 (Main Cloud Security Issues)</h2>
+<p>根据 Cloud Security Alliance (CSA) 的总结，云环境面临 12 个主要的威胁：</p>
+<ol>
+<li><strong>Data breaches (数据泄露)</strong>: Sensitive information is released, viewed, stolen or used by an unauthorized individual.
+<ul>
+<li><em>Case</em>: 2018 年 Facebook 因 “View As” 漏洞导致 5000 万账户被入侵；2017 年 Equifax 泄露 1.43 亿美国人的社保号。</li>
+</ul>
+</li>
+<li><strong>Insufficient identity, credential and access management (身份与访问管理不足)</strong>: 缺乏多因素认证 (MFA) 和密钥轮换机制。
+<ul>
+<li><em>Case</em>: 开发者将凭证上传至 GitHub，攻击者 36 小时内即可扫描并劫持账户用于挖矿。</li>
+</ul>
+</li>
+<li><strong>Insecure interfaces and APIs (不安全的接口和 API)</strong>: 云服务的安全高度依赖基础 API 的安全性。
+<ul>
+<li><em>Case</em>: 2015 年美国国税局 (IRS) “Get Transcript API” 漏洞暴露 30 万条记录。</li>
+</ul>
+</li>
+<li><strong>System vulnerabilities (系统漏洞)</strong>: 利用内核或系统库中的 bug。
+<ul>
+<li><em>Case</em>: <strong>Heartbleed (OpenSSL)</strong> 导致密钥可被读取；<strong>Shellshock (Bash)</strong> 允许执行任意命令。</li>
+</ul>
+</li>
+<li><strong>Account hijacking (账户劫持)</strong>: 攻击者通过网络钓鱼或漏洞获取用户凭证。
+<ul>
+<li><em>Case</em>: <strong>Code Spaces</strong> 因 AWS 账户被劫持且未开启 MFA，导致公司资产全毁而倒闭。</li>
+</ul>
+</li>
+<li><strong>Malicious insiders (恶意内部人员)</strong>: 现任/前任员工滥用授权权限。
+<ul>
+<li><em>Case</em>: Google 系统工程师滥用权限访问未成年人隐私数据。</li>
+</ul>
+</li>
+<li><strong>Advanced Persistent Threats (APTs) (高级持续性威胁)</strong>: 建立长期立足点并横向移动。
+<ul>
+<li><em>Case</em>: <strong>Carbanak</strong> 团伙瞄准银行内部系统；<strong>Stuxnet</strong> 蠕虫攻击 PLC。</li>
+</ul>
+</li>
+<li><strong>Data loss (数据丢失)</strong>: 因意外删除、物理灾难或<strong>丢失加密密钥 (Encryption Key)</strong> 导致。
+<ul>
+<li><em>Case</em>: 2011 年 Amazon EC2 崩溃导致显著的数据丢失。</li>
+</ul>
+</li>
+<li><strong>Insufficient due diligence (尽职调查不足)</strong>: 盲目采用云服务商。
+<ul>
+<li><em>Case</em>: <strong>Nirvanix</strong> 突然倒闭，仅给客户两周时间迁移海量数据。</li>
+</ul>
+</li>
+<li><strong>Abuse and nefarious use of cloud services (滥用云服务)</strong>: 攻击者注册免费/被盗账户发起攻击。
+<ul>
+<li><em>Case</em>: <strong>MIRAI 僵尸网络</strong> 生成超过 300 Gbps 的流量。</li>
+</ul>
+</li>
+<li><strong>Denial of service (DoS) (拒绝服务攻击)</strong>: 耗尽系统资源（带宽、CPU）使服务不可用。</li>
+<li><strong>Shared technology issues (共享技术问题)</strong>: 多租户架构隔离不足。
+<ul>
+<li><em>Case</em>: <strong>Cross-VM Side Channels</strong> 侧信道提取私钥；<strong>VENOM</strong> 漏洞允许从访客机逃逸。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="3-攻击者模型-Attacker-Models">3. 攻击者模型 (Attacker Models)</h2>
+<p>攻击者模型描述了攻击者在尝试破坏系统时具备的能力和权限：</p>
+<ol>
+<li><strong>Honest (诚实模型)</strong>: 严格遵守规则，不构成威胁。</li>
+<li><strong>Honest-but-curious (诚实但好奇)</strong>: <strong>云安全中最常用的模型</strong>。
+<ul>
+<li>特点：遵守协议 (Obey protocol)，但作为 <strong>Passive attacker (被动攻击者)</strong>，会尝试访问数据。</li>
+</ul>
+</li>
+<li><strong>Malicious-but-cautious (恶意但谨慎)</strong>:
+<ul>
+<li>特点：不一定遵守协议，但会<strong>竭力保持隐蔽 (Remain undetected)</strong>，不留下可验证证据。</li>
+<li><strong>为什么 CSP 符合此模型？</strong>
+<ul>
+<li><strong>Malicious</strong>: 只要能通过作弊获取额外利益（如数据变现），CSP 就有动机。</li>
+<li><strong>Cautious</strong>: 为了维持商业信誉和留住客户，它不能公然破坏系统或被发现。它是一个 <strong>Active and covert attacker (主动且隐蔽的攻击者)</strong>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Malicious (恶意模型)</strong>: <strong>最强大的攻击者</strong>。
+<ul>
+<li>特点：对网络和资源拥有完全控制权 (Complete control)，不择手段，不在乎是否被发现（如 Dolev-Yao 模型）。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="4-案例分析-1-CryptDB-加密数据库系统">4. 案例分析 1: CryptDB (加密数据库系统)</h2>
+<h3 id="架构关系-Architecture">架构关系 (Architecture)</h3>
+<p>CryptDB 作为一个安全中间件 (Middleware)，其核心架构包括：</p>
+<ul>
+<li><strong>User / Application Server</strong>: 发送明文 SQL。</li>
+<li><strong>CryptDB Proxy</strong>: 位于 <strong>Trusted Zone</strong>。负责存储密钥、拦截 SQL、将查询重写为加密 SQL，并解密 MySQL 返回的结果。</li>
+<li><strong>DBMS Server (MySQL)</strong>: 存储加密数据，运行 <strong>CryptDB UDFs</strong>。它是 <strong>Unmodified (未经修改的)</strong>，只需安装 UDF 插件。</li>
+</ul>
+<h3 id="洋葱加密层级-Onion-Encryption-Layers">洋葱加密层级 (Onion Encryption Layers)</h3>
+<p>CryptDB 为每列数据维护多个独立的“洋葱”：</p>
+<ol>
+<li><strong>Onion Eq (等值查询洋葱)</strong>: <code>RND -&gt; DET -&gt; JOIN</code></li>
+<li><strong>Onion Ord (排序查询洋葱)</strong>: <code>RND -&gt; OPE -&gt; OPE-JOIN</code></li>
+</ol>
+<ul>
+<li><strong>RND (Random)</strong>: 最强加密，每次加密结果不同，不支持任何运算 (No functionality)。</li>
+<li><strong>DET (Deterministic)</strong>: 确定性加密。相同的明文对应相同的密文，支持 <strong>Equality selection (等值查询)</strong>，但泄露频率分布。</li>
+<li><strong>OPE (Order-preserving)</strong>: 保序加密。如果 $x &lt; y$，则 $enc(x) &lt; enc(y)$。支持 <strong>Sort (排序)</strong> 和范围查询，但泄露数据顺序。</li>
+</ul>
+<h3 id="UDF-与-剥洋葱机制-UDF-Onion-Peeling">UDF 与 剥洋葱机制 (UDF &amp; Onion Peeling)</h3>
+<ul>
+<li><strong>何时调用</strong>: 当用户的查询需要某个被包裹在 RND 内部的层级（如 DET 或 OPE）时。</li>
+<li><strong>过程</strong>:
+<ol>
+<li>Proxy 将 <strong>解密密钥 (Decryption Key)</strong> 发送给数据库端的 UDF。</li>
+<li><strong>UDF (User Defined Function)</strong> 在 MySQL 内部执行，将数据从强加密层“脱”下，露出里面的层级。</li>
+<li>剥洋葱后，数据会永久保留在较低的安全级别，因为重加密的性能开销极大且会影响后续查询效率。<strong>这就是为什么“降级后无法恢复”的原因。</strong></li>
+</ol>
+</li>
+</ul>
+<h3 id="用户查询完整流程与降级机制-Query-Workflow-Downgrade">用户查询完整流程与降级机制 (Query Workflow &amp; Downgrade)</h3>
+<p>以查询 <code>Age</code> 列为例，系统会根据当前的加密状态 (State) 决定是否降级：</p>
+<ol>
+<li><strong>不降级情况 (No Downgrade)</strong>:
+<ul>
+<li>如果用户执行 <code>SELECT * FROM Employees WHERE Age = 30</code>，且 <code>Age</code> 列的 <code>Onion Eq</code> 已经处于 <strong>DET</strong> 级别（可能因为之前的查询已经剥过皮了）。</li>
+<li>Proxy 直接将 <code>30</code> 加密为 <code>DET_30</code>，MySQL 直接执行密文比对，不调用 UDF。</li>
+</ul>
+</li>
+<li><strong>触发降级 (Peeling Trigger)</strong>:
+<ul>
+<li><strong>等值比对 (Equality Selection)</strong>: 如果 <code>Age</code> 为 <code>RND</code> 状态，Proxy 发送 DET 密钥，调用 UDF 剥开 RND 层，降级至 <strong>DET</strong>。</li>
+<li><strong>排序/范围比对 (Sort / Range)</strong>: 如果执行 <code>ORDER BY Age</code>，Proxy 发送 OPE 密钥，调用 UDF 剥开 <code>Onion Ord</code> 的 RND 层，降级至 <strong>OPE</strong>。</li>
+</ul>
+</li>
+<li><strong>MySQL 原生引擎 vs UDF</strong>:
+<ul>
+<li>一旦降级到 DET 或 OPE，MySQL 使用其<strong>原生引擎 (Native Engine)</strong> 和索引（如 B-Tree）即可完成搜索，效率极高。</li>
+<li><strong>UDF</strong> 仅在“剥皮”瞬间和执行“同态加法 (HOM)”等复杂运算时被调用。</li>
+</ul>
+</li>
+</ol>
+<h3 id="为什么降级后无法恢复？-Why-Restoration-is-Impossible">为什么降级后无法恢复？ (Why Restoration is Impossible)</h3>
+<ul>
+<li><strong>Performance (性能)</strong>: 重加密 (Re-encrypting) 需要对全表数百万行记录进行 CPU 密集型的 RND 加密操作，开销巨大。</li>
+<li><strong>Query Frequency (查询频率)</strong>: 统计表明一旦某列被查询过，近期极大概率会被再次查询。频繁的“穿脱衣服”会导致系统可用性 (Availability) 降至零。</li>
+<li><strong>Result</strong>: 这是一个 <strong>Security-Efficiency Tradeoff</strong>（安全与效率的权衡）。系统倾向于保持较低的安全级别以换取高性能。</li>
+</ul>
+<hr>
+<h2 id="5-案例分析-2-ConfiChair-SaaS-应用管理">5. 案例分析 2: ConfiChair (SaaS 应用管理)</h2>
+<h3 id="三个角色的意图-Roles-Intentions">三个角色的意图 (Roles &amp; Intentions)</h3>
+<ul>
+<li><strong>Author (作者)</strong>: Intent to submit papers and scores without letting the Cloud see them.</li>
+<li><strong>Chair (主席)</strong>: Intent to manage the conference. 作为 <strong>Trusted Third Party (可信第三方)</strong>，持有核心密钥。</li>
+<li><strong>Reviewer (审稿人)</strong>: Intent to evaluate papers assigned by the Chair.</li>
+</ul>
+<h3 id="“主席重加密”过程-Re-encryption-Logic">“主席重加密”过程 (Re-encryption Logic)</h3>
+<p>为了瞒过 CSP，ConfiChair 使用了以下逻辑：</p>
+<ol>
+<li><strong>Author Upload</strong>: 作者用论文密钥 $k$ 加密论文，再用会议公钥 $pub(Conf)$ 加密 $k$，得到密钥块 ${k}_{pub(Conf)}$。</li>
+<li><strong>Chair Intervenes</strong>: 主席下载 ${k}_{pub(Conf)}$，用会议私钥 $priv(Conf)$ 解密出<strong>明文 $k$</strong>。<strong>注意：这意味着主席能看到论文内容，但 CSP 依然看不到。</strong></li>
+<li><strong>Chair Re-encrypts</strong>: 主席用审稿人已知的对称密钥 $K_{Conf}$ 重新加密 $k$，得到 ${k}<em>{K</em>{Conf}}$ 并传回云端。</li>
+<li><strong>Reviewer Access</strong>: 审稿人下载新块，用 $K_{Conf}$ 拿回 $k$，最终读取论文。</li>
+</ol>
+<h3 id="安全属性与局限性">安全属性与局限性</h3>
+<ul>
+<li><strong>Secrecy (机密性)</strong>: 系统不知道论文、评分、排名、讨论的具体内容。</li>
+<li><strong>Unlinkability (不可链接性)</strong>: 理想情况下，系统不应知道哪个审稿人 R 评审了哪个作者 A 的论文。</li>
+<li><strong>现实的代价 (The Cost)</strong>:
+<ul>
+<li><strong>Traffic Analysis (流量分析)</strong>: CSP 虽然打不开保险箱，但可以“观察邮差”。如果 Alice 寄出一个 5MB 的包，Richard 随后取走一个 5MB 的包，CSP 就能推断出他们的对应关系。</li>
+<li><strong>结论</strong>: ConfiChair 成功瞒过了 CSP 的眼睛（内容安全），但无法隐藏整个通信的<strong>规程架构和流量特征</strong>。</li>
+</ul>
+</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/" class="category-chain-item">学业笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/DMSS/" class="category-chain-item">DMSS</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/" class="print-no-link">#学业笔记</a>
+      
+        <a href="/tags/DMSS/" class="print-no-link">#DMSS</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>SSMLecture 9: Cloud Data Security</div>
+      <div>https://lofiskyline.github.io/2026/05/17/DMSS/Note/SSMLecture9/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Blog Author</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年5月17日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/05/20/ISE/Note/achieved/week5/" title="Challenging">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Challenging</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/05/17/DMSS/Note/TEE%20%E5%92%8C%20TPM%20%E7%9A%84%E5%90%AF%E5%8A%A8%E6%8C%82%E8%BD%BD%E6%96%B9%E5%BC%8F/" title="TEE 和 TPM 的启动挂载方式">
+                        <span class="hidden-mobile">TEE 和 TPM 的启动挂载方式</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

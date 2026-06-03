@@ -1,0 +1,1022 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" >
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Blog Author">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="课件的第 12 到 19 页详细讲解了如何利用 AI 和传统机器学习（Traditional Machine Learning） 算法来进行 Bug Report Classification（缺陷报告分类）。 它的核心目的非常明确：当用户提交一个文本报告时，AI 要自动判断这到底是一个真正的缺陷（Bug&#x2F;Corrective Maintenance），还是一个功能增强需求（Enhancement">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ISEweek1">
+<meta property="og:url" content="https://lofiskyline.github.io/2026/05/22/ISE/ISEweek1/index.html">
+<meta property="og:site_name" content="My Blog">
+<meta property="og:description" content="课件的第 12 到 19 页详细讲解了如何利用 AI 和传统机器学习（Traditional Machine Learning） 算法来进行 Bug Report Classification（缺陷报告分类）。 它的核心目的非常明确：当用户提交一个文本报告时，AI 要自动判断这到底是一个真正的缺陷（Bug&#x2F;Corrective Maintenance），还是一个功能增强需求（Enhancement">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-05-22T05:40:36.000Z">
+<meta property="article:modified_time" content="2026-06-03T14:46:33.382Z">
+<meta property="article:author" content="Blog Author">
+<meta property="article:tag" content="学业笔记">
+<meta property="article:tag" content="ISE">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>ISEweek1 - My Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"lofiskyline.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Joe&#39;s World</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.5)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="ISEweek1"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-05-22 13:40" pubdate>
+          2026年5月22日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          62 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">ISEweek1</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>课件的第 12 到 19 页详细讲解了如何利用 <strong>AI 和传统机器学习（Traditional Machine Learning）</strong> 算法来进行 <strong>Bug Report Classification（缺陷报告分类）</strong>。<br>
+它的核心目的非常明确：当用户提交一个文本报告时，AI 要自动判断这到底是一个<strong>真正的缺陷（Bug/Corrective Maintenance）</strong>，还是一个<strong>功能增强需求（Enhancement/Refactoring）</strong>。<br>
+这一部分的内容可以分为<strong>两大核心：数据预处理（Data Pre-processing）</strong> 和 <strong>分类模型（Classification Models）</strong>。</p>
+<h2 id="一、-数据预处理的三个步骤-Data-Pre-processing">一、 数据预处理的三个步骤 (Data Pre-processing)</h2>
+<p>在把一封自然语言写成的 Bug 报告喂给 AI 之前，必须先把它数字化。Antoniol 等人在 2008 年的早期经典工作奠定了这个流程：</p>
+<h3 id="1-文本过滤-Text-Filtering">1. 文本过滤 (Text Filtering)</h3>
+<ul>
+<li><strong>标点符号移除（Punctuation removal）：</strong> 删掉无用的标点。</li>
+<li><strong>特定转换（Specific transformations）：</strong> 比如拆分路径、邮箱地址和驼峰命名（Camel-case identifiers）。例如，把 MyUser account 拆分为 My、User 和 account。</li>
+<li><strong>⚠️ 核心考点：为什么不移除停用词（Stop Words）？</strong><br>
+在常规 NLP 中，我们会去掉 “not”、“should” 这种高频词。但缺陷报告中<strong>绝对不能去掉</strong>！课件给出了经典反例：如果把 This is not a bug 中的停用词去掉，文本就会变成 This is a bug，这会导致严重的误判。</li>
+</ul>
+<h3 id="2-词干提取-Stemming">2. 词干提取 (Stemming)</h3>
+<ul>
+<li><strong>概念：</strong> 将一个单词的不同时态、单复数等形式，还原为它的<strong>基本词干（Common Base）</strong>。</li>
+<li><strong>规则举例（课件第 14 页）：</strong> 比如末尾有 SSES 替换为 SS（caresses \rightarrow caress），或者去掉末尾的 S（cats \rightarrow cat）。</li>
+<li><strong>效果对比：</strong> * <em>Original:</em> light caresses colours, sets them aglow…
+<ul>
+<li><em>After Stemming:</em> Light caress colour, set them aglow…</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-特征索引-Indexing">3. 特征索引 (Indexing)</h3>
+<p>处理好文本后，需要将其转化为由数字组成的<strong>向量（Vector）</strong>。</p>
+<ul>
+<li><strong>词频 (Term Frequency, TF)：</strong> 计算一个词在当前报告中出现的比例。比如一封 150 词的报告中，bug 出现了 50 次，则 tf = 50/150 = 0.3333。</li>
+<li><strong>⚠️ 核心考点：为什么在这里往往不用 TF-IDF，而只用 TF？</strong><br>
+通常的文本分类会用 IDF 来惩罚在所有文档中都频繁出现的词。但在缺陷报告中，像 failure（失败）、crash（崩溃）或 should（应该）这类词虽然在绝大多数报告里都出现，但它们<strong>包含了极度重要的特征信息</strong>，不能被 IDF 惩罚（Penalized）。</li>
+<li><strong>最终产物：</strong> 每一封 Bug 报告都变成了一个数值向量，标签（Label）则是二分类向量，如 {bug, no bug} = &lt;0, 1&gt;。</li>
+</ul>
+<h2 id="二、-三种经典的-AI-分类模型-Classification-Models">二、 三种经典的 AI 分类模型 (Classification Models)</h2>
+<p>数据变成数字向量后，就可以训练以下三种经典的机器学习模型了：</p>
+<h3 id="1-决策树-Decision-Tree-DT">1. 决策树 (Decision Tree / DT)</h3>
+<ul>
+<li><strong>工作原理：</strong> 它是一种树状结构，根据属性的不同取值对数据进行一层层的切分（Split）。每个非叶子节点都是一个属性测试，分支代表测试结果。</li>
+<li><strong>直观理解：</strong> 课件第 17 页举了一个“判断一个人是否健康（Fit）”的例子。先看 Age &lt; 30?，如果是，再看 Eat’s a lot of pizzas?；如果不是，再看 Exercises in the morning?，最终走到叶子节点输出 Fit 或 Unfit。在 Bug 分类中，节点会变成“是否包含 crash 词汇？”等文本特征。</li>
+</ul>
+<h3 id="2-朴素贝叶斯-Naive-Bayes-NB">2. 朴素贝叶斯 (Naive Bayes / NB)</h3>
+<ul>
+<li><strong>工作原理：</strong> 基于**贝叶斯定理（Bayes theorem）**的条件概率分类器。</li>
+<li><strong>数学公式：</strong></li>
+<li><strong>逻辑：</strong> 它的核心思想是计算给定特征 x 下，该报告属于各个类别 C_k（是 Bug 或 不是 Bug）的条件概率，哪个概率高就分到哪一类。</li>
+</ul>
+<h3 id="3-逻辑回归-Logistic-Regression-LR">3. 逻辑回归 (Logistic Regression / LR)</h3>
+<ul>
+<li><strong>工作原理：</strong> 虽然名字叫回归，但它是一个用于分类的线性模型。它将自变量 x_1, x_2, …, x_N 进行线性组合得到 y’，然后通过 <strong>Sigmoid（S型）激活函数</strong> 映射到 [0, 1] 空间，输出一个概率值。</li>
+<li><strong>数学公式：</strong></li>
+<li><strong>逻辑：</strong> 我们可以设置一个截止点/阈值（Cutoff point，比如 0.5），概率大于 0.5 的判定为 Bug，小于 0.5 的判定为非 Bug。</li>
+</ul>
+<h3 id="总结与承上启下">总结与承上启下</h3>
+<p>这几页介绍的是 <strong>2008 年左右最经典的“文本挖掘 + 传统机器学习”方案</strong>。它的优点是简单、计算快，但缺点也很明显：它把文本打碎成了独立的词（Bag of Words），完全丢失了词序和上下文语境。<br>
+这就引出了第 20 页之后的内容——现代研究如何利用 <strong>深度学习（Deep Learning, 如 MHANurf）</strong> 来解决这些传统方法的缺陷。<br>
+关于这三大传统模型的预处理和推导，你有什么地方需要我们用实例推演一下吗？<br>
+为了应对考试中 <strong>“简要描述其工作原理（Briefly understand how they work）”</strong> 的要求，你需要掌握这三个经典模型最核心的<strong>工作机制（Mechanism）<strong>和</strong>独特性质（Characteristics）</strong>。<br>
+在答题时，用英文专业词汇（Keywords）精准命中得分点至关重要。以下是为你整理的冲刺版背诵框架：</p>
+<h3 id="1-Decision-Tree-DT-决策树">1. Decision Tree (DT - 决策树)</h3>
+<ul>
+<li><strong>工作方式 (How it works):</strong> 它是一种<strong>树状结构 (Tree structure)</strong>。模型通过在每个节点上对特征属性进行<strong>测试/切分 (Split/Test)</strong>，根据不同的特征值将数据分流到不同的<strong>分支 (Branch)</strong>，层层向下流转，直到最终的叶子节点（Leaf node）输出分类标签（如 Bug 或 非 Bug）。</li>
+<li><strong>特性 (Characteristics):</strong>
+<ul>
+<li><strong>直观易懂 (Highly interpretable):</strong> 它的运行逻辑非常符合人类的条件判断思考方式（If-Then 逻辑）。</li>
+<li><strong>非线性 (Non-linear structure):</strong> 能够天然地处理复杂的非线性关系。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-Naive-Bayes-NB-朴素贝叶斯">2. Naive Bayes (NB - 朴素贝叶斯)</h3>
+<ul>
+<li><strong>工作方式 (How it works):</strong> 它是基于<strong>贝叶斯定理 (Bayes theorem)</strong> 的概率分类器。模型会计算在给定的文本特征 x 下，该报告属于每一个类别 C_k 的<strong>条件概率 (Conditional probability)</strong>。计算完所有类别的概率后，选择<strong>概率最高 (Higher probability)</strong> 的那一类作为预测结果。</li>
+<li><strong>特性 (Characteristics):</strong>
+<ul>
+<li><strong>“朴素”假设 (Naive assumption):</strong> 它有一个强假设，即假设所有的文本特征（即词汇之间）是<strong>相互独立 (Feature independence)</strong> 的。虽然这个假设在现实中往往不成立，但该模型在文本分类任务中却异常高效。</li>
+<li><strong>计算快 (Computationally efficient):</strong> 只需要进行简单的计数和概率乘法，训练和预测速度极快。</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-Logistic-Regression-LR-逻辑回归">3. Logistic Regression (LR - 逻辑回归)</h3>
+<ul>
+<li><strong>工作方式 (How it works):</strong> 它是一个用于分类的<strong>线性模型 (Linear model)</strong>。它首先将输入的自变量 x 进行线性组合，然后通过一个 <strong>Sigmoid 激活函数 (Sigmoid / Logistic function)</strong> 将结果映射为一个 [0, 1] 之间的概率值 p(x)。最后利用一个<strong>截断点/阈值 (Cutoff point)</strong> 来决定最终归属于哪一类。</li>
+<li><strong>特性 (Characteristics):</strong>
+<ul>
+<li><strong>输出概率值 (Outputs probabilities):</strong> 它不仅给出分类，还能给出模型对这个分类的信心程度（即概率值）。</li>
+<li><strong>易于优化 (Easy to train):</strong> 它是统计学中的经典方法，对线性可分的数据集表现极佳。</li>
+</ul>
+</li>
+</ul>
+<h3 id="💡-考试答题套路提示">💡 考试答题套路提示</h3>
+<p>如果考题要求对比它们，记住一句话：</p>
+<blockquote>
+<p><strong>DT</strong> 靠“层层规则切分”，<strong>NB</strong> 靠“算条件概率”，而 <strong>LR</strong> 靠“线性映射加 Sigmoid 函数”。它们在 Bug 分类中，都是为了处理由文本词频（TF）构成的特征向量。</p>
+</blockquote>
+<p>这三种经典模型的工作方式你记下来了吗？接下来我们可以看看第 20 页，了解现代深度学习模型（如 <strong>MHANurf</strong>）是如何降维打击这些传统方法的。<br>
+好的，我们来详细拆解第 9 页提到的 <strong>Lifecycle of A Bug Report（缺陷报告的生命周期）</strong>。<br>
+在现代软件工程中，Bug 报告并不是一个静态的记录，而是一个<strong>动态流转的状态机（State Machine）</strong>。随着开发人员、测试人员和用户的介入，它的状态会不断发生变化。<br>
+结合课件中的流程图，整个生命周期可以详细分为以下几个核心阶段和流转逻辑：</p>
+<h3 id="1-初始阶段：从未确认到确认">1. 初始阶段：从未确认到确认</h3>
+<ul>
+<li><strong>UNCONFIRMED（未确认）</strong>
+<ul>
+<li><strong>背景：</strong> 当 end-users（终端用户）或测试人员刚在 JIRA 或 GitHub 等 Tracker 上提交一个新的缺陷时，系统默认给出的初始状态。</li>
+<li><strong>流转：</strong> 此时，该报告还没有经过官方的验证。如果分拣人员（Triager）或开发人员复现了这个问题，确认这<strong>确实是一个 Bug（Indeed a bug）</strong>，它就会被推进到下一个状态。</li>
+</ul>
+</li>
+<li><strong>NEW（新提交）</strong>
+<ul>
+<li><strong>背景：</strong> 报告已被确认是软件本身的缺陷。</li>
+<li><strong>流转：</strong> 它会进入待办列表（Backlog），等待被分发。如果在这个阶段发现报告有误，或者负责人发生了变更，它的<strong>所有权可能会被修改（Ownership is changed）</strong>。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-处理阶段：指派与修复">2. 处理阶段：指派与修复</h3>
+<ul>
+<li><strong>ASSIGNED（已指派）</strong>
+<ul>
+<li><strong>背景：</strong> **某位特定的开发人员接管了（takes possession of）**这个 Bug。他的任务就是去阅读 Description、分析 Code、并在本地定位和修复它。</li>
+<li><strong>流转：</strong> 当开发人员编写完补丁（Patch）并认为**缺陷已经解决（The bug has been solved / Developer has solved the bug）**后，他会将状态修改为 RESOLVED。</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-解决阶段：五种不同的-Resolution">3. 解决阶段：五种不同的 Resolution</h3>
+<p>当 Bug 报告进入 <strong>RESOLVED（已解决）</strong> 状态时，必须指定一个具体的 <strong>Resolution（解决结论）</strong>。课件中列出了 5 种最经典的结论：</p>
+<table>
+<thead>
+<tr>
+<th>Resolution 结论</th>
+<th>含义 (Meaning)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>FIXED</strong></td>
+<td><strong>真正修复</strong>。代码已被修改，补丁已提交。</td>
+</tr>
+<tr>
+<td><strong>WONTFIX</strong></td>
+<td><strong>不予修复</strong>。可能因为该行为是设计使然（It’s a feature），或者修复成本过高、影响范围太大。</td>
+</tr>
+<tr>
+<td><strong>WORKSFORME</strong></td>
+<td><strong>无法复现</strong>。开发人员在自己的环境下测试发现一切正常，无法重现报告中描述的错误。</td>
+</tr>
+<tr>
+<td><strong>DUPLICATE</strong></td>
+<td><strong>重复报告</strong>。这个 Bug 已经被别人先一步提交了（这正是第 51 页“重复报告检测”要解决的问题）。</td>
+</tr>
+<tr>
+<td><strong>INVALID</strong></td>
+<td><strong>无效报告</strong>。用户描述错误、使用了错误的配置，或者根本不是软件本身的问题。</td>
+</tr>
+</tbody>
+</table>
+<pre><code class=" mermaid">graph TD
+    %% 阶段定义
+    Start([开始: Bug 状态变为 ASSIGNED]) --&gt; FeatExt[特征提取 Feature Extraction&lt;br&gt;提取文本/代码/命令等特征]
+    FeatExt --&gt; Localization[缺陷定位 Bug Localization&lt;br&gt;利用排序模型检索相关的 Source Code Files]
+    
+    %% 代码修改核心循环
+    Localization --&gt; DevFix&#123;开发人员修复&lt;br&gt;Developer Fixes Bug&#125;
+    DevFix --&gt;|编写补丁| WritePatch[生成补丁 Patch / Code Snippet]
+    WritePatch --&gt; UpdateStatus[将报告状态修改为 RESOLVED]
+    
+    %% 解决结论分流
+    UpdateStatus --&gt; Resolution&#123;选择解决结论&lt;br&gt;Resolution?&#125;
+    Resolution --&gt;|代码已修改| FIXED[结论: FIXED]
+    Resolution --&gt;|无法复现/无效/重复| NonFixed[结论: WORKSFORME / INVALID / DUPLICATE]
+    
+    %% 验证阶段
+    FIXED --&gt; TestVerify&#123;测试人员验证&lt;br&gt;Regression Testing&#125;
+    NonFixed --&gt; TestVerify
+    
+    %% 验证结果流转
+    TestVerify --&gt;|解决方案无效&lt;br&gt;Solution is not satisfied| REOPEN[状态变更为: REOPEN]
+    REOPEN --&gt;|重新指派所有权| DevFix
+    
+    TestVerify --&gt;|验证通过&lt;br&gt;Solution worked| VERIFIED[状态变更为: VERIFIED]
+    VERIFIED --&gt;|无新异常报告&lt;br&gt;No occurrence reported| CLOSED([终态: CLOSED 成功关闭])
+    
+    %% 样式美化
+    style Start fill:#f9f,stroke:#333,stroke-width:2px
+    style CLOSED fill:#bbf,stroke:#333,stroke-width:2px
+    style REOPEN fill:#ff9999,stroke:#333,stroke-width:2px
+    style FIXED fill:#99ff99,stroke:#333,stroke-width:1px
+graph TD
+    %% 阶段定义
+    Start([开始: Bug 状态变为 ASSIGNED]) --&gt; FeatExt[特征提取 Feature Extraction&lt;br&gt;提取文本/代码/命令等特征]
+    FeatExt --&gt; Localization[缺陷定位 Bug Localization&lt;br&gt;利用排序模型检索相关的 Source Code Files]
+    
+    %% 代码修改核心循环
+    Localization --&gt; DevFix&#123;开发人员修复&lt;br&gt;Developer Fixes Bug&#125;
+    DevFix --&gt;|编写补丁| WritePatch[生成补丁 Patch / Code Snippet]
+    WritePatch --&gt; UpdateStatus[将报告状态修改为 RESOLVED]
+    
+    %% 解决结论分流
+    UpdateStatus --&gt; Resolution&#123;选择解决结论&lt;br&gt;Resolution?&#125;
+    Resolution --&gt;|代码已修改| FIXED[结论: FIXED]
+    Resolution --&gt;|无法复现/无效/重复| NonFixed[结论: WORKSFORME / INVALID / DUPLICATE]
+    
+    %% 验证阶段
+    FIXED --&gt; TestVerify&#123;测试人员验证&lt;br&gt;Regression Testing&#125;
+    NonFixed --&gt; TestVerify
+    
+    %% 验证结果流转
+    TestVerify --&gt;|解决方案无效&lt;br&gt;Solution is not satisfied| REOPEN[状态变更为: REOPEN]
+    REOPEN --&gt;|重新指派所有权| DevFix
+    
+    TestVerify --&gt;|验证通过&lt;br&gt;Solution worked| VERIFIED[状态变更为: VERIFIED]
+    VERIFIED --&gt;|无新异常报告&lt;br&gt;No occurrence reported| CLOSED([终态: CLOSED 成功关闭])
+    
+    %% 样式美化
+    style Start fill:#f9f,stroke:#333,stroke-width:2px
+    style CLOSED fill:#bbf,stroke:#333,stroke-width:2px
+    style REOPEN fill:#ff9999,stroke:#333,stroke-width:2px
+    style FIXED fill:#99ff99,stroke:#333,stroke-width:1px
+
+</code></pre>
+<h3 id="4-验证与关闭阶段">4. 验证与关闭阶段</h3>
+<ul>
+<li><strong>VERIFIED（已验证）</strong>
+<ul>
+<li><strong>背景：</strong> 缺陷被标记为 RESOLVED 后，不能直接关闭，必须由<strong>测试人员（Testers）或项目负责人</strong>在特定的构建（Build）中进行回归测试。</li>
+<li><strong>流转：</strong> 如果测试表明<strong>解决方案确实有效（Solution worked）</strong>，Bug 状态就会推进到 VERIFIED。如果在后续的观察中<strong>没有再次收到该缺陷的报告（No occurrence of the bug is reported）</strong>，它就会被推进到终态——<strong>CLOSED（关闭）</strong>。</li>
+</ul>
+</li>
+</ul>
+<h3 id="5-循环流转：重新打开-REOPEN">5. 循环流转：重新打开 (REOPEN)</h3>
+<p>在整个生命周期中，还有一个非常重要的“逆向流转”状态—— <strong>REOPEN（重新打开）</strong>：</p>
+<ul>
+<li><strong>触发条件 1：</strong> 当 Bug 被标记为 RESOLVED，但测试人员测试后发现<strong>解决方案并不令人满意（Solution is not satisfied）</strong>，即 Bug 依然存在。</li>
+<li><strong>触发条件 2：</strong> 当 Bug 已经走到 VERIFIED 甚至 CLOSED 状态，但在新版本中<strong>该 Bug 再次复现（Bug is reopened）</strong>。</li>
+<li><strong>流转：</strong> 一旦被 REOPEN，报告就会<strong>重新回到 ASSIGNED 或 NEW 状态</strong>，由开发人员重新介入排查。</li>
+</ul>
+<h3 id="💡-老师敲黑板：为什么我们要学这个？">💡 老师敲黑板：为什么我们要学这个？</h3>
+<p>在后面的课件中，所有的 <strong>AI &amp; Data-Driven 技术的目的，都是为了在这些状态切换的“箭头”上提供自动化支持</strong>：</p>
+<ul>
+<li><strong>Bug 报告分类（Classification）：</strong> 帮助报告从 UNCONFIRMED 快速优化并分流。</li>
+<li><strong>缺陷指派（Triage）与优先级（Prioritization）：</strong> 决定从 NEW 到 ASSIGNED 时，该由谁来做、先做哪一个。</li>
+<li><strong>缺陷定位（Localization）：</strong> 协助开发人员在 ASSIGNED 到 RESOLVED 的修复过程中寻找 buggy files。<br>
+这个生命周期你理解了吗？接下来你想详细看看后面的哪一个自动化优化步骤（比如第 11 页的 <strong>Bug Report Classification 分类</strong>）？</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/" class="category-chain-item">学业笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/ISE/" class="category-chain-item">ISE</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/" class="print-no-link">#学业笔记</a>
+      
+        <a href="/tags/ISE/" class="print-no-link">#ISE</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>ISEweek1</div>
+      <div>https://lofiskyline.github.io/2026/05/22/ISE/ISEweek1/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Blog Author</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年5月22日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/06/02/hello-world/" title="Hello World">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Hello World</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/05/22/ISE/Note/week8/" title="第八周：AI 系统的需求工程 (Requirements Engineering for AI)">
+                        <span class="hidden-mobile">第八周：AI 系统的需求工程 (Requirements Engineering for AI)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

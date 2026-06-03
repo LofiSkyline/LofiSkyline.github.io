@@ -1,0 +1,945 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" >
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Blog Author">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Topic 10: Reliable Broadcast Algorithms 1. 概述 (Overview) 广播（Broadcast）是分布式系统中的核心通信原语，允许一个进程向一组进程发送消息。在异步系统中，由于消息丢失和进程崩溃的可能性，我们需要不同的广播抽象来提供不同等级的可靠性保证。 Key Concepts:  Broadcast: The act of an applicatio">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Topic 10: Reliable Broadcast Algorithms">
+<meta property="og:url" content="https://lofiskyline.github.io/2026/05/07/DDS/Note/DDS-10-Reliable-Broadcast-Algorithms/index.html">
+<meta property="og:site_name" content="My Blog">
+<meta property="og:description" content="Topic 10: Reliable Broadcast Algorithms 1. 概述 (Overview) 广播（Broadcast）是分布式系统中的核心通信原语，允许一个进程向一组进程发送消息。在异步系统中，由于消息丢失和进程崩溃的可能性，我们需要不同的广播抽象来提供不同等级的可靠性保证。 Key Concepts:  Broadcast: The act of an applicatio">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-05-07T14:50:12.000Z">
+<meta property="article:modified_time" content="2026-06-03T14:46:33.380Z">
+<meta property="article:author" content="Blog Author">
+<meta property="article:tag" content="学业笔记">
+<meta property="article:tag" content="DDS">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Topic 10: Reliable Broadcast Algorithms - My Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"lofiskyline.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Joe&#39;s World</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.5)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Topic 10: Reliable Broadcast Algorithms"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-05-07 22:50" pubdate>
+          2026年5月7日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          42 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Topic 10: Reliable Broadcast Algorithms</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="topic-10:-reliable-broadcast-algorithms">Topic 10: Reliable Broadcast Algorithms</h1>
+<h2 id="1-概述-Overview">1. 概述 (Overview)</h2>
+<p>广播（Broadcast）是分布式系统中的核心通信原语，允许一个进程向一组进程发送消息。在异步系统中，由于消息丢失和进程崩溃的可能性，我们需要不同的广播抽象来提供不同等级的可靠性保证。</p>
+<p><strong>Key Concepts:</strong></p>
+<ul>
+<li><strong>Broadcast</strong>: The act of an application sending a message to all members of a group.</li>
+<li><strong>Deliver</strong>: The act of the broadcast abstraction handing a received message up to the application.</li>
+<li><strong>Asynchronous System</strong>: We assume no bounds on message delay or process speed, utilizing <a href="/2026/05/13/DDS/Note/DDS-09-Reliable-Links-and-Failure-Detectors/">Reliable Links and Failure Detectors</a>.</li>
+</ul>
+<hr>
+<h2 id="2-基础可靠广播算法-Reliable-Broadcast-Toolkit">2. 基础可靠广播算法 (Reliable Broadcast Toolkit)</h2>
+<h3 id="2-1-最佳努力广播-Best-Effort-Broadcast-BEB">2.1 最佳努力广播 (Best-Effort Broadcast, BEB)</h3>
+<p><strong>Definition (Best-Effort Broadcast):</strong> The simplest broadcast abstraction that guarantees delivery only if the sender does not crash. (最简单的广播抽象，仅在发送方不崩溃的情况下保证送达。)</p>
+<p><strong>Properties:</strong></p>
+<ol>
+<li><strong>Validity</strong>: If a correct process $p_i$ broadcasts a message $m$, then every correct process $p_j$ eventually delivers $m$.</li>
+<li><strong>No Duplication</strong>: No message is delivered more than once.</li>
+<li><strong>No Creation</strong>: No message is delivered unless it was broadcast.</li>
+</ol>
+<p><strong>Algorithm (BEB):</strong><br>
+Uses Reliable Links (Perfect Links) to send messages to all processes.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs pseudocode">upon event &lt; bebBroadcast, m &gt; do<br>    for each process p in S do<br>        trigger &lt; plSend, p, m &gt;<br><br>upon event &lt; plDeliver, p, m &gt; do<br>    trigger &lt; bebDeliver, p, m &gt;<br></code></pre></td></tr></table></figure>
+<ul>
+<li><strong>Reliability:</strong> 依赖发送方的正确性。若发送方在发送过程中崩溃，可能只有部分接收者收到消息。</li>
+<li><strong>Complexity:</strong> $O(N)$ messages (where $N$ is the number of processes).</li>
+</ul>
+<hr>
+<h3 id="2-2-可靠广播-Reliable-Broadcast-RB">2.2 可靠广播 (Reliable Broadcast, RB)</h3>
+<p><strong>Definition (Reliable Broadcast):</strong> A broadcast abstraction that ensures <strong>Agreement</strong>: if any correct process delivers a message, all correct processes deliver it, regardless of whether the sender crashed. (确保“协议性”：即使发送方崩溃，只要有一个正确进程交付了消息，所有正确进程都会交付该消息。)</p>
+<p><strong>Properties:</strong></p>
+<ol>
+<li><strong>BEB Properties</strong>: Validity, No Duplication, No Creation.</li>
+<li><strong>Agreement</strong>: If a message $m$ is delivered by some correct process, then $m$ is eventually delivered by every correct process. (All-or-nothing guarantee).</li>
+</ol>
+<p><strong>Algorithm (Eager RB):</strong><br>
+Processes relay the message to everyone else upon receiving it for the first time.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs pseudocode">upon event &lt; rbBroadcast, m &gt; do<br>    delivered = delivered ∪ &#123;m&#125;<br>    trigger &lt; rbDeliver, self, m &gt;<br>    trigger &lt; bebBroadcast, m &gt;<br><br>upon event &lt; bebDeliver, src, m &gt; do<br>    if m ∉ delivered then<br>        delivered = delivered ∪ &#123;m&#125;<br>        trigger &lt; rbDeliver, src, m &gt;<br>        trigger &lt; bebBroadcast, m &gt;<br></code></pre></td></tr></table></figure>
+<ul>
+<li><strong>Complexity:</strong> $O(N^2)$ messages in the worst case (everyone relays to everyone).</li>
+</ul>
+<hr>
+<h3 id="2-3-均匀可靠广播-Uniform-Reliable-Broadcast-URB">2.3 均匀可靠广播 (Uniform Reliable Broadcast, URB)</h3>
+<p><strong>Definition (Uniform Reliable Broadcast):</strong> A stronger version of RB where the agreement property applies to <strong>all</strong> processes (including those that later crash). If <em>any</em> process (faulty or correct) delivers $m$, then all correct processes must deliver $m$. (更强的保证：只要有进程（即使是故障进程）交付了消息，所有正确进程必须交付该消息。)</p>
+<p><strong>Properties:</strong></p>
+<ol>
+<li><strong>URB Agreement</strong>: If a message $m$ is delivered by <strong>any</strong> process (correct or faulty), then $m$ is eventually delivered by every correct process.</li>
+</ol>
+<p><strong>Algorithm (Majority-based URB):</strong><br>
+A process delivers a message only after it knows that a majority (or all correct processes) have received it.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs pseudocode">upon event &lt; urbBroadcast, m &gt; do<br>    pending = pending ∪ &#123;(self, m)&#125;<br>    trigger &lt; bebBroadcast, [DATA, self, m] &gt;<br><br>upon event &lt; bebDeliver, src, [DATA, origin, m] &gt; do<br>    if (origin, m) ∉ pending then<br>        pending = pending ∪ &#123;(origin, m)&#125;<br>        trigger &lt; bebBroadcast, [DATA, origin, m] &gt;<br>    ack(m) = ack(m) ∪ &#123;src&#125;<br><br>// Delivery condition: message acknowledged by all correct processes<br>upon exists (origin, m) ∈ pending such that <br>      (correct ⊆ ack(m)) and (m ∉ delivered) do<br>    delivered = delivered ∪ &#123;m&#125;<br>    trigger &lt; urbDeliver, origin, m &gt;<br></code></pre></td></tr></table></figure>
+<hr>
+<h2 id="3-广播算法对比分析-Comparison-Analysis">3. 广播算法对比分析 (Comparison &amp; Analysis)</h2>
+<h3 id="3-1-RB-vs-URB-The-“Omniscience”-Problem">3.1 RB vs. URB (The “Omniscience” Problem)</h3>
+<ul>
+<li><strong>RB (Reliable Broadcast)</strong>: 只保证<strong>正确</strong>进程之间的一致性。如果一个进程在交付消息后立刻崩溃，而它又是唯一收到消息的进程，RB 并不要求其他正确进程也交付该消息。</li>
+<li><strong>URB (Uniform Reliable Broadcast)</strong>: 保证<strong>任何</strong>进程（即使随后崩溃）交付了消息，正确进程也必须交付。这在涉及外部副作用（如打印支票、触发硬件动作）时至关重要。</li>
+</ul>
+<h3 id="3-2-复杂度对比-Complexity-Summary">3.2 复杂度对比 (Complexity Summary)</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Algorithm</th>
+<th style="text-align:left">Message Complexity (Worst Case)</th>
+<th style="text-align:left">Latency (Message Steps)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>BEB</strong></td>
+<td style="text-align:left">$O(N)$</td>
+<td style="text-align:left">1</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>RB (Eager)</strong></td>
+<td style="text-align:left">$O(N^2)$</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>URB</strong></td>
+<td style="text-align:left">$O(N^2)$</td>
+<td style="text-align:left">2+ (requires acks)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="4-排序广播-Ordered-Broadcast">4. 排序广播 (Ordered Broadcast)</h2>
+<p>排序广播在可靠广播的基础上增加了对消息交付顺序的限制。</p>
+<h3 id="4-1-FIFO-广播-FIFO-Broadcast">4.1 FIFO 广播 (FIFO Broadcast)</h3>
+<p><strong>Definition (FIFO Order):</strong> If a process $p_i$ broadcasts message $m_1$ before $m_2$, then no correct process delivers $m_2$ unless it has already delivered $m_1$. (单源顺序：同一发送方发出的消息必须按发送顺序交付。)</p>
+<p><strong>FIFO vs. Global FIFO:</strong></p>
+<ul>
+<li><strong>FIFO</strong>: 只保证来自同一个发送者的顺序。不同发送者的消息在不同接收者那里的顺序可能不同。</li>
+<li><strong>Global FIFO (Causal)</strong>: 保证全局因果顺序。</li>
+</ul>
+<p><strong>Algorithm (FIFO RB):</strong><br>
+Uses a sequence number per sender.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs pseudocode">upon event &lt; fifoBroadcast, m &gt; do<br>    trigger &lt; rbBroadcast, [sn, m] &gt;<br>    sn = sn + 1<br><br>upon event &lt; rbDeliver, src, [s, m] &gt; do<br>    pending = pending ∪ &#123;(src, s, m)&#125;<br>    while exists (src, next[src], m&#x27;) ∈ pending do<br>        trigger &lt; fifoDeliver, src, m&#x27; &gt;<br>        next[src] = next[src] + 1<br></code></pre></td></tr></table></figure>
+<hr>
+<h3 id="4-2-因果广播-Causal-Order-Broadcast-COB">4.2 因果广播 (Causal Order Broadcast, COB)</h3>
+<p><strong>Definition (Causal Order):</strong> If the broadcast of $m_1$ causally precedes the broadcast of $m_2$ ($m_1 \to m_2$), then no correct process delivers $m_2$ unless it has already delivered $m_1$. (因果顺序：若消息 $m_1$ 导致了 $m_2$ 的产生，则 $m_1$ 必须在 $m_2$ 之前被交付。)</p>
+<p><strong>Algorithm (Vector Clock Based COB):</strong><br>
+这是实现 COB 的最常用方法。每个进程维护一个向量时钟 $VC$。</p>
+<ul>
+<li><strong>Broadcast $m$</strong>: 增加自己的 $VC[i]$，将 $VC$ 随消息 $m$ 发出。</li>
+<li><strong>Deliver $m$ (from $p_j$ with $VC_m$)</strong>: 满足以下条件时交付：
+<ol>
+<li>$VC_m[j] = VC_{local}[j] + 1$ (这是 $p_j$ 发出的下一条消息)。</li>
+<li>对于所有 $k \neq j$，$VC_m[k] \leq VC_{local}[k]$ (接收者已经交付了所有 $p_j$ 在发送 $m$ 之前看到的因果相关消息)。</li>
+</ol>
+</li>
+</ul>
+<p><strong>Case Study (案例分析):</strong></p>
+<ol>
+<li>$P_1$ 广播 $m_1$ ($VC=[1,0,0]$)。</li>
+<li>$P_2$ 收到 $m_1$，更新本地 $VC=[1,0,0]$。</li>
+<li>$P_2$ 广播 $m_2$ ($VC=[1,1,0]$)。</li>
+<li>$P_3$ 先收到 $m_2$。检查条件：$VC_{m2}[1]=1 &gt; VC_{local}[1]=0$。<strong>阻塞</strong> $m_2$ 的交付。</li>
+<li>$P_3$ 收到 $m_1$，交付 $m_1$，更新 $VC_{local}=[1,0,0]$。</li>
+<li>$P_3$ 现在可以交付 $m_2$，因为条件 2 满足。</li>
+</ol>
+<hr>
+<h2 id="5-总结">5. 总结</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">特性</th>
+<th style="text-align:left">BEB</th>
+<th style="text-align:left">RB</th>
+<th style="text-align:left">URB</th>
+<th style="text-align:left">FIFO</th>
+<th style="text-align:left">COB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>可靠性</strong></td>
+<td style="text-align:left">弱</td>
+<td style="text-align:left">强 (正确进程一致)</td>
+<td style="text-align:left">极强 (所有进程一致)</td>
+<td style="text-align:left">强</td>
+<td style="text-align:left">强</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>顺序</strong></td>
+<td style="text-align:left">无</td>
+<td style="text-align:left">无</td>
+<td style="text-align:left">无</td>
+<td style="text-align:left">单源顺序</td>
+<td style="text-align:left">全局因果顺序</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>实现基础</strong></td>
+<td style="text-align:left">Perfect Links</td>
+<td style="text-align:left">BEB</td>
+<td style="text-align:left">RB + Acks</td>
+<td style="text-align:left">RB + SN</td>
+<td style="text-align:left">RB + Vector Clocks</td>
+</tr>
+</tbody>
+</table>
+<p>Topic 10 将之前的可靠链路和故障检测器应用到了实际的通信模式中，为更高级的分布式协议（如共识）奠定了基础。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/" class="category-chain-item">学业笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/DDS/" class="category-chain-item">DDS</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%AD%A6%E4%B8%9A%E7%AC%94%E8%AE%B0/" class="print-no-link">#学业笔记</a>
+      
+        <a href="/tags/DDS/" class="print-no-link">#DDS</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Topic 10: Reliable Broadcast Algorithms</div>
+      <div>https://lofiskyline.github.io/2026/05/07/DDS/Note/DDS-10-Reliable-Broadcast-Algorithms/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Blog Author</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年5月7日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/05/07/DDS/Note/DDS-04-Dependability-Analysis-and-Evaluation/" title="DDS-04: Dependability Analysis and Evaluation (可靠性分析与评估)">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">DDS-04: Dependability Analysis and Evaluation (可靠性分析与评估)</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/05/05/ISE/Note/achieved/overview/" title="overview">
+                        <span class="hidden-mobile">overview</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
